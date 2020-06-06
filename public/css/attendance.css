@@ -1,0 +1,365 @@
+/*! CSS Used fontfaces */
+@font-face {
+  font-family: Whitney;
+  font-weight: 300;
+  src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 400;
+  src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 500;
+  src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 600;
+  src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 700;
+  src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff) format("woff");
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Whitney;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("/ressources/backgrounds/background-4.jpg");
+  background-size: cover;
+}
+button {
+  font-family: Whitney, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+}
+var {
+  font-style: normal;
+}
+.no-margin {
+  margin: 0;
+}
+.margin-top-4 {
+  margin-top: 4px;
+}
+.margin-top-8 {
+  margin-top: 8px;
+}
+.margin-top {
+  margin-top: 7%;
+}
+.margins-4 {
+  margin: 6px;
+}
+.inline {
+  display: flex;
+}
+.right-align {
+  right: 0;
+}
+.left-align {
+  left: 0;
+}
+.select-options-box {
+  width: 40%;
+}
+.navbar {
+  top: 0;
+  position: fixed;
+  display: block;
+  width: 101%; /* Full width (cover the whole page) */
+  background-color: #18191c; /* Black background with opacity */
+  z-index: 100000; /* Specify a stack order in case you're using a different order for other elements */
+  overflow: hidden;
+  height: 2em; /* hauteur du parent */
+  line-height: 2em; /* hauteur de ligne (identique) */
+  white-space: nowrap; /* interdiction de passer à la ligne */
+}
+.navbar a {
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-family: Whitney;
+  font-weight: 500;
+}
+.right {
+  margin-right: 2%;
+  float: right;
+}
+.left {
+  margin-left: 2%;
+  float: left;
+}
+.container {
+  position: relative;
+}
+.container .card {
+  position: relative;
+  min-width: 400px;
+  max-width: 800px;
+  max-height: 900px;
+  background: #18191c;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.container .card .content {
+  padding: 0 16px;
+}
+.hidden {
+  display: none;
+}
+.low-padding {
+  padding: 6px 0px;
+}
+.container .card .content .header {
+  padding: 32px 0px 24px;
+  border-radius: 8px 0;
+  align-items: center;
+}
+.bottom {
+  border-bottom: 1px solid rgba(79, 84, 92, 0.24);
+}
+.container .card .content .header .imgBox {
+  position: relative;
+  align-items: center;
+  text-align: center;
+  z-index: 1000;
+  animation: float 6s ease-in-out infinite;
+}
+.container .card .content .header .img {
+  width: 150px;
+  height: 150px;
+}
+.container .card .content .details {
+  padding: 14px 0;
+  color: #72767d;
+}
+.container .card .content .details .detail {
+  display: flex;
+}
+.icon {
+  display: inline;
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  color: #72767d;
+}
+.container .card .footer {
+  padding: 16px;
+  border-radius: 0 0 8px 8px;
+  background-color: #2f3136;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  text-align: center;
+}
+.container .card .footer .info {
+  margin-top: 8px;
+}
+
+.container .card .quickAttendance {
+  border-radius: 0 0 8px 8px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-evenly;
+  margin: 0 2%;
+}
+.button {
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 2px 16px;
+  color: #fff;
+  outline: none;
+  background-color: #00000000;
+}
+.large {
+  height: 38px;
+  min-width: 96px;
+  min-height: 38px;
+}
+.button div {
+  color: #fff;
+}
+.blue-btn {
+  background: rgb(63, 94, 251);
+  background: linear-gradient(45deg, rgba(63, 94, 251, 1) 0%, rgba(114, 137, 218, 1) 100%);
+  background-size: 200%;
+  color: #fff;
+  transition: 0.6s;
+}
+.blue-btn:hover {
+  background-position: 75%;
+  color: #fff;
+}
+.size6 {
+  font-size: 10px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.size12 {
+  font-size: 12px;
+  line-height: 16px;
+}
+.size14 {
+  font-size: 14px;
+  line-height: 18px;
+}
+.size16 {
+  font-size: 16px;
+  line-height: 20px;
+}
+.loader {
+  min-width: 400px;
+  max-width: 800px;
+  max-height: 900px;
+  padding: 40% 0;
+}
+#loading {
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  border: 3px solid rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.size18 {
+  font-size: 18px;
+  line-height: 22px;
+}
+.size20 {
+  font-size: 20px;
+  line-height: 24px;
+}
+.size28 {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+}
+.colorStandard {
+  color: #dcddde;
+}
+.colorMuted {
+  color: #72767d;
+}
+.colorHeaderPrimary {
+  color: #fff;
+}
+.colorHeaderSecondary {
+  color: #b9bbbe;
+}
+.entryInner {
+  font-weight: 500;
+}
+.title {
+  font-weight: 700;
+  font-size: 25px;
+}
+.description {
+  margin-top: 2px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.userTag {
+  display: inline;
+}
+.userDiscriminator {
+  display: inline;
+  color: #b9bbbe;
+}
+.centered {
+  text-align: center;
+  margin: auto;
+}
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-5px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+#overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 10000000;
+  display: none;
+}
+
+#popup {
+  max-width: 450px;
+  width: 55%;
+  height: auto;
+  padding: 20px;
+  position: relative;
+  background: #18191c;
+  margin: 20vh auto;
+  border-radius: 8px;
+  z-index: 10000005;
+}
+
+#close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  color: #fff;
+}
+.changelog {
+  margin-top: 14px;
+  text-align: justify;
+  text-justify: inter-word;
+  padding-bottom: 32px;
+}
+.credits {
+  margin-top: 14px;
+  color: #fff;
+}
+.inline {
+  display: inline;
+}
+.news {
+  padding: 32px 0px 24px;
+}

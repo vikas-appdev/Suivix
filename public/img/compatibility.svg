@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="7708" height="5325" viewBox="0 0 7708 5325">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        font-size: 100px;
+        fill: #fff;
+      }
+
+      .cls-1 {
+        font-family: Gotham;
+        font-weight: 800;
+      }
+
+      .cls-2 {
+        font-family: Montserrat;
+      }
+    </style>
+  </defs>
+  <text id="ERROR" class="cls-1" transform="translate(720.382 2710.84) scale(16.942)">ERROR</text>
+  <text id="Suivix_does_not_work_with_Firefox_yet." data-name="Suivix does not work with Firefox yet." class="cls-2" transform="translate(1810.609 3104.337) scale(2.22)">Suivix does not work with Firefox yet.</text>
+</svg>

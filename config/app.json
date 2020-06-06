@@ -1,0 +1,20 @@
+{
+  "APP_VIEWS_DIRECTORY": "views/",
+  "WEBSITE_HOST": "localhost",
+  "ATTENDANCE_VALIDITY_TIME": "1",
+  "DISCORD_CLIENT_TOKEN": "BOT_TOKEN",
+  "DISCORD_CLIENT_ID": "BOT_ID",
+  "DISCORD_CLIENT_SECRET": "BOT_SECRET",
+  "DISCORD_OAUTH_SCOPES": "identify+guilds+email",
+  "TOPGG_API_TOKEN": "",
+  "BOT_OWNER_ID": "",
+  "MAIN_SERVER_ID": "",
+  "CONSOLE_CHANNEL_ID": "",
+  "HTTP_PORT": "80",
+  "HTTPS_PORT": "443",
+  "HTTPS_ENABLED": "false",
+  "CERTIFICATE_PRIVKEY": "",
+  "CERTIFICATE": "",
+  "CERTIFICATE_CHAIN": "",
+  "DATABASE_FILE": "/database/database.sqlite"
+}

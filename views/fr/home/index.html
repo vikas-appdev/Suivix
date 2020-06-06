@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+	<title>Suivix - Le bot Discord pour faire l'appel</title>
+	<meta charset="UTF-8">
+	<meta name="google-site-verification" content="pD8Y8KjKegiGB6zmfBozXsxDdjvcVeC1ONd7pa9qag8" />
+	<meta name="description"
+		content="Are you a professor or maybe even a business manager and you want to take attendance on Discord? No worries! Suivix will take care of it for you.">
+	<meta name="keywords" content="music, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Favicon -->
+	<link href="/ressources/icon.ico" rel="shortcut icon" />
+<script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+
+	<!-- Google font -->
+	<link rel="preload"
+		href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+		as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+	<!-- Stylesheets -->
+	<link rel="preload" href="/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="/css/owl.carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="/css/slicknav.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+	<link rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="/home.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	<script defer src="js/main.js"></script>
+	<script src="/utils/Utils.js"></script>
+	<script>
+		var isFirefox = typeof InstallTrigger !== 'undefined';
+		if (isFirefox) {
+			window.location.href = getUrl("compatibility/", window);
+		}
+	</script>
+
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108500515-2"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'UA-108500515-2');
+	</script>
+
+	<script>
+
+		removeSuccess = function () {
+			return $('.site-btn').removeClass('success');
+		};
+
+		function execBtn() {
+			$('.site-btn').addClass('success');
+			return setTimeout(removeSuccess, 3000);
+		}
+	</script>
+
+
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+
+	<noscript>
+		<link rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap">
+	</noscript>
+	<noscript>
+		<link rel="stylesheet" href="/css/bootstrap.min.css"></noscript>
+	<noscript>
+		<link rel="stylesheet" href="/css/owl.carousel.min.css"></noscript>
+	<noscript>
+		<link rel="stylesheet" href="/css/slicknav.min.css"></noscript>
+	<noscript>
+		<link rel="stylesheet" href="/css/style.css"></noscript>
+	<noscript>
+		<link rel="stylesheet" href="/home.css"></noscript>
+
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section clearfix">
+		<a href="#" class="site-logo">
+			<img src="img/logo.png" alt="">
+		</a>
+		<ul class="main-menu">
+			<li><a href="#"><i class="fas fa-home"></i> Accueil</a></li>
+			<li><a href="#thanks"><i class="fas fa-thumbs-up"></i> Remerciements</a></li>
+			<li><a href="contact/"><i class="fas fa-comment-dots"></i> Me Contacter</a></li>
+			<li><a href="https://discord.gg/xRNEzGM"><i class="fa fa-cog"></i> Support</a></li>
+			<li><a href="https://utip.io/mw3y"><i class="fas fa-donate"></i></i> Me Soutenir</a></li>
+			<li id="fr_click" class="button_lang left-button current_lang"><img
+					src="/img/fr.svg" class="flag"> Français</li>
+			<li id="en_click" class="button_lang" onclick="window.location.href = '?language=en'"><img src="/img/en.svg" class="flag"> Anglais</li>
+		</ul>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Hero section -->
+	<section class="hero-section">
+		<div class="hero-slider owl-carousel">
+			<div class="hs-item">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="hs-text">
+								<h2>L'APPEL<br> SUR DISCORD</h2>
+								<p class="size16 colorMuted blueCode">Vous êtes professeur ou peut-être même chef
+									d'entreprise et
+									vous voulez faire l'appel sur Discord ? Pas de soucis !<br>Suivix s'en occupe pour
+									vous.<br><br>Suivix est actuellement installé sur <strong><var
+											id="guilds"></var></strong> serveurs<br>pour un total de <strong><var
+											id="users"></var></strong> utilisateurs !</p>
+								<a class="site-btn"
+									href="https://discordapp.com/oauth2/authorize?client_id=689771013344591911&scope=bot&permissions=134597728&response_type=code&redirect_uri=https%3A%2F%2Fsuivix.xyz%2F"
+									target="_blank" role="button" onCLick="execBtn();">
+									<span>Ajouter Suivix</span>
+									<div class="icon">
+										<i class="fab fa-discord"></i>
+										<i class="fa fa-check"></i>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="hr-img">
+								<img src="img/hero-bg.png" alt="appel discord">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	<!-- Hero section end -->
+
+	<!-- Intro section -->
+	<section class="intro-section spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="section-title">
+						<h2>Qu'est-ce que c'est ?</h2>
+					</div>
+					<img class="intro-img" src="/img/illustration_fr.png">
+				</div>
+				<div class="col-lg-6">
+					<p>Suivix est un bot Discord développé en Javascript depuis mars 2020.<br>Ce bot vous permet de
+						garder une trace de la présence de certaines personnes sur Discord en vous envoyant un compte
+						rendu. Le bot est disponible en anglais et en français !<br>Attention, Suivix a impérativement
+						besoin que votre serveur Discord soit muni d'au
+						moins un salon vocal et un rôle.<br><br>Ce bot utilise une interface en ligne pour que votre
+						expérience soit plus agréable, simple et efficace. Grâce à l'utilisation des cookies vous restez
+						connecté entre chaque suivi.
+						<br>Exemple d'un
+						résultat <a href="https://imgur.com/QYi8gY5">ici<a>.<br><br><strong>Pour plus d'informations,
+									utilisez la commande</strong> <code>!suivix help</code></p>
+					<a href="https://discordapp.com/oauth2/authorize?client_id=689771013344591911&scope=bot&permissions=134597728&response_type=code&redirect_uri=https%3A%2F%2Fsuivix.xyz%2F"
+						class="site-btn-normal">J'essaye Suivix</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Intro section end -->
+
+	<!-- How section -->
+	<section class="how-section spad set-bg" data-setbg="/img/background-4.jpg">
+		<div class="container text-white">
+			<div class="section-title">
+				<h2>Comment ça marche ?</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="how-item">
+						<div class="hi-icon">
+							<img src="img/icons/brain.png" alt="">
+						</div>
+						<h4>Créez une demande de suivi</h4>
+						<p>En tapant <code>!suivix</code> dans un salon textuel sur Discord (en ayant préalablement
+							ajouté le bot Suivix à votre serveur), vous créez une demande d'appel.</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="how-item">
+						<div class="hi-icon">
+							<img src="img/icons/pointer.png" alt="">
+						</div>
+						<h4>Choisissez vos options</h4>
+						<p>Après avoir créé une demande de suivi, cliquez sur le lien proposé (redirection vers
+							<strong>suivix.xyz</strong>) puis, à l'aide de l'interface graphique, sélectionnez les
+							différentes options (un salon vocal et un rôle) qui serviront à définir votre résultat.</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="how-item">
+						<div class="hi-icon">
+							<img src="img/icons/smartphone.png" alt="">
+						</div>
+						<h4>Retournez sur Discord</h4>
+						<p>Et oui... C'est déjà fini ! Retournez sur Discord pour voir le résultat de votre suivi.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- How section end -->
+
+	<!-- Concept section -->
+	<section class="concept-section spad" id="thanks">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="section-title">
+						<h2>Remerciements</h2>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<p>Suivix est un bot qui n'aurait probablement jamais vu le jour sans la contribution de certaines
+						personnes. C'est pourquoi je tiens personellement à remercier ces gens-là.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3 col-sm-6">
+					<div class="concept-item">
+						<img src="img/1.png" alt="">
+						<h5 class="colorMuted">Merci à un_phoque<strong>#21**</strong></h5>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div class="concept-item-special">
+						<img src="img/2.png" alt="">
+						<h5 class="colorMuted">Merci à Michaël Morival<strong>#89**</strong></h5>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div class="concept-item-special-2">
+						<img src="img/3.png" alt="">
+						<h5 class="colorMuted">Merci à mon père, espagnf<strong>#22**</strong></h5>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div class="concept-item">
+						<img src="img/4.png" alt="">
+						<h5 class="colorMuted">Et surtout, merci à <strong>vous</strong>, utilisateurs de Suivix</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Concept section end -->
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<div class="row">
+				<div class="order-lg-1">
+					<img src="img/logo.png" alt="">
+					<div class="copyright size14">
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						<script>document.write(new Date().getFullYear());</script> - Suivix | All rights reserved | This
+						template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+							href="https://colorlib.com" target="_blank">Colorlib</a> | Icons from <a
+							href="https://icons8.com" target"_blank">icons8.com</a> | Made with <i class="fa fa-heart-o"
+							aria-hidden="true"></i> by MΛX.<br>-<br>Pour les amoureux du code comme moi, j'ai publié un
+						<a href="https://github.com/Mw3y/Suivix" target="_blank">github</a> où vous trouverez le code
+						source de la version 1.0 du bot.
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</div>
+				</div>
+			</div>
+	</footer>
+	<!-- Footer section end -->
+
+	<script>
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open("GET", getUrl("api/get/stats", window), false);
+			xmlHttp.onreadystatechange = function () {
+				if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+					const response = JSON.parse(this.responseText);
+					document.getElementById("guilds").innerHTML = response.guilds;
+					console.log(document.getElementById("guilds").innerHTML)
+					document.getElementById("users").innerHTML = response.users;
+				}
+			}
+			xmlHttp.send();
+
+	</script>
+</body>
+
+</html>
