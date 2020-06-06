@@ -26,7 +26,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Donating
-If you like this work, you can support the suivix hosting and development on https://utip.io/mw3y.
+If you like this work, you can support the suivix hosting and development at https://utip.io/mw3y.
 
 ## License
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
