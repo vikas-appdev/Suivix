@@ -1,4 +1,6 @@
-![suivix logo](https://suivix.xyz/img/hero-bg.png)
+<p align="center">
+  <img src="https://suivix.xyz/img/hero-bg.png">
+</p>
 # Suivix v.3.0
 
 Suivix is a Discord bot to take attendance in **english** and/or **french**.
