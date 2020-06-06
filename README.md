@@ -2,7 +2,7 @@
   <img src="https://suivix.xyz/img/hero-bg.png">
 </p>
 
-Suivix is a Discord bot to take attendance in **english** and/or **french**.
+Suivix is a Discord bot to take attendance in **english** and/or **french**. More informations are available at https://suivix.xyz.
 
 ## Installation
 
