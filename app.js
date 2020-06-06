@@ -69,7 +69,7 @@ client.on('message', (message) => { //Trigger when a message is sent
   }
 });
 
-client.on('messageReactionAdd', async (reaction, user) => {
+client.on('messageReactionAdd', async (reaction, user) => { //Trigger when a reaction is add on a message
   if (user.bot) return; //If the user is a bot
   if (reaction.message.author !== client.user) return; //if the message is not sent by the bot
   if (reaction.emoji.name !== "🇫🇷" && reaction.emoji.name !== "🇬🇧") return;
@@ -83,6 +83,21 @@ client.on('messageReactionAdd', async (reaction, user) => {
   }
   await SuivixClient.sendChangedLanguageMessage(reaction.message.channel, react, user)
 });
+
+client.on("guildCreate", (guild) => { //Trigger when the bot joins a guild
+  displayConsoleChannel("Serveur Discord rejoint : " + guild.name + " | Membres : " + guild.memberCount);
+});
+client.on("guildDelete", (guild) => { //Trigger when the bot leaves a guild
+  displayConsoleChannel("Serveur Discord quitté : " + guild.name + " | Membres : " + guild.memberCount);
+});
+
+/**
+ * Send a message in the channel "console" of the bot main server
+ * @param {String} message
+ */
+function displayConsoleChannel(message) {
+  client.guilds.cache.get(Config.MAIN_SERVER_ID).channels.cache.get(Config.CONSOLE_CHANNEL_ID).send(message).catch(err => console.log('Error while sending log message.'));
+}
 
 //Launching web servers
 Server.initHttpServer(app, Config.HTTP_PORT);
