@@ -6,6 +6,10 @@ Suivix is a Discord bot to take attendance in **english** and/or **french**. Mor
 
 ## Installation
 
+You can add Suivix to your server by clicking on this link: https://suivix.xyz/invite.
+
+## Setup
+
 Download this code and launch it with **nodejs**. You must put your bot informations in the **config/app.json** file, or the bot will not work.
 
 ```bash
