@@ -24,7 +24,7 @@ const SuivixCommand = require('./classes/commands/Suivix'),
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: __dirname + Config.DATABASE_FILE,
-  logging: console.log
+  logging: false
 });
 
 const SuivixClient = new BotClient(); //Launch the Discord bot instance

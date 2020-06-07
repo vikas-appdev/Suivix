@@ -37,7 +37,8 @@ const getUser = require('./models/api/user'),
     getCategories = require('./models/api/categories'),
     getRoles = require('./models/api/roles'),
     getStats = require('./models/api/stats'),
-    getChangelog = require('./models/api/changelog');
+    getChangelog = require('./models/api/changelog'),
+    getInviteLink = require('./models/api/invite');
 
 class Routes {
 
@@ -80,6 +81,7 @@ class Routes {
         routes.get(routesConfig.API_ROLES_URL, (req, res) => { getRoles(req, res, this.client, this.sequelize); });
         routes.get(routesConfig.API_STATS_URL, (req, res) => { getStats(req, res, this.client, this.sequelize); });
         routes.get(routesConfig.API_CHANGELOG_URL, getChangelog);
+        routes.get(routesConfig.API_INVITE_URL, getInviteLink);
 
         //Handle 404 error
         routes.get('*', (req, res) => {
