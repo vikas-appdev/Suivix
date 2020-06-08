@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 /**
  * Fetch the user by his id and convert it to an guild member
  * @param {*} client - The bot client
@@ -24,10 +24,10 @@ function getGuildById(client, id) {
 }
 
 /**
-* Fetch a channel by its id
-* @param {*} guild - The guild where the command has been runned
-* @param {*} id - The channel id
-*/
+ * Fetch a channel by its id
+ * @param {*} guild - The guild where the command has been runned
+ * @param {*} id - The channel id
+ */
 function getChannelById(guild, id) {
     return guild.channels.cache.get(id);
 }

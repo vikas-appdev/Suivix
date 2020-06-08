@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const Discord = require("discord.js");
 
 /**
@@ -58,7 +58,10 @@ async function generateChannelChoiceMessage(message, channel, audioChannels, rol
 
     const filter = m => m.author.id = message.author.id; //condition to trigger the next part of the code
     //Waiting for an answer
-    message.channel.awaitMessages(filter, { max: 1, time: 120000 }).then(answer => {
+    message.channel.awaitMessages(filter, {
+        max: 1,
+        time: 120000
+    }).then(answer => {
         if (answer.first().author.id === message.author.id) { //checking another time
             if (answer.first().content.startsWith('!select') || answer.first().content.startsWith('nselect')) {
                 var nb = answer.first().content.split(" "); //the answer (voice channel)
@@ -77,8 +80,8 @@ async function generateChannelChoiceMessage(message, channel, audioChannels, rol
 
 };
 
-const getParentName = function(channel) {
-    if(channel.parent) {
+const getParentName = function (channel) {
+    if (channel.parent) {
         return ` (${channel.parent.name})`
     } else {
         return "";
@@ -105,7 +108,10 @@ async function generateRoleChoiceMessage(message, msg, channel, audioChannel, ro
 
     const filter = m => m.author.id = message.author.id; //condition to trigger the next part of the code
     //Waiting for an answer
-    message.channel.awaitMessages(filter, { max: 1, time: 120000 }).then(answer => {
+    message.channel.awaitMessages(filter, {
+        max: 1,
+        time: 120000
+    }).then(answer => {
         if (answer.first().author === message.author) { //checking another time
             if (answer.first().content.startsWith('!select') || answer.first().content.startsWith('nselect')) {
                 var nb = answer.first().content.split(" "); //the answer
@@ -163,7 +169,10 @@ async function doAppel(user, guild, channel, audioChannel, studentsRole) {
     let absentUsersName = new Array();
 
     let i = 0;
-    await absentUsers.forEach(function (u) { absentUsersName[i] = guild.member(u).displayName; i++ })
+    await absentUsers.forEach(function (u) {
+        absentUsersName[i] = guild.member(u).displayName;
+        i++
+    })
     await absentUsersName.sort(function (a, b) { //sort users name 
         return a.localeCompare(b);
     });
@@ -184,7 +193,10 @@ async function doAppel(user, guild, channel, audioChannel, studentsRole) {
     let presentUsersName = new Array();
 
     i = 0;
-    await presentUsers.forEach(function (u) { presentUsersName[i] = guild.member(u).displayName; i++ })
+    await presentUsers.forEach(function (u) {
+        presentUsersName[i] = guild.member(u).displayName;
+        i++
+    })
     await presentUsersName.sort(function (a, b) { //sort users name
         return a.localeCompare(b);
     });
@@ -229,8 +241,8 @@ const setupDefaultEmbed = function () {
  * Parse a date into a string
  */
 const generateDate = function (currentDate) {
-    return "**" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear() + 
-    "** à **" + currentDate.getHours() + "h" + currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes() + "min**";
+    return "**" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear() +
+        "** à **" + currentDate.getHours() + "h" + currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes() + "min**";
 }
 
 module.exports.suivixCommand = suivixCommand;

@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const http = require('http'),
     fs = require('fs'),
     https = require('https'),
@@ -43,7 +43,7 @@ function initHttpsServer(app, port, httpsEnabled) {
 
 const getViewsFile = function (req, res, path, params, lang) {
     let language = lang === undefined ? Language.getUserLanguage(req, res) : lang;
-    if(language != "en" && language != "fr") language = "en";
+    if (language != "en" && language != "fr") language = "en";
     Language.saveUserLanguage(res, language);
     return __dirname.replace("utils", "") + Config.APP_VIEWS_DIRECTORY + language + path + params + "index.html"
 }

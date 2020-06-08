@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const Request = require('../Request');
 
 class RequestManager {
@@ -22,8 +22,11 @@ class RequestManager {
      * @param {*} id - The request id
      */
     async getRequestByID(id) {
-        let [request] = await this.sequelize.query(`SELECT * FROM requests WHERE id="${id}"`, { raw: true, type: this.sequelize.QueryTypes.SELECT });
-        if(!request) return undefined;
+        let [request] = await this.sequelize.query(`SELECT * FROM requests WHERE id="${id}"`, {
+            raw: true,
+            type: this.sequelize.QueryTypes.SELECT
+        });
+        if (!request) return undefined;
         let guild = await this.client.guilds.cache.get(request.guildID);
         let channel = guild.channels.cache.get(request.channelID);
         let author = guild.member(request.author);
@@ -35,8 +38,11 @@ class RequestManager {
      * @param {*} id - The author id
      */
     async getRequestByAuthorID(id) {
-        let [request] = await this.sequelize.query(`SELECT * FROM requests WHERE author="${id}"`, { raw: true, type: this.sequelize.QueryTypes.SELECT });
-        if(!request) return undefined;
+        let [request] = await this.sequelize.query(`SELECT * FROM requests WHERE author="${id}"`, {
+            raw: true,
+            type: this.sequelize.QueryTypes.SELECT
+        });
+        if (!request) return undefined;
         let guild = await this.client.guilds.cache.get(request.guildID);
         let channel = guild.channels.cache.get(request.channelID);
         let author = guild.member(request.author);
@@ -48,7 +54,10 @@ class RequestManager {
      * @param {*} userID - The user id
      */
     async createRequestByOldOne(userID) {
-        let [oldRequest] = await this.sequelize.query(`SELECT * FROM history WHERE author="${userID}" ORDER BY id DESC`, { raw: true, type: this.sequelize.QueryTypes.SELECT });
+        let [oldRequest] = await this.sequelize.query(`SELECT * FROM history WHERE author="${userID}" ORDER BY id DESC`, {
+            raw: true,
+            type: this.sequelize.QueryTypes.SELECT
+        });
         this.sequelize.query(`DELETE FROM requests WHERE author = "${oldRequest.author}"`);
         await this.sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
         await this.sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
@@ -59,14 +68,12 @@ class RequestManager {
      * @param {*} id - The request id
      */
     deleteRequestByID(id) {
-        this.sequelize.query(`DELETE FROM requests WHERE id="${id}"`, { raw: true, type: this.sequelize.QueryTypes.DELETE });
+        this.sequelize.query(`DELETE FROM requests WHERE id="${id}"`, {
+            raw: true,
+            type: this.sequelize.QueryTypes.DELETE
+        });
     }
 
 }
 
 module.exports = RequestManager;
-
-
-
-
-

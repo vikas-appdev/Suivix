@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 var Config = require("../config/Config");
 
 /**
@@ -16,11 +16,11 @@ function replaceAll(string, search, replace) {
 }
 
 /**
-* Create a cookie
-* @param {*} response - The http(s) response to send
-* @param {*} name - The cookie name
-* @param {*} value - The cookie value
-*/
+ * Create a cookie
+ * @param {*} response - The http(s) response to send
+ * @param {*} name - The cookie name
+ * @param {*} value - The cookie value
+ */
 async function createCookie(response, name, value) {
     response.cookie(name, value, {
         secure: Config.HTTPS_ENABLED === "true" ? true : false, //Secures the cookie if https enabled

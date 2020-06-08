@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const Config = require("../config/Config"),
     Routes = require('../config/Routes'),
     Parser = require("../utils/Parser"),
@@ -39,8 +39,15 @@ const authUser = async function (request, response, code) {
         response.redirect(Routes.LOGIN_PAGE);
         return;
     }
-    console.log("-------------------------\nUser logged in as {username}#{discriminator} on {date}".formatUnicorn({ username: user.username, discriminator: user.discriminator, date: new Date() }) +
-        "\nAccess_Token: {access_token}\nCallback Code: {callback_code}".formatUnicorn({ access_token: access_token, callback_code: code }))
+    console.log("-------------------------\nUser logged in as {username}#{discriminator} on {date}".formatUnicorn({
+            username: user.username,
+            discriminator: user.discriminator,
+            date: new Date()
+        }) +
+        "\nAccess_Token: {access_token}\nCallback Code: {callback_code}".formatUnicorn({
+            access_token: access_token,
+            callback_code: code
+        }))
     return user;
 }
 
@@ -63,7 +70,11 @@ const getOauthLink = function (request) {
         '&scope={scopes}' + //The scopes (defines which data you will receive after authentifications)
         '&response_type=code' +
         '&callback_uri=${callbackUrl}'; //The url where discord sends you after authentification
-    return link.formatUnicorn({ clientID: Config.DISCORD_CLIENT_ID, scopes: Config.DISCORD_OAUTH_SCOPES, callbackUrl: request.hostname + Routes.DISCORD_OAUTH_CALLBACK_URL });
+    return link.formatUnicorn({
+        clientID: Config.DISCORD_CLIENT_ID,
+        scopes: Config.DISCORD_OAUTH_SCOPES,
+        callbackUrl: request.hostname + Routes.DISCORD_OAUTH_CALLBACK_URL
+    });
 }
 
 /**
@@ -75,16 +86,15 @@ const getOauthLink = function (request) {
 const getAccessToken = async function (request, response, code) {
     if (!code) return undefined; //check if there is a code
 
-    let res = await Request(`https://discord.com/api/oauth2/token`,
-    {
-      data: {
-        "client_id": Config.DISCORD_CLIENT_ID,
-        "client_secret": Config.DISCORD_CLIENT_SECRET,
-        "grant_type": 'authorization_code',
-        "code": code,
-        "scope": Config.DISCORD_OAUTH_SCOPES
-      },
-      method: 'POST'
+    let res = await Request(`https://discord.com/api/oauth2/token`, {
+        data: {
+            "client_id": Config.DISCORD_CLIENT_ID,
+            "client_secret": Config.DISCORD_CLIENT_SECRET,
+            "grant_type": 'authorization_code',
+            "code": code,
+            "scope": Config.DISCORD_OAUTH_SCOPES
+        },
+        method: 'POST'
     });
 
     const json = JSON.parse(res.body); //Parsing response in json
@@ -100,15 +110,14 @@ const getAccessToken = async function (request, response, code) {
  */
 const getNewAccessTokenWithRefreshToken = async function (request, response, token) {
     if (!token) return undefined; //check if there is a refresh_token
-    let res = await Request(`https://discord.com/api/oauth2/token`,
-    {
-      data: {
-        "client_id": Config.DISCORD_CLIENT_ID,
-        "client_secret": Config.DISCORD_CLIENT_SECRET,
-        "grant_type": 'refresh_token',
-        "refresh_token": token,
-      },
-      method: 'POST'
+    let res = await Request(`https://discord.com/api/oauth2/token`, {
+        data: {
+            "client_id": Config.DISCORD_CLIENT_ID,
+            "client_secret": Config.DISCORD_CLIENT_SECRET,
+            "grant_type": 'refresh_token',
+            "refresh_token": token,
+        },
+        method: 'POST'
     });
 
     const json = JSON.parse(res.body); //Parsing response in json
@@ -123,15 +132,18 @@ const getNewAccessTokenWithRefreshToken = async function (request, response, tok
 const getUserByAccessToken = async function (response, access_token) { //Post request to get the user informations defined by the scopes argument
     if (access_token === undefined) return undefined;
 
-    let res = await Request(`https://discord.com/api/users/@me`,
-        {
-            headers: { 'Authorization': `Bearer ${access_token}` },
-            method: 'GET'
-        });
+    let res = await Request(`https://discord.com/api/users/@me`, {
+        headers: {
+            'Authorization': `Bearer ${access_token}`
+        },
+        method: 'GET'
+    });
 
     const body = JSON.parse(res.body);
-    const user = Object.assign(body, { access_token: access_token });
-    return user;//The user informations we asked
+    const user = Object.assign(body, {
+        access_token: access_token
+    });
+    return user; //The user informations we asked
 }
 
 module.exports = {

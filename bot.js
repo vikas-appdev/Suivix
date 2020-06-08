@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const Discord = require("discord.js"),
     DBL = require("dblapi.js"),
     Config = require('./config/Config'),
@@ -23,9 +23,9 @@ class BotClient {
     }
 
     /**
-   * Send a message in the channel "console" of the bot main server
-   * @param {String} message
-   */
+     * Send a message in the channel "console" of the bot main server
+     * @param {String} message
+     */
     displayConsoleChannel(message) {
         this.client
             .guilds.cache.get(Config.MAIN_SERVER_ID)
@@ -41,7 +41,9 @@ class BotClient {
      */
     setActivity(activity) {
         this.client.user
-            .setActivity(activity, { type: 'WATCHING' })
+            .setActivity(activity, {
+                type: 'WATCHING'
+            })
             .catch(console.error);
     }
 
@@ -71,9 +73,13 @@ class BotClient {
      */
     async sendChangedLanguageMessage(channel, language, user) {
         let sentences = [":flag_fr: | {username}, `Suivix` vous parlera désormais en **français**.", ":flag_gb: | {username}, `Suivix` will now talk to you in **english**."];
-        let msg = await channel.send(sentences[language === "fr" ? 0 : 1].formatUnicorn({username: user.username}));
-        msg.delete({ timeout: 20000 });
-      }
+        let msg = await channel.send(sentences[language === "fr" ? 0 : 1].formatUnicorn({
+            username: user.username
+        }));
+        msg.delete({
+            timeout: 20000
+        });
+    }
 
 
 

@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const Config = require('../config/Config'),
     Discord = require('discord.js');
 
@@ -83,8 +83,8 @@ class Request {
     }
 
     /**
-    * Returns the entire list of roles in the guild
-    */
+     * Returns the entire list of roles in the guild
+     */
     getRoles() {
         return this.guild.roles.cache;
     }
@@ -98,17 +98,18 @@ class Request {
     }
 
     /**
-    * Does the suivi
-    * @param {*} channel - The voice channel
-    * @param {*} role - The role
-    * @param {*} timezone - The user timezone
-    * @param {+*} language - The user language
-    */
+     * Does the suivi
+     * @param {*} channel - The voice channel
+     * @param {*} role - The role
+     * @param {*} timezone - The user timezone
+     * @param {+*} language - The user language
+     */
     async doAttendance(channel, role, timezone, language) {
         const selector = language === "fr" ? 1 : 0;
         let title = ["Attendance of ", "Suivi de "];
         let introSentences = ["Attendance asked by: `{username}`\nCategory: `{category}`\nDate: {date} :clock1:\n\n",
-         "Suivi demandé par : `{username}`\nCategorie : `{category}`\nDate : {date} :clock1:\n\n"];
+            "Suivi demandé par : `{username}`\nCategorie : `{category}`\nDate : {date} :clock1:\n\n"
+        ];
         let noAbsent = ["✅ There is not absent.\n", "✅ Il n'y a pas d'absents.\n"];
         let absentsList = [":warning: List of absent {role}(s):\n\`\`\`", ":warning: Liste des {role}(s) absent(e)(s) :\n\`\`\`"];
         let presentsList = ["\n:man: List of present {role}(s):\n\`\`\`", "\n:man: Liste des {role}(s) présent(e)(s) :\n\`\`\`"];
@@ -138,19 +139,27 @@ class Request {
         let presentUsersName = new Array();
 
         let i = 0;
-        absentUsers.forEach(function (u) { absentUsersName[i] = guild.member(u).displayName; i++ })
+        absentUsers.forEach(function (u) {
+            absentUsersName[i] = guild.member(u).displayName;
+            i++
+        })
         absentUsersName.sort(function (a, b) { //sort users name 
             return a.localeCompare(b);
         });
-        
+
         i = 0;
-        presentUsers.forEach(function (u) { presentUsersName[i] = guild.member(u).displayName; i++ })
+        presentUsers.forEach(function (u) {
+            presentUsersName[i] = guild.member(u).displayName;
+            i++
+        })
         presentUsersName.sort(function (a, b) { //sort users name
             return a.localeCompare(b);
         });
 
         if (channelStudents.size !== students.size) { //if the is some absents
-            absentsText = absentsList[selector].formatUnicorn({role: role.toString()})
+            absentsText = absentsList[selector].formatUnicorn({
+                role: role.toString()
+            })
             for (let i in absentUsersName) {
                 let user = absentUsers.find(u => u.displayName === absentUsersName[i]);
                 let member = guild.member(user);
@@ -160,7 +169,9 @@ class Request {
         }
 
         if (presentUsers.length > 0) { //check if there is some present users
-            presentUsersText = presentsList[selector].formatUnicorn({role: role.toString()})
+            presentUsersText = presentsList[selector].formatUnicorn({
+                role: role.toString()
+            })
             for (let i in presentUsersName) {
                 let user = presentUsers.find(u => u.displayName === presentUsersName[i]);
                 let member = guild.member(user);
@@ -182,17 +193,21 @@ class Request {
         let total = presentSentence + absentSentence;
         if (intro.length + absentsText.length + presentUsersText.length + total.length >= 2048) {
             if (channelStudents.size !== students.size) {
-                absentsText = absentsList[selector].formatUnicorn({role: role.toString()}) + tooMuchAbsents[selector];
+                absentsText = absentsList[selector].formatUnicorn({
+                    role: role.toString()
+                }) + tooMuchAbsents[selector];
             } else if (presentUsers.length > 0) {
-                presentUsersText = presentsList[selector].formatUnicorn({role: role.toString()}) + tooMuchPresents[selector];
+                presentUsersText = presentsList[selector].formatUnicorn({
+                    role: role.toString()
+                }) + tooMuchPresents[selector];
             }
         }
 
         this.channel.send(this.setupDefaultEmbed().setTitle(title[selector] + channel.name) //send result
             .setDescription(intro + total + absentsText + presentUsersText).setColor(role.color)).catch((err) => {
-                console.log("Error while sending message");
-                this.author.send(":x: | Une erreur est survenue au moment d'envoyer le résultat du suivi.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi.")
-            });
+            console.log("Error while sending message");
+            this.author.send(":x: | Une erreur est survenue au moment d'envoyer le résultat du suivi.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi.")
+        });
 
         await this.clearChannel(language);
     }
@@ -201,7 +216,9 @@ class Request {
      * Clear all suivix attendance request messages in the channel
      */
     async clearChannel(language) {
-        let messages = await this.channel.messages.fetch({ limit: 100 });
+        let messages = await this.channel.messages.fetch({
+            limit: 100
+        });
         messages.forEach(function (message) {
             if ((message.embeds.length > 0 && message.embeds[0].title != undefined)) {
                 if (message.embeds[0].title.startsWith("Attendance Request") && language === "en") {
@@ -234,9 +251,13 @@ class Request {
      * @param {*} language - The user language 
      */
     generateDate(timezone, lang) {
-        if(timezone === undefined) timezone = "Europe/Paris";
-        if(lang === undefined) lang = "fr";
-        let date = lang === "fr" ? new Date().toLocaleString("fr-Fr", { timeZone: `${timezone}` }) : new Date().toLocaleString("en-US", { timeZone: `${timezone}` });
+        if (timezone === undefined) timezone = "Europe/Paris";
+        if (lang === undefined) lang = "fr";
+        let date = lang === "fr" ? new Date().toLocaleString("fr-Fr", {
+            timeZone: `${timezone}`
+        }) : new Date().toLocaleString("en-US", {
+            timeZone: `${timezone}`
+        });
         return "**" + date.toString() + "**";
     };
 }

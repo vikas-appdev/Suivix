@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2020, MΛX! Inc.  All rights reserved.
-* Copyrights licensed under the GNU General Public License v3.0.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2020, MΛX! Inc.  All rights reserved.
+ * Copyrights licensed under the GNU General Public License v3.0.
+ * See the accompanying LICENSE file for terms.
+ */
 const express = require("express"),
   locale = require('locale'),
   Config = require('./config/Config'),
@@ -34,7 +34,9 @@ const activities = ['!suivix help', '{servercount} serveurs', 'v.{version} | sui
 let activityNumber = 0;
 
 //App configuration
-app.use(express.static("public", { dotfiles: 'allow' }));
+app.use(express.static("public", {
+  dotfiles: 'allow'
+}));
 app.use(cookieParser());
 app.use(locale(Language.supportedLanguages, Language.defaultLanguage))
 
@@ -48,9 +50,15 @@ client.on('ready', async () => { //Trigger when the discord client has loaded
   }, 1800000);
   //Change suivix activity
   setInterval(async () => {
-    if (activityNumber >= activities.length) activityNumber = 0;//Check if the number is too big
-    let [requestsQuery] = await sequelize.query(`SELECT count(*) AS requests FROM history`, { raw: true});
-    const activity = activities[activityNumber].formatUnicorn({ servercount: client.guilds.cache.size, version: package.version, requests: requestsQuery[0].requests}); //Get and parse the activity string
+    if (activityNumber >= activities.length) activityNumber = 0; //Check if the number is too big
+    let [requestsQuery] = await sequelize.query(`SELECT count(*) AS requests FROM history`, {
+      raw: true
+    });
+    const activity = activities[activityNumber].formatUnicorn({
+      servercount: client.guilds.cache.size,
+      version: package.version,
+      requests: requestsQuery[0].requests
+    }); //Get and parse the activity string
     SuivixClient.setActivity(activity); //Display it
     activityNumber++;
   }, 10000); //Execute every 10 seconds
@@ -74,7 +82,9 @@ client.on('messageReactionAdd', async (reaction, user) => { //Trigger when a rea
   if (reaction.message.author !== client.user) return; //if the message is not sent by the bot
   if (reaction.emoji.name !== "🇫🇷" && reaction.emoji.name !== "🇬🇧") return;
   var react = reaction.emoji.name === "🇫🇷" ? "fr" : "en";
-  let [dbUser] = await sequelize.query(`SELECT * FROM users WHERE id = ${user.id}`, {raw: true});
+  let [dbUser] = await sequelize.query(`SELECT * FROM users WHERE id = ${user.id}`, {
+    raw: true
+  });
   if (!dbUser[0]) {
     sequelize.query(`INSERT INTO users (id, language) VALUES ("${user.id}", "${react}")`);
   } else {
