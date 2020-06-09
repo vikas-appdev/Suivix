@@ -279,7 +279,6 @@ function displayChangelog(lang, versiondiv, textdiv) {
             if (lastDisplayedVersion === null || parseFloat(lastDisplayedVersion) < parseFloat(version)) {
                 versiondiv.innerHTML = version;
                 textdiv.innerHTML = text;
-                localStorage.setItem('lastDisplayedVersion', version);
                 $('#overlay').fadeIn(300);
                 $('#close').click(function () {
                     closeChangelog();
@@ -290,5 +289,6 @@ function displayChangelog(lang, versiondiv, textdiv) {
 }
 
 function closeChangelog() {
+    localStorage.setItem('lastDisplayedVersion', version);
     $('#overlay').fadeOut(300);
 }

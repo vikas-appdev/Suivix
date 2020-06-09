@@ -3,7 +3,9 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const appConfig = require("./app.json");
+const appConfig = require("./app.json"),
+    package = require('../package.json');
+
 module.exports = Object.assign(appConfig, {
-    version: "3.0.0"
+    version: package.version
 });
