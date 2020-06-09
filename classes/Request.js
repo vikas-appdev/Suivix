@@ -106,11 +106,12 @@ class Request {
      */
     async doAttendance(channel, role, timezone, language) {
         const selector = language === "fr" ? 1 : 0;
+        //Traductions
         let title = ["Attendance of ", "Suivi de "];
         let introSentences = ["Attendance asked by: `{username}`\nCategory: `{category}`\nDate: {date} :clock1:\n\n",
             "Suivi demandé par : `{username}`\nCategorie : `{category}`\nDate : {date} :clock1:\n\n"
         ];
-        let noAbsent = ["✅ There is not absent.\n", "✅ Il n'y a pas d'absents.\n"];
+        let noAbsent = ["✅ There is no absent user.\n", "✅ Il n'y a pas d'absent(e)(s).\n"];
         let absentsList = [":warning: List of absent {role}(s):\n\`\`\`", ":warning: Liste des {role}(s) absent(e)(s) :\n\`\`\`"];
         let presentsList = ["\n:man: List of present {role}(s):\n\`\`\`", "\n:man: Liste des {role}(s) présent(e)(s) :\n\`\`\`"];
         let presentsTotal = [":white_check_mark: Total of present {role}(s): `{presents}/{total}`\n", ":white_check_mark: Total des {role}(s) présent(e)(s) : `{presents}/{total}`\n"];
@@ -120,96 +121,94 @@ class Request {
 
         let students = this.guild.roles.cache.find(r => r.id === role.id).members; //fetch user with the role
         let channelStudents = channel.members.filter(member => member.roles.cache.has(role.id)) //fetch users in the voice channel
-        const guild = this.guild;
 
-        let intro = introSentences[selector].formatUnicorn({
+        let absentsText = "";
+        let presentsText = "";
+        let absents;
+        let presents;
+
+        //Creating the list string of absents users
+        let data = this.dataToString(noAbsent[selector], absentsList[selector].formatUnicorn({
+            role: role.toString()
+        }), students, Array.from(channelStudents.values()));
+        absentsText = data.get("text");
+        absents = data.get("diff");
+
+        //Creating the list string of presents users
+        data = this.dataToString("", presentsList[selector].formatUnicorn({
+            role: role.toString()
+        }), students, absents);
+        presentsText = data.get("text");
+        presents = data.get("diff");
+
+        //Parsing text
+        const intro = introSentences[selector].formatUnicorn({
             username: (this.author.displayName === this.author.user.username ? this.author.user.username : this.author.nickname + ` (@${this.author.user.username})`),
             category: this.getCategory(channel),
             date: this.generateDate(timezone, language)
         });
-
-        let absentsText = noAbsent[selector];
-        let absentUsersCollection = students.filter(x => Array.from(channelStudents.values()).indexOf(x) === -1); //compare the two arrays to get absent users
-        let absentUsers = Array.from(absentUsersCollection.values()); //Convert into an array
-        let absentUsersName = new Array();
-
-        let presentUsersText = "";
-        let presentUsersCollection = students.filter(x => !absentUsers.includes(x)); //get users who are not absent
-        let presentUsers = Array.from(presentUsersCollection.values()); //convert into an array
-        let presentUsersName = new Array();
-
-        let i = 0;
-        absentUsers.forEach(function (u) {
-            absentUsersName[i] = guild.member(u).displayName;
-            i++
-        })
-        absentUsersName.sort(function (a, b) { //sort users name 
-            return a.localeCompare(b);
-        });
-
-        i = 0;
-        presentUsers.forEach(function (u) {
-            presentUsersName[i] = guild.member(u).displayName;
-            i++
-        })
-        presentUsersName.sort(function (a, b) { //sort users name
-            return a.localeCompare(b);
-        });
-
-        if (channelStudents.size !== students.size) { //if the is some absents
-            absentsText = absentsList[selector].formatUnicorn({
-                role: role.toString()
-            })
-            for (let i in absentUsersName) {
-                let user = absentUsers.find(u => u.displayName === absentUsersName[i]);
-                let member = guild.member(user);
-                absentsText += "• " + (member.displayName === user.user.username ? user.user.username : member.nickname + ` (@${user.user.username})`) + "\n";
-            }
-            absentsText += "```";
-        }
-
-        if (presentUsers.length > 0) { //check if there is some present users
-            presentUsersText = presentsList[selector].formatUnicorn({
-                role: role.toString()
-            })
-            for (let i in presentUsersName) {
-                let user = presentUsers.find(u => u.displayName === presentUsersName[i]);
-                let member = guild.member(user);
-                presentUsersText += "• " + (member.displayName === user.user.username ? user.user.username : member.nickname + ` (@${user.user.username})`) + "\n";
-            }
-            presentUsersText += "```";
-        }
-
-        let presentSentence = presentsTotal[selector].formatUnicorn({
+        const presentSentence = presentsTotal[selector].formatUnicorn({
             role: role.toString(),
-            presents: presentUsers.length,
+            presents: presents.length,
             total: students.size
         });
-        let absentSentence = absentsTotal[selector].formatUnicorn({
+        const absentSentence = absentsTotal[selector].formatUnicorn({
             role: role.toString(),
-            absents: absentUsers.length,
+            absents: absents.length,
             total: students.size
         });
-        let total = presentSentence + absentSentence;
-        if (intro.length + absentsText.length + presentUsersText.length + total.length >= 2048) {
+
+        //Check if the message is too long to be send in discord
+        if (intro.length + absentsText.length + presentsText.length + presentSentence.length + absentSentence.length >= 2048) {
             if (channelStudents.size !== students.size) {
                 absentsText = absentsList[selector].formatUnicorn({
                     role: role.toString()
-                }) + tooMuchAbsents[selector];
+                }) + tooMuchAbsents[selector]; //Minimize text
             } else if (presentUsers.length > 0) {
-                presentUsersText = presentsList[selector].formatUnicorn({
+                presentsText = presentsList[selector].formatUnicorn({
                     role: role.toString()
-                }) + tooMuchPresents[selector];
+                }) + tooMuchPresents[selector]; //Minimize text
             }
         }
 
+        //Send result to Discord
         this.channel.send(this.setupDefaultEmbed().setTitle(title[selector] + channel.name) //send result
-            .setDescription(intro + total + absentsText + presentUsersText).setColor(role.color)).catch((err) => {
+            .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(role.color)).catch((err) => {
             console.log("Error while sending message");
             this.author.send(":x: | Une erreur est survenue au moment d'envoyer le résultat du suivi.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi.")
         });
 
-        await this.clearChannel(language);
+        await this.clearChannel(language); //Clear channel from unfinished suivix queries
+    }
+
+    /**
+     * Convert data to a string
+     * @param {*} basicSentence - The base sentence 
+     * @param {*} sentence - The sentence if data is not null
+     * @param {*} usersList - All the users
+     * @param {*} channelUsers - The users in the voice channel
+     */
+    dataToString(basicSentence, sentence, usersList, channelUsers) {
+        const guild = this.guild;
+        let text = basicSentence;
+        let collection = usersList.filter(x => channelUsers.indexOf(x) === -1); //compare the two arrays
+        let users = Array.from(collection.values()); //Convert into an array
+        let usersName = new Array();
+        for (let i = 0; i < users.length; i++) { //Create a list with all users name
+            usersName[i] = guild.member(users[i]).displayName;
+        }
+        usersName.sort(); //Sort it A -> Z
+
+        if (users.length > 0) { //If there is more than 1 user
+            text = sentence; //Display the sentence when there is users
+            for (let i in usersName) { //Create the list
+                let user = users.find(u => u.displayName === usersName[i]);
+                let member = guild.member(user);
+                text += "• " + (member.displayName === user.user.username ? user.user.username : member.nickname + ` (@${user.user.username})`) + "\n";
+            }
+            text += "```";
+        }
+        return new Map().set("text", text).set("diff", users);
     }
 
     /**
