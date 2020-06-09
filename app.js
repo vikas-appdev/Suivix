@@ -30,7 +30,7 @@ const sequelize = new Sequelize({
 const SuivixClient = new BotClient(); //Launch the Discord bot instance
 const app = express() //Create the express server
 const client = SuivixClient.client; //The bot client
-const activities = ['!suivix help', '{servercount} serveurs', 'v.{version} | suivix.xyz', '{requests} requêtes'];
+const activities = ['!suivix help', '{students} students', '{servercount} serveurs', 'v.{version} | suivix.xyz', '{requests} requêtes'];
 let activityNumber = 0;
 
 //App configuration
@@ -57,7 +57,8 @@ client.on('ready', async () => { //Trigger when the discord client has loaded
     const activity = activities[activityNumber].formatUnicorn({
       servercount: client.guilds.cache.size,
       version: package.version,
-      requests: requestsQuery[0].requests
+      requests: requestsQuery[0].requests,
+      students: client.users.cache.size
     }); //Get and parse the activity string
     SuivixClient.setActivity(activity); //Display it
     activityNumber++;
