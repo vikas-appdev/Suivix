@@ -30,7 +30,7 @@ const sequelize = new Sequelize({
 const SuivixClient = new BotClient(); //Launch the Discord bot instance
 const app = express() //Create the express server
 const client = SuivixClient.client; //The bot client
-const activities = ['!suivix help', '{students} students', '{servercount} serveurs', 'v.{version} | suivix.xyz', '{requests} requêtes'];
+const activities = ['!suivix help', '{students} élèves', '{servercount} serveurs', 'v.{version} | suivix.xyz', '{requests} requêtes'];
 let activityNumber = 0;
 
 //App configuration
