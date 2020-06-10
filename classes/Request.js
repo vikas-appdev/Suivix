@@ -4,7 +4,8 @@
  * See the accompanying LICENSE file for terms.
  */
 const Config = require('../config/Config'),
-    Discord = require('discord.js');
+    Discord = require('discord.js'),
+    moment = require('moment');
 
 class Request {
 
@@ -76,7 +77,7 @@ class Request {
             if (c.parent) {
                 channelsCategories[c.id] = c.parent.name
             } else {
-                channelsCategories[c.id] = "Unknown"
+                channelsCategories[c.id] = "Unknown";
             }
         });
         return channelsCategories
@@ -87,6 +88,14 @@ class Request {
      */
     getRoles() {
         return this.guild.roles.cache;
+    }
+
+    /**
+     * Return the channel category
+     * @param {*} channel - The voice channel
+     */
+    getCategory(channel, sentence) {
+        return channel.parent === null ? sentence : channel.parent.name;
     }
 
     /**
@@ -107,6 +116,7 @@ class Request {
     async doAttendance(channel, role, timezone, language) {
         const selector = language === "fr" ? 1 : 0;
         //Traductions
+        let unknown = ["Unknown", "Inconnue"];
         let title = ["Attendance of ", "Suivi de "];
         let introSentences = ["Attendance asked by: `{username}`\nCategory: `{category}`\nDate: {date} :clock1:\n\n",
             "Suivi demandé par : `{username}`\nCategorie : `{category}`\nDate : {date} :clock1:\n\n"
@@ -144,7 +154,7 @@ class Request {
         //Parsing text
         const intro = introSentences[selector].formatUnicorn({
             username: (this.author.displayName === this.author.user.username ? this.author.user.username : this.author.nickname + ` (@${this.author.user.username})`),
-            category: this.getCategory(channel),
+            category: this.getCategory(channel, unknown[selector]),
             date: this.generateDate(timezone, language)
         });
         const presentSentence = presentsTotal[selector].formatUnicorn({
@@ -230,14 +240,6 @@ class Request {
     }
 
     /**
-     * Return the channel category
-     * @param {*} channel - The voice channel
-     */
-    getCategory(channel) {
-        return channel.parent === null ? "Unknown" : channel.parent.name;
-    }
-
-    /**
      * Returns the default embed style for the bot
      */
     setupDefaultEmbed() {
@@ -252,12 +254,8 @@ class Request {
     generateDate(timezone, lang) {
         if (timezone === undefined) timezone = "Europe/Paris";
         if (lang === undefined) lang = "fr";
-        let date = lang === "fr" ? new Date().toLocaleString("fr-Fr", {
-            timeZone: `${timezone}`
-        }) : new Date().toLocaleString("en-US", {
-            timeZone: `${timezone}`
-        });
-        return "**" + date.toString() + "**";
+        let dateString = moment(new Date()).tz(timezone).locale(lang).format("LLLL");
+        return "`" + dateString.charAt(0).toUpperCase() + dateString.slice(1) + "`";
     };
 }
 module.exports = Request;

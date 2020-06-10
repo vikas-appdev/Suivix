@@ -3,7 +3,8 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Discord = require("discord.js");
+const Discord = require("discord.js"),
+    moment = require('moment');
 
 /**
  * Launch the command
@@ -139,11 +140,16 @@ async function generateRoleChoiceMessage(message, msg, channel, audioChannel, ro
  * @param {*} role - The choosen role
  */
 async function generateAppelMessage(message, msg, channel, audioChannel, role) {
-    msg.delete();
-    let introMsg = await channel.send("Le suivi va être effectué dans le salon `" + audioChannel.name + "` pour les personnes ayant le role `" + role.name + "`");
+    msg.delete().catch(err => "Error while deleting message.");
+    let introMsg;
+    if (!audioChannel.name) {
+        introMsg = await channel.send(":x: Une erreur est survenue. Merci de rejoindre le serveur de support et contacter l'administrateur du bot.");
+        return;
+    }
+    introMsg = await channel.send("Le suivi va être effectué dans le salon `" + audioChannel.name + "` pour les personnes ayant le role `" + role.name + "`");
     let user = message.guild.member(message.author);
     await doAppel(user, message.guild, channel, audioChannel, role)
-    introMsg.edit("Le suivi dans le salon `" + audioChannel.name + "`" + " a été effectué.")
+    introMsg.edit("Le suivi dans le salon `" + audioChannel.name + "`" + " a été effectué.").catch(err => "Error while editing message.")
 }
 
 /**
@@ -241,8 +247,10 @@ const setupDefaultEmbed = function () {
  * Parse a date into a string
  */
 const generateDate = function (currentDate) {
-    return "**" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear() +
-        "** à **" + currentDate.getHours() + "h" + currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes() + "min**";
+    const date = moment(currentDate);
+    date.locale('fr')
+    let dateString = date.format("LLLL");
+    return "`" + dateString.charAt(0).toUpperCase() + dateString.slice(1) + "`";
 }
 
 module.exports.suivixCommand = suivixCommand;
