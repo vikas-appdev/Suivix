@@ -37,6 +37,17 @@ let activityNumber = 0;
 app.use(express.static("public", {
   dotfiles: 'allow'
 }));
+
+app.use(function (req, res, next) {
+  if (!req.secure && Config.HTTPS_ENABLED === "true") {
+    // request was via http, so redirect to https
+    res.redirect('https://' + req.headers.host + req.url);
+  } else {
+    // request was via https, so do no special handling
+    next();
+  }
+});
+
 app.use(cookieParser());
 app.use(locale(Language.supportedLanguages, Language.defaultLanguage))
 
