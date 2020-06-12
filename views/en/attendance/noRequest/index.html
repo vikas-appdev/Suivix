@@ -23,13 +23,16 @@
           <div class="imgBox"><img src="/ressources/error.png" class="img" alt="suivix logo"></div>
           <div class="contentBox">
             <div class="centered colorHeaderPrimary size28 title">Something went wrong</div>
-            <div class="centered colorHeaderSecondary size18 description">You don't have any<br>attendance request on progress.</div>
+            <div class="centered colorHeaderSecondary size18 description">You don't have any<br>attendance request on
+              progress.</div>
           </div>
         </div>
       </div>
       <div class="footer margin-top">
-        <button class="button blue-btn centered large"
-        onClick='redirect("ATTENDANCE_PAGE", undefined);'>
+        <button class="button large" onClick="redirect('ATTENDANCE_NEWREQUEST', window);">
+          <div class="">New Attendance Request</div>
+        </button>
+        <button class="button large blue-btn" onClick='redirect("ATTENDANCE_PAGE", undefined);'>
           <div class="">Try Again</div>
         </button>
       </div>

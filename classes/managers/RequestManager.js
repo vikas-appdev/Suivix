@@ -58,6 +58,7 @@ class RequestManager {
             raw: true,
             type: this.sequelize.QueryTypes.SELECT
         });
+        if(!oldRequest[0]) return;
         this.sequelize.query(`DELETE FROM requests WHERE author = "${oldRequest.author}"`);
         await this.sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
         await this.sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
