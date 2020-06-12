@@ -80,7 +80,7 @@ const quickAttendance = function (channel, role, requestID) {
                 channels[i] = response[i];
             }
             channelID = channels.find(c => c.name === channel).id;
-            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channel=${channelID}&role=${roleID}`);
+            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${roleID}`);
         }
         request.send();
     }
@@ -88,27 +88,37 @@ const quickAttendance = function (channel, role, requestID) {
 
 }
 
-function goToRoles(channel, requestID) {
-    if (channel) {
-        var request = new XMLHttpRequest()
-        request.open('GET', getUrl(`api/get/channels`, window), true)
-        request.setRequestHeader("RequestID", requestID);
-        request.onload = function () {
-            const response = JSON.parse(this.response);
-            let channels = [];
-            for (var i = 0; i < response.length; i++) {
-                channels[i] = response[i];
-            }
+function goToRoles(channelsList, requestID) {
+    if(!channelsList) return;
+    var request = new XMLHttpRequest()
+    request.open('GET', getUrl(`api/get/channels`, window), true)
+    request.setRequestHeader("RequestID", requestID);
+    request.onload = function () {
+        const response = JSON.parse(this.response);
+        let channels = [];
+        for (var i = 0; i < response.length; i++) {
+            channels[i] = response[i];
+        }
+        if (channelsList.length === 1) {
+            const channel = channelsList[0];
             let channelName = channel.substring(channel.indexOf(')') + 2)
             let channelID = channels.find(c => c.name === channelName).id;
-            redirect("ATTENDANCE_PAGE_OPTION_2", `requestID=${requestID}&channel=${channelID}`);
+            redirect("ATTENDANCE_PAGE_OPTION_2", `requestID=${requestID}&channels=${channelID}`);
+        } else {
+            let choosenChannels = [];
+            for(let i = 0; i < channelsList.length; i++) {
+                let channelName = channelsList[i].substring(channelsList[i].indexOf(')') + 2)
+                choosenChannels.push(channels.find(c => c.name === channelName).id);
+            }
+            redirect("ATTENDANCE_PAGE_OPTION_2", `requestID=${requestID}&channels=${choosenChannels.join('-')}`);
         }
-        request.send();
+
     }
+    request.send();
 }
 
-function goToDone(channelID, role, requestID) {
-    if (role) {
+function goToDone(channelID, rolesList, requestID) {
+    if (!rolesList) return;
         var request = new XMLHttpRequest()
         request.open('GET', getUrl(`api/get/roles`, window), true)
         request.setRequestHeader("RequestID", requestID);
@@ -118,11 +128,19 @@ function goToDone(channelID, role, requestID) {
             for (var i = 0; i < response.length; i++) {
                 roles[i] = response[i];
             }
-            let roleID = roles.find(r => r.name === role).id;
-            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channel=${channelID}&role=${roleID}`);
+            if(rolesList.length === 1) {
+                let roleID = roles.find(r => r.name === rolesList[0]).id;
+                redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${roleID}`);
+            } else {
+                let choosenRoles = [];
+                for(let i = 0; i < rolesList.length; i++) {
+                    choosenRoles.push(roles.find(r => r.name === rolesList[i]).id);
+                }
+                redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${choosenRoles.join('-')}`);
+            }
+
         }
         request.send();
-    }
 }
 
 function initSelect2RoleList(select, width, requestID, lang) {
@@ -141,7 +159,9 @@ function initSelect2RoleList(select, width, requestID, lang) {
         }
         const placeholder = lang === "fr" ? "Rôle" : "Role";
         initSelect2(select, placeholder, width, roles.sort())
-        setTimeout(() => { hideLoader(document); }, 350)
+        setTimeout(() => {
+            hideLoader(document);
+        }, 350)
     }
     request.send();
 }
@@ -167,7 +187,9 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
             }
             const placeholder = lang === "fr" ? "Salon" : "Channel";
             initSelect2(select, placeholder, width, channels.sort())
-            setTimeout(() => { hideLoader(document); }, 350)
+            setTimeout(() => {
+                hideLoader(document);
+            }, 350)
         }
         request.send()
     }
@@ -175,7 +197,7 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
 }
 
 const parseCategory = function (name) {
-    return name.length > 15 ? name.substring(0, 25) + "..." : name;
+    return name.length > 15 ? name.substring(0, 15) + "..." : name;
 }
 
 function hideLoader(document) {
@@ -201,7 +223,18 @@ function redirect(route, params) {
 }
 
 function initSelect2(select, placeholder, width, data) {
-    select.select2({ minimumResultsForSearch: -1, placeholder: placeholder, width: width, data: data });
+    select.select2({
+        minimumResultsForSearch: -1,
+        placeholder: placeholder,
+        width: width,
+        data: data,
+        maximumSelectionLength: 4,
+        language: "fr"
+    });
+    select.on('select2:opening select2:closing', function (event) {
+        var $searchfield = $('#' + event.target.id).parent().find('.select2-search__field');
+        $searchfield.prop('disabled', true);
+    });
 }
 
 function $_GET(param, window) {
@@ -268,27 +301,27 @@ function askCookies(lang) {
 }
 
 function displayChangelog(lang, versiondiv, textdiv) {
-        const lastDisplayedVersion = localStorage.getItem('lastDisplayedVersion');
-        var request = new XMLHttpRequest()
-        request.open('GET', getUrl(`api/get/changelog`, window), true);
-        request.onload = function () {
-            const json = JSON.parse(this.responseText)
-            if (!json.version) return;
-            const text = lang === "fr" ? json.fr : json.en;
-            const version = json.version;
-            if (lastDisplayedVersion === null || parseFloat(lastDisplayedVersion) < parseFloat(version)) {
-                versiondiv.innerHTML = version;
-                textdiv.innerHTML = text;
-                $('#overlay').fadeIn(300);
-                $('#close').click(function () {
-                    closeChangelog();
-                });
-            }
+    const lastDisplayedVersion = localStorage.getItem('lastDisplayedVersion');
+    var request = new XMLHttpRequest()
+    request.open('GET', getUrl(`api/get/changelog`, window), true);
+    request.onload = function () {
+        const json = JSON.parse(this.responseText)
+        if (!json.version) return;
+        const text = lang === "fr" ? json.fr : json.en;
+        const version = json.version;
+        if (lastDisplayedVersion === null || parseFloat(lastDisplayedVersion) < parseFloat(version) || !lastDisplayedVersion.includes(".")) {
+            versiondiv.innerHTML = version;
+            textdiv.innerHTML = text;
+            $('#overlay').fadeIn(300);
+            $('#close').click(function () {
+                localStorage.setItem('lastDisplayedVersion', version);
+                closeChangelog();
+            });
         }
-        request.send();
+    }
+    request.send();
 }
 
 function closeChangelog() {
-    localStorage.setItem('lastDisplayedVersion', version);
     $('#overlay').fadeOut(300);
 }

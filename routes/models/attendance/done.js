@@ -19,7 +19,7 @@ module.exports = async (req, res, client, sequelize) => {
         res.redirect(Routes.ATTENDANCE_NOREQUEST);
         return;
     }
-    request.doAttendance(request.getGuild().channels.cache.get(req.query.channel), request.getGuild().roles.cache.get(req.query.role), req.cookies["timezone"], req.cookies["language"]);
+    request.doAttendance(req.query.channels, req.query.roles, req.cookies["timezone"], req.cookies["language"]);
     manager.deleteRequestByID(request.getId());
     res.sendFile(Server.getViewsFile(req, res, Routes.ATTENDANCE_PAGE_DONE, "/", req.query.language ? req.query.language : undefined));
 };

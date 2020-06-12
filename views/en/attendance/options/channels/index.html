@@ -13,7 +13,8 @@
   <link href="/css/select2.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
   <script src="/utils/Utils.js"></script>
 </head>
 
@@ -28,19 +29,18 @@
           <div class="imgBox"><img src="/ressources/one.png" class="img" alt="suivix logo"></div>
           <div class="contentBox">
             <div class="centered colorHeaderPrimary size28 title">First Step</div>
-            <div class="centered colorHeaderSecondary size18 description">Select the voice channel in which<br>
+            <div class="centered colorHeaderSecondary size18 description">Select voice channels in which<br>
               you want to take attendance.</div>
           </div>
         </div>
         <div class="select2-box centered left-text">
-          <select id="select-options">
+          <select id="select-options" multiple>
             <option></option>
           </select>
         </div>
       </div>
       <div class="footer">
-        <button class="button blue-btn centered large"
-          onClick='goToRoles(selectedVoiceChannel, requestID);'>
+        <button class="button blue-btn centered large" onClick='goToRoles(selectedVoiceChannel, requestID);'>
           <div class="">Next Step</div>
         </button>
       </div>
@@ -48,7 +48,7 @@
   </div>
   <script type="text/javascript">
     saveTimezoneCookie(document, window);
-    let selectedVoiceChannel;$
+    let selectedVoiceChannel;
     let requestID = decodeURI($_GET('requestID', window));
     $(document).ready(function () {
       initSelect2ChannelList($("#select-options"), "80%", requestID, true, "en");

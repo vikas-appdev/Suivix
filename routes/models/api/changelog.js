@@ -8,7 +8,7 @@ var package = require('../../../package.json');
 module.exports = (req, res) => {
     res.send(`{
         "version": "${package.version}",
-        "en": "<strong>• Lots of bug fixes.</strong><br><br>If you encounter a bug, or you think something is broken, please contact me on Discord:<br><br>MΛX#2231<br><br>You can support the bot hosting here: <a href='https://utip.io/mw3y'>https://utip.io/mw3y</a>",
-        "fr": "<strong>• Beaucoup de bugs corrigés.</strong><br><br>Si vous rencontrez un bug, ou pensez que quelque chose ne marche pas bien, merci de me contacter sur Discord :<br><br>MΛX#2231<br><br>Vous pouvez contribuer à l'hébergement du bot ici : <a href='https://utip.io/mw3y'>https://utip.io/mw3y</a>"
+        "en": "<strong>• Added the support for multi-roles and multi-channels attendance.</strong><br><br>If you encounter a bug, or you think something is broken, please contact me on Discord:<br><br>MΛX#2231",
+        "fr": "<strong>• Ajout d'une fonctionnalité de multi-suivi</strong><br>- Vous pouvez désormais sélectionner plusieurs roles et salons lors de votre appel.<br><br>Si vous rencontrez un bug, ou pensez que quelque chose ne marche pas bien, merci de me contacter sur Discord :<br><br>MΛX#2231"
     }`);
 };
