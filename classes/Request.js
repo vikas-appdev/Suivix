@@ -182,9 +182,12 @@ class Request {
             }
         }
 
+        let color = "0";
+        parsedRoles.forEach(role => role.color !== 0 ? color = role.color : color);
+
         //Send result to Discord
         this.channel.send(this.setupDefaultEmbed().setTitle(title[selector] + channelsString) //send result
-            .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(parsedRoles[0].color)).catch((err) => {
+            .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
             console.log("Error while sending message");
             this.author.send(":x: | Une erreur est survenue au moment d'envoyer le résultat du suivi.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi.")
         });
