@@ -58,7 +58,6 @@ class Routes {
         routes.get(routesConfig.HOME_PAGE + "en", (req, res) => {
             home(req, res, "en")
         });
-        routes.get(routesConfig.CONTACT_PAGE, contact);
         routes.get(routesConfig.LOGIN_PAGE, login);
 
         //Error

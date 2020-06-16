@@ -1,6 +1,5 @@
 {
     "HOME_PAGE": "/",
-    "CONTACT_PAGE": "/contact",
     "ATTENDANCE_PAGE": "/attendance",
     "ATTENDANCE_PAGE_OPTION_1": "/attendance/options/channels",
     "ATTENDANCE_PAGE_OPTION_2": "/attendance/options/roles",
