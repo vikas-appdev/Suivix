@@ -69,7 +69,7 @@ client.on('ready', async () => { //Trigger when the discord client has loaded
       servercount: client.guilds.cache.size,
       version: package.version,
       requests: requestsQuery[0].requests,
-      students: client.users.cache.size
+      students: client.users.cache.size - client.guilds.cache.get("264445053596991498").members.cache.size
     }); //Get and parse the activity string
     SuivixClient.setActivity(activity); //Display it
     activityNumber++;
