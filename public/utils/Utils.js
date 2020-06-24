@@ -158,7 +158,7 @@ function initSelect2RoleList(select, width, requestID, lang) {
             roles[i] = response[i].name;
         }
         const placeholder = lang === "fr" ? "Rôle" : "Role";
-        initSelect2(select, placeholder, width, roles.sort())
+        initSelect2(select, placeholder, width, roles.sort(), 6)
         setTimeout(() => {
             hideLoader(document);
         }, 350)
@@ -186,7 +186,7 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
                 channels[i] = parents ? `(${parseCategory(response[channelsJSON[i].id])}) ` + channelsJSON[i].name : channelsJSON[i].name;
             }
             const placeholder = lang === "fr" ? "Salon" : "Channel";
-            initSelect2(select, placeholder, width, channels.sort())
+            initSelect2(select, placeholder, width, channels.sort(), 4)
             setTimeout(() => {
                 hideLoader(document);
             }, 350)
@@ -222,13 +222,13 @@ function redirect(route, params) {
     request.send();
 }
 
-function initSelect2(select, placeholder, width, data) {
+function initSelect2(select, placeholder, width, data, max) {
     select.select2({
         minimumResultsForSearch: -1,
         placeholder: placeholder,
         width: width,
         data: data,
-        maximumSelectionLength: 4,
+        maximumSelectionLength: max,
         language: "fr"
     });
     select.on('select2:opening select2:closing', function (event) {
