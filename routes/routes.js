@@ -106,7 +106,7 @@ class Routes {
 
         //Handle 404 error
         routes.get('*', (req, res) => {
-            console.log("404 -> ", req.url);
+            console.log( req.url.includes('.map') ? "" : "404 -> " + req.url);
             res.status(404).redirect(routesConfig.ERROR_404);
         });
 

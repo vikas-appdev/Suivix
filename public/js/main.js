@@ -212,7 +212,10 @@ jQuery(document).ready(function($) {
       e.preventDefault();
 
       var hash = this.hash;
-
+	  if(hash === "") {
+		  window.location.href = $( this ).attr('href');
+		  return;
+	  }
       $('html, body').animate({
         'scrollTop': $(hash).offset().top
       }, 600, 'easeInOutExpo', function(){

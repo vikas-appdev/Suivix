@@ -1473,6 +1473,7 @@ code {
   border: 5px solid transparent;
   border-radius: 9px;
   background-clip: content-box;
+  max-height: 10px;
 }
 
 .thanks-img {
