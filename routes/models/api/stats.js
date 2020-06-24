@@ -9,6 +9,7 @@ module.exports = async (req, res, client, sequelize) => {
     });
     res.send(`{
         "guilds": "${client.guilds.cache.size}",
-        "users": "${usersQuery[0].users}" 
+        "users": "${usersQuery[0].users}",
+        "students": "${client.users.cache.size}"
     }`)
 };

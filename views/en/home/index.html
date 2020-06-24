@@ -85,6 +85,7 @@
                 <li><a href="#contact-section" class="nav-link">Contact</a></li>
                 <li><a href="https://utip.io/mw3y" class="nav-link">Support Me</a></li>
                 <li><a href="https://github.com/Mw3y/Suivix" class="nav-link">Github</a></li>
+                <li><a href="/fr" class="btn btn-dark nav-link">FR</a></li>
               </ul>
             </nav>
 
@@ -109,8 +110,7 @@
               Suivix will take care of it for you.<br>
               <br>Suivix is actually installed on
               <strong><var id="guilds">0</var></strong> servers<br>for a total of <strong><var
-                  id="users">0</var></strong>
-              users!</p>
+                  id="users">0</var></strong> users and <strong><var id="students">0</var></strong> students!</p>
             </p>
             <p data-aos="fade-up" data-aos-delay="200"><a href="/invite" class="btn btn-primary hs-button">Add
                 Suivix</a></p>
@@ -434,6 +434,7 @@
         const response = JSON.parse(this.responseText);
         document.getElementById("guilds").innerHTML = response.guilds;
         document.getElementById("users").innerHTML = response.users;
+        document.getElementById("students").innerHTML = response.students;
       }
     }
     xmlHttp.send();

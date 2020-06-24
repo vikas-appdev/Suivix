@@ -462,19 +462,6 @@ body:after {
   padding: 5px 20px;
 }
 
-.site-navbar .site-navigation .site-menu a:before {
-  position: absolute;
-  content: "";
-  bottom: 0;
-  left: 18px;
-  right: 18px;
-  height: 2px;
-  width: 0;
-  background: #23272A;
-  -webkit-transition: .3s all ease-in-out;
-  -o-transition: .3s all ease-in-out;
-  transition: .3s all ease-in-out;
-}
 
 .site-navbar .site-navigation .site-menu a:hover,
 .site-navbar .site-navigation .site-menu a.active {
@@ -1530,6 +1517,10 @@ code {
   margin-top: 8px;
 }
 
+.nav-link {
+  font-size: 14px;
+}
+
 @keyframes float {
   0% {
     transform: translatey(0px);
@@ -1551,6 +1542,9 @@ code {
 }
 
 @media screen and (max-width: 1080px) {
+  .nav-link {
+    font-size: 13px;
+  }
   .site-logo {
     display: none;
   }

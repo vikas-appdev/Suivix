@@ -85,6 +85,7 @@
                 <li><a href="#contact-section" class="nav-link">Me Contacter</a></li>
                 <li><a href="https://utip.io/mw3y" class="nav-link">Me Supporter</a></li>
                 <li><a href="https://github.com/Mw3y/Suivix" class="nav-link">Github</a></li>
+                <li><a href="/en" class="btn btn-dark nav-link">EN</a></li>
               </ul>
             </nav>
 
@@ -108,7 +109,7 @@
               d'entreprise et vous voulez faire l'appel sur Discord ? Pas de soucis ! Suivix s'en occupe pour vous.<br>
               <br>Suivix est actuellement installé sur
               <strong><var id="guilds">0</var></strong> serveurs<br>pour un total de <strong><var
-                  id="users">0</var></strong> utilisateurs !</p>
+                  id="users">0</var></strong> utilisateurs et <strong><var id="students">0</var></strong> élèves !</p>
             </p>
             <p data-aos="fade-up" data-aos-delay="200"><a href="/invite" class="btn btn-primary hs-button">Ajouter
                 Suivix</a></p>
@@ -435,6 +436,7 @@
         const response = JSON.parse(this.responseText);
         document.getElementById("guilds").innerHTML = response.guilds;
         document.getElementById("users").innerHTML = response.users;
+        document.getElementById("students").innerHTML = response.students;
       }
     }
     xmlHttp.send();
