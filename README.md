@@ -10,7 +10,7 @@ You can add Suivix to your server by clicking on this link: https://suivix.xyz/i
 
 ## Setup
 
-Download this code and launch it with **nodejs**. You must put your bot informations in the **config/app.json** file, or the bot will not work.
+Download this code and launch it with **nodejs**. You must put your bot informations in the **config/app.json.default** file after renaming it **app.json**, or the bot will not work.
 
 ```bash
 node app.js

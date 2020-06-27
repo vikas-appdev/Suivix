@@ -2,5 +2,5 @@
 .vscode/
 node_modules/
 /database/*.sqlite
-/config/app.json
 package-lock.json
+config/app.json
