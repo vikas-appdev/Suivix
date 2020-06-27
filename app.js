@@ -4,6 +4,7 @@
  * See the accompanying LICENSE file for terms.
  */
 const express = require("express"),
+  compression = require('compression'),
   locale = require('locale'),
   Config = require('./config/Config'),
   Language = require('./utils/Language'),
@@ -34,6 +35,7 @@ const activities = ['!suivix help', '{students} élèves', '{servercount} serveu
 let activityNumber = 0;
 
 //App configuration
+app.use(compression());
 app.use(express.static("public", {
   dotfiles: 'allow'
 }));
