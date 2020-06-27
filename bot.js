@@ -62,7 +62,7 @@ class BotClient {
      */
     postDBLStats() {
         if (!Config.TOPGG_API_TOKEN) return;
-        this.dbl.postStats(this.client.guilds.cache.size);
+        this.dbl.postStats(this.client.guilds.cache.size).catch(err => console.log("Unable to post top.gg stats."));
     }
 
     /**

@@ -5,29 +5,25 @@
  */
 const Request = require('../Request');
 
+/**
+ * Represents a RequestManager
+ * @param {*} client - The bot client
+ * @param {*} sequelize - The database
+ */
 class RequestManager {
 
-    /**
-     * Represents a RequestManager
-     * @param {*} client - The bot client
-     * @param {*} sequelize - The database
-     */
-    constructor(client, sequelize) {
-        this.client = client;
-        this.sequelize = sequelize;
-    }
 
     /**
      * Fetch an attendance request by its id
      * @param {*} id - The request id
      */
     async getRequestByID(id) {
-        let [request] = await this.sequelize.query(`SELECT * FROM requests WHERE id="${id}"`, {
+        let [request] = await sequelize.query(`SELECT * FROM requests WHERE id="${id}"`, {
             raw: true,
-            type: this.sequelize.QueryTypes.SELECT
+            type: sequelize.QueryTypes.SELECT
         });
         if (!request) return undefined;
-        let guild = await this.client.guilds.cache.get(request.guildID);
+        let guild = await client.guilds.cache.get(request.guildID);
         let channel = guild.channels.cache.get(request.channelID);
         let author = guild.member(request.author);
         return new Request(request.id, author, new Date(request.date), guild, channel);
@@ -38,12 +34,12 @@ class RequestManager {
      * @param {*} id - The author id
      */
     async getRequestByAuthorID(id) {
-        let [request] = await this.sequelize.query(`SELECT * FROM requests WHERE author="${id}"`, {
+        let [request] = await sequelize.query(`SELECT * FROM requests WHERE author="${id}"`, {
             raw: true,
-            type: this.sequelize.QueryTypes.SELECT
+            type: sequelize.QueryTypes.SELECT
         });
         if (!request) return undefined;
-        let guild = await this.client.guilds.cache.get(request.guildID);
+        let guild = await client.guilds.cache.get(request.guildID);
         let channel = guild.channels.cache.get(request.channelID);
         let author = guild.member(request.author);
         return new Request(request.id, author, new Date(request.date), guild, channel);
@@ -54,14 +50,14 @@ class RequestManager {
      * @param {*} userID - The user id
      */
     async createRequestByOldOne(userID) {
-        let [oldRequest] = await this.sequelize.query(`SELECT * FROM history WHERE author="${userID}" ORDER BY id DESC`, {
+        let [oldRequest] = await sequelize.query(`SELECT * FROM history WHERE author="${userID}" ORDER BY id DESC`, {
             raw: true,
-            type: this.sequelize.QueryTypes.SELECT
+            type: sequelize.QueryTypes.SELECT
         });
-        if(!oldRequest[0]) return;
-        this.sequelize.query(`DELETE FROM requests WHERE author = "${oldRequest.author}"`);
-        await this.sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
-        await this.sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
+        if (!oldRequest) return;
+        sequelize.query(`DELETE FROM requests WHERE author = "${oldRequest.author}"`);
+        await sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
+        await sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
     }
 
     /**
@@ -69,9 +65,9 @@ class RequestManager {
      * @param {*} id - The request id
      */
     deleteRequestByID(id) {
-        this.sequelize.query(`DELETE FROM requests WHERE id="${id}"`, {
+        sequelize.query(`DELETE FROM requests WHERE id="${id}"`, {
             raw: true,
-            type: this.sequelize.QueryTypes.DELETE
+            type: sequelize.QueryTypes.DELETE
         });
     }
 

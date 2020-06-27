@@ -7,8 +7,8 @@ const Auth = require('../../../auth/DiscordOauth'),
     Routes = require('../../../config/Routes'),
     RequestManager = require('../../../classes/managers/RequestManager');
 
-module.exports = async (req, res, client, sequelize) => {
-    const manager = new RequestManager(client, sequelize);
+module.exports = async (req, res) => {
+    const manager = new RequestManager();
     const user = await Auth.authUser(req, res, req.query.code);
     if (!user) return;
     const request = await manager.getRequestByAuthorID(user.id);

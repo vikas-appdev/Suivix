@@ -8,8 +8,8 @@ const Auth = require('../../../auth/DiscordOauth'),
     Server = require('../../../utils/Server'),
     RequestManager = require('../../../classes/managers/RequestManager');
 
-module.exports = async (req, res, client, sequelize) => {
-    const manager = new RequestManager(client, sequelize);
+module.exports = async (req, res) => {
+    const manager = new RequestManager();
     const user = await Auth.authUser(req, res, req.query.code);
     const request = await manager.getRequestByAuthorID(user.id);
     if (!user) { //Check if the user exists or is the right one

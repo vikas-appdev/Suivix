@@ -42,11 +42,6 @@ const getUser = require('./models/api/user'),
 
 class Routes {
 
-    constructor(client, sequelize) {
-        this.client = client;
-        this.sequelize = sequelize;
-    }
-
     getRoutes() {
         //Global
         routes.get(routesConfig.HOME_PAGE, (req, res) => {
@@ -58,6 +53,8 @@ class Routes {
         routes.get(routesConfig.HOME_PAGE + "en", (req, res) => {
             home(req, res, "en")
         });
+        
+        //Login
         routes.get(routesConfig.LOGIN_PAGE, login);
 
         //Error
@@ -67,40 +64,24 @@ class Routes {
         //Authentification
         routes.get(routesConfig.LOGIN_REDIRECT, authLogin);
         routes.get(routesConfig.LOGOUT_REDIRECT, authLogout);
-        routes.get(routesConfig.DISCORD_OAUTH_CALLBACK_URL, (req, res) => {
-            callback(req, res, this.client, this.sequelize);
-        });
+        routes.get(routesConfig.DISCORD_OAUTH_CALLBACK_URL, callback);
 
         //Attendance
         routes.get(routesConfig.ATTENDANCE_PAGE, welcome);
         routes.get(routesConfig.ATTENDANCE_PAGE_OPTION_1, option1);
         routes.get(routesConfig.ATTENDANCE_PAGE_OPTION_2, option2);
-        routes.get(routesConfig.ATTENDANCE_PAGE_DONE, (req, res) => {
-            done(req, res, this.client, this.sequelize);
-        });
+        routes.get(routesConfig.ATTENDANCE_PAGE_DONE, done);
         routes.get(routesConfig.ATTENDANCE_NOREQUEST, noRequest);
-        routes.get(routesConfig.ATTENDANCE_NEWREQUEST, (req, res) => {
-            newRequest(req, res, this.client, this.sequelize);
-        });
+        routes.get(routesConfig.ATTENDANCE_NEWREQUEST, newRequest);
 
         //Api
-        routes.get(routesConfig.API_USER_URL, (req, res) => {
-            getUser(req, res, this.client, this.sequelize);
-        });
+        routes.get(routesConfig.API_USER_URL, getUser);
         routes.get(routesConfig.API_URL_FETCHER_URL, getUrl);
         routes.get(routesConfig.API_NAVBAR_URL, getNavbar);
-        routes.get(routesConfig.API_CHANNELS_URL, (req, res) => {
-            getChannels(req, res, this.client, this.sequelize);
-        });
-        routes.get(routesConfig.API_CATEGORIES_URL, (req, res) => {
-            getCategories(req, res, this.client, this.sequelize);
-        });
-        routes.get(routesConfig.API_ROLES_URL, (req, res) => {
-            getRoles(req, res, this.client, this.sequelize);
-        });
-        routes.get(routesConfig.API_STATS_URL, (req, res) => {
-            getStats(req, res, this.client, this.sequelize);
-        });
+        routes.get(routesConfig.API_CHANNELS_URL, getChannels);
+        routes.get(routesConfig.API_CATEGORIES_URL, getCategories);
+        routes.get(routesConfig.API_ROLES_URL, getRoles);
+        routes.get(routesConfig.API_STATS_URL, getStats);
         routes.get(routesConfig.API_CHANGELOG_URL, getChangelog);
         routes.get(routesConfig.API_INVITE_URL, getInviteLink);
 

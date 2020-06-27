@@ -1,3 +1,29 @@
+/*! CSS Used fontfaces */
+@font-face {
+  font-family: Whitney;
+  font-weight: 300;
+  src: url(../fonts/300.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 400;
+  src: url(../fonts/400.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 500;
+  src: url(../fonts/500.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 600;
+  src: url(../fonts/600.woff) format("woff");
+}
+@font-face {
+  font-family: Whitney;
+  font-weight: 700;
+  src: url(../fonts/700.woff) format("woff");
+}
 /* Base */
 html {
   overflow-x: hidden;
@@ -51,7 +77,7 @@ h5,
 .h3,
 .h4,
 .h5 {
-  font-family: 'Montserrat', sans-serif;
+
   color: #000;
 }
 
@@ -140,7 +166,7 @@ body:after {
 .form-control {
   height: 43px;
   border-radius: 30px;
-  font-family: 'Montserrat', sans-serif;
+
   background-color: #2C2F33;
 }
 
@@ -452,7 +478,7 @@ body:after {
   margin: 0;
   padding: 0;
   margin-bottom: 0;
-  font-family: 'Montserrat', sans-serif;
+
 }
 
 .site-navbar .site-navigation .site-menu a {
@@ -876,7 +902,7 @@ body:after {
 }
 
 .site-blocks-cover .lead {
-  font-family: 'Montserrat', sans-serif;
+
   font-size: 1.3rem;
   color: #1a1a1a;
 }
@@ -915,7 +941,7 @@ body:after {
 
 .site-blocks-cover h1 {
   font-size: 3rem;
-  font-family: 'Montserrat', sans-serif;
+
 }
 
 .site-blocks-cover .img-face {
@@ -1170,7 +1196,7 @@ body:after {
   text-align: center;
 }
 
-.slide-one-item .slide blockquote {
+.slide-one-item .slide {
   position: relative;
   max-width: 700px;
   font-size: 1.2rem;
@@ -1178,21 +1204,19 @@ body:after {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  font-style: italic;
   color: #fff;
 }
 
-.slide-one-item .slide blockquote:before {
+.slide-one-item .slide:before {
   color: #fff;
   font-size: 2.2rem;
   font-style: normal;
-  font-family: 'icomoon';
-  content: "\e244";
 }
 
 .slide-one-item .slide cite {
   margin-top: 50px;
   font-size: 1rem;
+  font-style: normal;
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -1520,6 +1544,20 @@ code {
 
 .nav-link {
   font-size: 14px;
+}
+
+.slide img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+  width: 50%;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.slide h2 {
+  color: #fff;
 }
 
 @keyframes float {

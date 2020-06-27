@@ -53,8 +53,10 @@ app.use(locale(Language.supportedLanguages, Language.defaultLanguage))
 
 //Bot Client events
 client.on('ready', async () => { //Trigger when the discord client has loaded
+  global.client = client;
+  global.sequelize = sequelize;
   //Connect all routes to the website
-  app.use('/', new Routes(client, sequelize).getRoutes());
+  app.use('/', new Routes().getRoutes());
   //Post some bot stats on the Discord Bot List
   setInterval(() => {
     SuivixClient.postDBLStats();
@@ -65,11 +67,12 @@ client.on('ready', async () => { //Trigger when the discord client has loaded
     let [requestsQuery] = await sequelize.query(`SELECT count(*) AS requests FROM history`, {
       raw: true
     });
+    const dblGuild = client.guilds.cache.get("264445053596991498");
     const activity = activities[activityNumber].formatUnicorn({
       servercount: client.guilds.cache.size,
       version: package.version,
       requests: requestsQuery[0].requests,
-      students: client.users.cache.size - client.guilds.cache.get("264445053596991498").members.cache.size
+      students: client.users.cache.size - (dblGuild ? dblGuild.members.cache.size : 0)
     }); //Get and parse the activity string
     SuivixClient.setActivity(activity); //Display it
     activityNumber++;
