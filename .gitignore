@@ -1,3 +1,6 @@
+.idea/
+.vscode/
 node_modules/
+/database/*.sqlite
 config/app.json
-database/
+package-lock.json
