@@ -16,5 +16,7 @@
   "CERTIFICATE_PRIVKEY": "",
   "CERTIFICATE": "",
   "CERTIFICATE_CHAIN": "",
-  "DATABASE_FILE": "/database/database.sqlite"
+  "DATABASE_FILE": "/database/database.sqlite",
+  "PREFIX": "y",
+  "OPTIONNAL_PREFIX": "n"
 }

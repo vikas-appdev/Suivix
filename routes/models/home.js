@@ -4,8 +4,15 @@
  * See the accompanying LICENSE file for terms.
  */
 const Routes = require("../../config/Routes"),
-    Server = require('../../utils/Server');
+  Server = require("../../utils/Server");
 
-module.exports = (req, res, language) => {
-    res.sendFile(Server.getViewsFile(req, res, Routes.HOME_PAGE, "home/", req.query.language ? req.query.language : language));
+module.exports = (req, res) => {
+  const language = req.query.language ? req.query.language : req.params.language;
+  if (language !== "fr" && language !== "en" && language !== undefined) {
+    res.redirect(Routes.HOME_PAGE);
+  } else {
+    res.sendFile(
+      Server.getViewsFile(req, res, Routes.HOME_PAGE, "home/", language)
+    );
+  }
 };
