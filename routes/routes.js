@@ -13,8 +13,7 @@ const home = require("./models/home"),
     login = require("./models/login");
 
 //Errors
-const error404 = require('./models/error/404'),
-    compatibility = require('./models/error/compatibility');
+const error404 = require('./models/error/404');
 
 //Authentification imports
 const authLogin = require("./models/auth/login"),
@@ -59,7 +58,6 @@ class Routes {
 
         //Error
         routes.get(routesConfig.ERROR_404, error404);
-        routes.get(routesConfig.ERROR_COMPATIBILITY, compatibility);
 
         //Authentification
         routes.get(routesConfig.LOGIN_REDIRECT, authLogin);

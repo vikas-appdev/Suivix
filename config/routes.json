@@ -19,6 +19,5 @@
     "API_CHANGELOG_URL": "/api/get/changelog",
     "API_INVITE_URL": "/invite",
     "DISCORD_OAUTH_CALLBACK_URL": "/auth/callback",
-    "ERROR_404": "/404",
-    "ERROR_COMPATIBILITY": "/compatibility"
+    "ERROR_404": "/404"
 }
