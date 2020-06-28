@@ -17,6 +17,6 @@
   "CERTIFICATE": "",
   "CERTIFICATE_CHAIN": "",
   "DATABASE_FILE": "/database/database.sqlite",
-  "PREFIX": "y",
+  "PREFIX": "!",
   "OPTIONNAL_PREFIX": "n"
 }
