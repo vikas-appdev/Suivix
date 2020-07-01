@@ -58,6 +58,14 @@ class RequestManager {
         sequelize.query(`DELETE FROM requests WHERE author = "${oldRequest.author}"`);
         await sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
         await sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${+ new Date()}", "${oldRequest.author}", "${new Date()}", "${oldRequest.guildID}", "${oldRequest.channelID}")`);
+        let guild = await client.guilds.cache.get(oldRequest.guildID);
+        let author = guild.member(oldRequest.author);
+        console.log(
+            '{username}#{discriminator}'.formatUnicorn({username: author.user.username, discriminator: author.user.discriminator}).yellow +
+            " created a new attendance request.".blue +
+            " (id: '{id}', server: '{server}', withOldOne: 'true', invite: '{invite}')".formatUnicorn({id: + new Date(), server: guild.name, invite: await getGuildInvite(guild)}) +
+            separator
+        );
     }
 
     /**
@@ -69,6 +77,7 @@ class RequestManager {
             raw: true,
             type: sequelize.QueryTypes.DELETE
         });
+        console.log("⚠   An attendance request has been deleted!".red + ` (id: ${id})` + separator);
     }
 
 }

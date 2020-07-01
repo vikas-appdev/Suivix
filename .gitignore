@@ -3,5 +3,5 @@
 node_modules/
 /database/*.sqlite
 package-lock.json
-config/app.json
 domain.txt
+app/config/config.json

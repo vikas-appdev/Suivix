@@ -3,13 +3,10 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const routes = require('express').Router(),
-    Config = require('../config/Config'),
-    routesConfig = require('../config/Routes');
+const routes = require('express').Router();
 
 //Global imports
 const home = require("./models/home"),
-    contact = require("./models/contact"),
     login = require("./models/login");
 
 //Errors
@@ -39,60 +36,61 @@ const getUser = require('./models/api/user'),
     getChangelog = require('./models/api/changelog'),
     getInviteLink = require('./models/api/invite');
 
-class Routes {
+class RoutesList {
 
-    getRoutes() {
+    static getRoutes() {
+        
         //Global
-        routes.get(routesConfig.HOME_PAGE, (req, res) => {
+        routes.get(Routes.HOME_PAGE, (req, res) => {
             home(req, res, undefined)
         });
-        routes.get(routesConfig.HOME_PAGE + "fr", (req, res) => {
+        routes.get(Routes.HOME_PAGE + "fr", (req, res) => {
             home(req, res, "fr")
         });
-        routes.get(routesConfig.HOME_PAGE + "en", (req, res) => {
+        routes.get(Routes.HOME_PAGE + "en", (req, res) => {
             home(req, res, "en")
         });
         
         //Login
-        routes.get(routesConfig.LOGIN_PAGE, login);
+        routes.get(Routes.LOGIN_PAGE, login);
 
         //Error
-        routes.get(routesConfig.ERROR_404, error404);
+        routes.get(Routes.ERROR_404, error404);
 
         //Authentification
-        routes.get(routesConfig.LOGIN_REDIRECT, authLogin);
-        routes.get(routesConfig.LOGOUT_REDIRECT, authLogout);
-        routes.get(routesConfig.DISCORD_OAUTH_CALLBACK_URL, callback);
+        routes.get(Routes.LOGIN_REDIRECT, authLogin);
+        routes.get(Routes.LOGOUT_REDIRECT, authLogout);
+        routes.get(Routes.DISCORD_OAUTH_CALLBACK_URL, callback);
 
         //Attendance
-        routes.get(routesConfig.ATTENDANCE_PAGE, welcome);
-        routes.get(routesConfig.ATTENDANCE_PAGE_OPTION_1, option1);
-        routes.get(routesConfig.ATTENDANCE_PAGE_OPTION_2, option2);
-        routes.get(routesConfig.ATTENDANCE_PAGE_DONE, done);
-        routes.get(routesConfig.ATTENDANCE_NOREQUEST, noRequest);
-        routes.get(routesConfig.ATTENDANCE_NEWREQUEST, newRequest);
+        routes.get(Routes.ATTENDANCE_PAGE, welcome);
+        routes.get(Routes.ATTENDANCE_PAGE_OPTION_1, option1);
+        routes.get(Routes.ATTENDANCE_PAGE_OPTION_2, option2);
+        routes.get(Routes.ATTENDANCE_PAGE_DONE, done);
+        routes.get(Routes.ATTENDANCE_NOREQUEST, noRequest);
+        routes.get(Routes.ATTENDANCE_NEWREQUEST, newRequest);
 
         //Api
-        routes.get(routesConfig.API_USER_URL, getUser);
-        routes.get(routesConfig.API_URL_FETCHER_URL, getUrl);
-        routes.get(routesConfig.API_NAVBAR_URL, getNavbar);
-        routes.get(routesConfig.API_CHANNELS_URL, getChannels);
-        routes.get(routesConfig.API_CATEGORIES_URL, getCategories);
-        routes.get(routesConfig.API_ROLES_URL, getRoles);
-        routes.get(routesConfig.API_STATS_URL, getStats);
-        routes.get(routesConfig.API_CHANGELOG_URL, getChangelog);
-        routes.get(routesConfig.API_INVITE_URL, getInviteLink);
+        routes.get(Routes.API_USER_URL, getUser);
+        routes.get(Routes.API_URL_FETCHER_URL, getUrl);
+        routes.get(Routes.API_NAVBAR_URL, getNavbar);
+        routes.get(Routes.API_CHANNELS_URL, getChannels);
+        routes.get(Routes.API_CATEGORIES_URL, getCategories);
+        routes.get(Routes.API_ROLES_URL, getRoles);
+        routes.get(Routes.API_STATS_URL, getStats);
+        routes.get(Routes.API_CHANGELOG_URL, getChangelog);
+        routes.get(Routes.API_INVITE_URL, getInviteLink);
 
         //Handle 404 error
         routes.get('*', (req, res) => {
-            console.log( req.url.includes('.map') ? "" : "404 -> " + req.url);
-            res.status(404).redirect(routesConfig.ERROR_404);
+            console.log( req.url.includes('.map') ? "" : "⚠   Error 404 on ".brightRed.bold + "\"" + req.url + "\"" + " (IP: " + req.connection.remoteAddress.split(`:`).pop() + ")" + separator);
+            res.status(404).redirect(Routes.ERROR_404);
         });
 
         return routes;
     }
 }
 
-
-
-module.exports = Routes;
+module.exports = {
+    getRoutes: RoutesList.getRoutes
+};

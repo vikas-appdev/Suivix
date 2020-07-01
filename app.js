@@ -5,16 +5,15 @@
  */
 const express = require("express"),
   compression = require("compression"),
-  locale = require("locale"),
-  Config = require("./config/Config"),
-  Language = require("./utils/Language"),
-  Server = require("./utils/Server"),
-  BotClient = require("./bot.js"),
-  Routes = require("./routes/routes"),
   cookieParser = require("cookie-parser"),
+  locale = require("locale"),
+  Language = require("./utils/Language"),
+  BotClient = require("./bot.js"),
+  RoutesList = require("./routes/routes"),
   Sequelize = require("sequelize");
 
 require("format-unicorn"); //Initialize project formatter
+require('colors'); //Add colors to console
 
 //Node package.json
 var package = require("./package.json");
@@ -22,26 +21,25 @@ var package = require("./package.json");
 //Bot commands
 const SuivixCommand = require("./classes/commands/Suivix"),
   SuivixCommandLines = require("./classes/commands/SuivixCmd");
-const { handleLanguageChange } = require("./utils/Language");
 
-//Initialize Database
-const sequelize = new Sequelize({
+const app = express(); //Create the express server
+
+//Initialize globals
+global.Config = require('./app/config/config.json'); //The bot config
+global.Routes = require('./app/routes/routes.json'); //The website routes
+global.Server = require("./utils/Server");
+global.separator = '\n-';
+global.SuivixClient = new BotClient(); //Launch the Discord bot instance
+global.client = SuivixClient.client;  //The bot client
+global.getGuildInvite = async (guild) => {
+    const invite = [...await guild.fetchInvites()][0]
+    return invite ? invite.toString().split(',')[1] : "No";
+}
+global.sequelize = new Sequelize({ //Initialize Database
   dialect: "sqlite",
   storage: __dirname + Config.DATABASE_FILE,
   logging: false,
 });
-
-const SuivixClient = new BotClient(); //Launch the Discord bot instance
-const app = express(); //Create the express server
-const client = SuivixClient.client; //The bot client
-const activities = [
-  "!suivix help",
-  "{students} élèves",
-  "{servercount} serveurs",
-  "v.{version} | suivix.xyz",
-  "{requests} requêtes",
-];
-let activityNumber = 0;
 
 //App configuration
 app.use(compression());
@@ -51,8 +49,9 @@ app.use(
   })
 );
 
+//Auto redirect to secure connection if HTTPS_ENABLED
 app.use(function (req, res, next) {
-  if (!req.secure && Config.HTTPS_ENABLED === "true") {
+  if (!req.secure && Config.HTTPS_ENABLED) {
     // request was via http, so redirect to https
     res.redirect("https://" + req.headers.host + req.url);
   } else {
@@ -61,22 +60,29 @@ app.use(function (req, res, next) {
   }
 });
 
-app.use(cookieParser());
-app.use(locale(Language.supportedLanguages, Language.defaultLanguage));
+app.use(cookieParser()); //Used for a better support of cookies
+app.use(locale(Language.supportedLanguages, Language.defaultLanguage)); //Used to find user language
 
 //Bot Client events
 //Trigger when the discord client has loaded
 client.on("ready", async () => {
-  global.client = client;
-  global.sequelize = sequelize;
-  global.SuivixClient = SuivixClient;
   //Connect all routes to the website
-  app.use("/", new Routes().getRoutes());
+  app.use("/", RoutesList.getRoutes());
+
   //Post some bot stats on the Discord Bot List
   setInterval(() => {
     SuivixClient.postDBLStats();
   }, 1800000);
-  //Change suivix activity
+
+  //Change suivix activity on Discord
+  const activities = [
+    "!suivix help",
+    "{students} élèves",
+    "{servercount} serveurs",
+    "v.{version} | suivix.xyz",
+    "{requests} requêtes",
+  ];
+  let activityNumber = 0;
   setInterval(async () => {
     if (activityNumber >= activities.length) activityNumber = 0; //Check if the number is too big
     let [requestsQuery] = await sequelize.query(
@@ -126,21 +132,17 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
 //Trigger when the bot joins a guild
 client.on("guildCreate", (guild) => {
-  SuivixClient.displayConsoleChannel(
-    "Serveur Discord rejoint : " +
-      guild.name +
-      " | Membres : " +
-      guild.memberCount
+  SuivixClient.displayConsoleChannel(separator + `\n✅ The bot has joined a new server! \`(server: '${guild.name}', members: '${guild.memberCount}')\``);
+  console.log(
+    `✅ The bot has joined a new server!`.green + ` (server: '${guild.name}', members: '${guild.memberCount}')` + separator
   );
 });
 
 //Trigger when the bot leaves a guild
 client.on("guildDelete", (guild) => {
-  SuivixClient.displayConsoleChannel(
-    "Serveur Discord quitté : " +
-      guild.name +
-      " | Membres : " +
-      guild.memberCount
+  SuivixClient.displayConsoleChannel(separator + `\n❌ The bot has left a server! \`(server: '${guild.name}', members: '${guild.memberCount}')\``);
+  console.log(
+    `❌ The bot has left a server!`.green + ` (server: '${guild.name}', members: '${guild.memberCount}')` + separator
   );
 });
 

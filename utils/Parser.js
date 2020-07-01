@@ -3,7 +3,6 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-var Config = require("../config/Config");
 
 /**
  * Replace All String Occurrences
@@ -23,7 +22,7 @@ function replaceAll(string, search, replace) {
  */
 async function createCookie(response, name, value) {
     response.cookie(name, value, {
-        secure: Config.HTTPS_ENABLED === "true" ? true : false, //Secures the cookie if https enabled
+        secure: Config.HTTPS_ENABLED, //Secures the cookie if https enabled
         httpOnly: true, //Another security setting
         maxAge: 360 * 24 * 60 * 60 * 1000 //The cookie expires in 1 year
     });

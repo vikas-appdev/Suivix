@@ -3,9 +3,7 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Config = require("../config/Config"),
-    Routes = require('../config/Routes'),
-    Parser = require("../utils/Parser"),
+const Parser = require("../../utils/Parser"),
     Request = require("async-request");
 
 /**
@@ -14,11 +12,10 @@ const Config = require("../config/Config"),
  * @param {*} response - The http response to send
  * @param {*} code - The callback code from the authentification
  */
-const authUser = async function (request, response, code) {
+const authUser = async function (request, response, code, log = false) {
     let access_token;
     if (!code) {
         const refresh_token = Parser.getCookie(request, "refresh_token"); //The stored refresh_token if it exists
-        console.log("Refresh_token:", refresh_token);
         if (refresh_token) { //If there is a stored refresh_token
             if (refresh_token === "undefined") { //Check if the refresh_token is not empty
                 response.redirect(Routes.LOGIN_PAGE); //Redirect to login page
@@ -39,15 +36,7 @@ const authUser = async function (request, response, code) {
         response.redirect(Routes.LOGIN_PAGE);
         return;
     }
-    console.log("-------------------------\nUser logged in as {username}#{discriminator} on {date}".formatUnicorn({
-            username: user.username,
-            discriminator: user.discriminator,
-            date: new Date()
-        }) +
-        "\nAccess_Token: {access_token}\nCallback Code: {callback_code}".formatUnicorn({
-            access_token: access_token,
-            callback_code: code
-        }))
+    if(log) console.log('{username}#{discriminator}'.formatUnicorn({username: user.username, discriminator: user.discriminator}).yellow + " logged in on ".blue + new Date().toString().yellow + ".".blue + separator);
     return user;
 }
 
@@ -85,7 +74,6 @@ const getOauthLink = function (request) {
  */
 const getAccessToken = async function (request, response, code) {
     if (!code) return undefined; //check if there is a code
-
     let res = await Request(`https://discord.com/api/oauth2/token`, {
         data: {
             "client_id": Config.DISCORD_CLIENT_ID,

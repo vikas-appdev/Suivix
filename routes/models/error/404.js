@@ -3,9 +3,6 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Routes = require("../../../config/Routes"),
-    Server = require('../../../utils/Server');
-
 module.exports = (req, res) => {
     res.sendFile(Server.getApiViewsFile(req, res, Routes.ERROR_404, "/index.html"));
 };

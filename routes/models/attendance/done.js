@@ -3,9 +3,7 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Auth = require('../../../auth/DiscordOauth'),
-    Routes = require('../../../config/Routes'),
-    Server = require('../../../utils/Server'),
+const Auth = require('../../../classes/auth/DiscordOauth'),
     RequestManager = require('../../../classes/managers/RequestManager');
 
 module.exports = async (req, res) => {
@@ -19,7 +17,7 @@ module.exports = async (req, res) => {
         res.redirect(Routes.ATTENDANCE_NOREQUEST);
         return;
     }
-    request.doAttendance(req.query.channels, req.query.roles, req.cookies["timezone"], req.cookies["language"]);
+    await request.doAttendance(req.query.channels, req.query.roles, req.cookies["timezone"], req.cookies["language"]);
     manager.deleteRequestByID(request.getId());
     res.sendFile(Server.getViewsFile(req, res, Routes.ATTENDANCE_PAGE_DONE, "/", req.query.language ? req.query.language : undefined));
 };

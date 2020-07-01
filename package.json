@@ -1,6 +1,6 @@
 {
   "name": "suivix",
-  "version": "3.3.0",
+  "version": "3.3.5",
   "description": "A Discord bot to take attendance",
   "main": "app.js",
   "scripts": {
@@ -16,6 +16,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "async-request": "^1.2.0",
+    "colors": "^1.4.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "dblapi.js": "^2.4.0",

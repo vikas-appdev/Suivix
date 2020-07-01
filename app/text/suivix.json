@@ -1,0 +1,64 @@
+{
+    "translations": {
+        "en": {
+            "credits": "2020 - Suivix | Made with ❤️ by MΛX#2231",
+            "unknown": "Unknown",
+            "title": "Attendance of ",
+            "intro": "Attendance asked by: `{username}`\nDate: {date} :clock1:\nCategory: `{category}`\nRole(s): {role}\n\n",
+            "connector": "and",
+            "infos": {
+                "noAbsent": "✅ There is no absent user.\n",
+                "absentsList": ":warning: List of absent:\n```",
+                "presentsList": "\n:man: List of present:\n```",
+                "presentsTotal": ":white_check_mark: Total of present: `{presents}/{total}`\n",
+                "absentsTotal": ":x: Total of absents: `{absents}/{total}`\n\n"
+            },
+            "errors": {
+                "tooMuchAbsents": "Too much users are absent.```",
+                "tooMuchPresents": "Too much users are present.```",
+                "tooMuchCategories": "Too much categories.",
+                "unableToSendMessage": ":x: | Something went wrong while trying to send your attendance result.\nPlease verify the bot permissions in the channel where you wanted to take attendance."
+            },
+            "request": {
+                "title": "Attendance Request",
+                "description": "Go to {protocol}://{host}/attendance?language=en to take attendance.\n\nNotes :\n• Help is available by typing `!suivix help`.\n• Official Website : {protocol}://{host}/en\n• Suivix Support Server : https://discord.gg/xRNEzGM.\n\n**Changez de langue en utilisant les réactions sous ce message.**",
+                "unableToSendMessage": ":x: | Something went wrong while trying to send the message.\nPlease verify the bot permissions in the channel where you wanted to take attendance.",
+                "help": {
+                    "content": "For more information or assistance, please visit https://discord.gg/xRNEzGM.",
+                    "title": "Request for assistance",
+                    "description": "Suivix includes 1 command and a website:\n```• !suivix\n• {host} (Official Website)```\nUsages :\n-\n`!suivix <aide or help>`\n• Creates an online attendance request\n(Add option \"aide\" or \"help\" will display this page)\n\n:warning: You must not put `<` and `>` in the command synthax. **Options are optional.**\n-\nChangez de langue en utilisant les réactions sous ce message."
+                }
+            }
+        },
+        "fr": {
+            "credits": "2020 - Suivix | Crée avec ❤️ par MΛX#2231",
+            "unknown": "Inconnue",
+            "title": "Suivi de ",
+            "intro": "Suivi demandé par : `{username}`\nDate : {date} :clock1:\nCatégorie(s) : `{category}`\nRole(s) : {role}\n\n",
+            "connector": "et",
+            "infos": {
+                "noAbsent": "✅ Il n'y a pas d'absent(e)(s).\n",
+                "absentsList": ":warning: Liste des absent(e)(s) :\n```",
+                "presentsList": "\n:man: Liste des présent(e)(s) :\n```",
+                "presentsTotal": ":white_check_mark: Total des présent(e)(s) : `{presents}/{total}`\n",
+                "absentsTotal": ":x: Total des absent(e)(s) : `{absents}/{total}`\n\n"
+            },
+            "errors": {
+                "tooMuchAbsents": "Trop de personnes sont absentes.```",
+                "tooMuchPresents": "Trop de personnes sont présentes.```",
+                "tooMuchCategories": "Trop de catégories.",
+                "unableToSendMessage": ":x: | Une erreur est survenue au moment d'envoyer le résultat du suivi.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi."
+            },
+            "request": {
+                "title": "Demande de suivi",
+                "description": "Rendez-vous à l'adresse suivante {protocol}://{host}/attendance?language=fr pour effectuer votre suivi visuel.\n\nNotes :\n• Une aide est disponible. Tapez `!suivix aide`.\n• Site Internet Officiel : {protocol}://{host}\n• Server Discord de Support : https://discord.gg/xRNEzGM.\n\n**Change language by using reactions under this message.**",
+                "unableToSendMessage": ":x: | Une erreur est survenue au moment d'envoyer le message.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi.",
+                "help": {
+                    "content": "Pour toute information ou aide supplémentaire, rendez-vous sur https://discord.gg/xRNEzGM.",
+                    "title": "Demande d'aide",
+                    "description": "Suivix comporte deux commandes et un site internet :\n```• !suivix\n• !suivixcmd\n• {host} (Site Internet Officiel)```\nUtilisations :\n-\n`!suivix <aide ou help>`\n• Crée une demande de suivi visuel en ligne\n(Ajouter l'option \"aide\" ou \"help\" vous affichera cette page)\n-\n`!suivixcmd <numéro du salon> <numéro du rôle>`\n• Crée une demande de suivi directement sur Discord\n(Ces deux options vous permettent d'effectuer votre suivi sans passer par toutes les étapes)\n\n:warning: Vous ne devez pas mettre `<` et `>` dans la syntaxe de votre commande. **Les options sont facultatives.**\n-\nChange language by using reactions under this message."
+                }
+            }
+        }
+    }
+}

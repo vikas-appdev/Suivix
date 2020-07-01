@@ -12,7 +12,7 @@
   "CONSOLE_CHANNEL_ID": "",
   "HTTP_PORT": "80",
   "HTTPS_PORT": "443",
-  "HTTPS_ENABLED": "false",
+  "HTTPS_ENABLED": false,
   "CERTIFICATE_PRIVKEY": "",
   "CERTIFICATE": "",
   "CERTIFICATE_CHAIN": "",

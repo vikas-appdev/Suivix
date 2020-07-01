@@ -86,6 +86,7 @@ if (reaction.emoji.name !== "🇫🇷" && reaction.emoji.name !== "🇬🇧") re
     msg.delete({
       timeout: 20000,
     });
+    console.log('{username}#{discriminator}'.formatUnicorn({username: user.username, discriminator: user.discriminator}).yellow + " changed language option to ".blue + language.yellow + ".".blue + separator);
   }
 
 module.exports = {

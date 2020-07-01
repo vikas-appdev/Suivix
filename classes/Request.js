@@ -3,8 +3,7 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Config = require('../config/Config'),
-    Discord = require('discord.js'),
+const Discord = require('discord.js'),
     moment = require('moment');
 
 class Request {
@@ -114,33 +113,18 @@ class Request {
      * @param {+*} language - The user language
      */
     async doAttendance(channels, roles, timezone, language) {
-        const selector = language === "fr" ? 1 : 0;
-        //Traductions
-        let unknown = ["Unknown", "Inconnue"];
-        let title = ["Attendance of ", "Suivi de "];
-        let introSentences = ["Attendance asked by: `{username}`\nDate: {date} :clock1:\nCategory: `{category}`\nRole(s): {role}\n\n",
-            "Suivi demandé par : `{username}`\nDate : {date} :clock1:\nCatégorie(s) : `{category}`\nRole(s) : {role}\n\n"
-        ];
-        let noAbsent = ["✅ There is no absent user.\n", "✅ Il n'y a pas d'absent(e)(s).\n"];
-        let absentsList = [":warning: List of absent:\n\`\`\`", ":warning: Liste des absent(e)(s) :\n\`\`\`"];
-        let presentsList = ["\n:man: List of present:\n\`\`\`", "\n:man: Liste des présent(e)(s) :\n\`\`\`"];
-        let presentsTotal = [":white_check_mark: Total of present: `{presents}/{total}`\n", ":white_check_mark: Total des présent(e)(s) : `{presents}/{total}`\n"];
-        let absentsTotal = [":x: Total of absents: `{absents}/{total}`\n\n", ":x: Total des absent(e)(s) : `{absents}/{total}`\n\n"];
-        let tooMuchAbsents = ["Too much users are absent.```", "Trop de personnes sont absentes.```"];
-        let tooMuchPresents = ["Too much users are presents.```", "Trop de personnes sont présentes.```"];
-        let tooMuchCategories = ["Too much categories.", "Trop de catégories."];
-        let and = ["and", "et"];
+        const Text = require('../app/text/suivix.json').translations[language];
 
         let parsedRoles = this.parseRolesListIntoRoles(roles);
         let parsedChannels = this.parseChannelsListIntoChannels(channels);
         let students = this.getUsersFromRoles(parsedRoles); //fetch users with roles
         let channelStudents = this.getChannelsPresents(parsedChannels, parsedRoles); //fetch users in voice channels
 
-        let rolesString = this.parseListIntoString(parsedRoles, and[selector], true);
-        let channelsString = this.parseListIntoString(parsedChannels, and[selector], false, true);
-        let categoriesList = this.getCategoriesList(parsedChannels, unknown[selector]);
-        let categoriesString = this.parseListIntoString(categoriesList, and[selector]);
-        let categories = categoriesString.length > 55 ? tooMuchCategories[selector] : categoriesString;
+        let rolesString = this.parseListIntoString(parsedRoles, Text.connector, true);
+        let channelsString = this.parseListIntoString(parsedChannels, Text.connector, false, true);
+        let categoriesList = this.getCategoriesList(parsedChannels, Text.unknown);
+        let categoriesString = this.parseListIntoString(categoriesList, Text.connector);
+        let categories = categoriesString.length > 55 ? Text.errors.tooMuchCategories : categoriesString;
 
         let absentsText = "";
         let presentsText = "";
@@ -148,27 +132,27 @@ class Request {
         let presents;
 
         //Creating the list string of absents users
-        let data = this.dataToString(noAbsent[selector], absentsList[selector], students, channelStudents);
+        let data = this.dataToString(Text.infos.noAbsent, Text.infos.absentsList, students, channelStudents);
         absentsText = data.get("text");
         absents = data.get("diff");
 
         //Creating the list string of presents users
-        data = this.dataToString("", presentsList[selector], students, absents);
+        data = this.dataToString("", Text.infos.presentsList, students, absents);
         presentsText = data.get("text");
         presents = data.get("diff");
 
         //Parsing text
-        const intro = introSentences[selector].formatUnicorn({
+        const intro = Text.intro.formatUnicorn({
             username: (this.author.displayName === this.author.user.username ? this.author.user.username : this.author.nickname + ` (@${this.author.user.username})`),
             category: categories,
             date: this.generateDate(timezone, language),
             role: rolesString
         });
-        const presentSentence = presentsTotal[selector].formatUnicorn({
+        const presentSentence = Text.infos.presentsTotal.formatUnicorn({
             presents: presents.length,
             total: students.length
         });
-        const absentSentence = absentsTotal[selector].formatUnicorn({
+        const absentSentence = Text.infos.absentsTotal.formatUnicorn({
             absents: absents.length,
             total: students.length
         });
@@ -176,9 +160,9 @@ class Request {
         //Check if the message is too long to be send in discord
         if (intro.length + absentsText.length + presentsText.length + presentSentence.length + absentSentence.length >= 2048) {
             if (channelStudents.length !== students.length) {
-                absentsText = absentsList[selector] + tooMuchAbsents[selector]; //Minimize text
+                absentsText = Text.infos.absentsList + Text.errors.tooMuchAbsents; //Minimize text
             } else if (presentUsers.length > 0) {
-                presentsText = presentsList[selector] + tooMuchPresents[selector]; //Minimize text
+                presentsText = Text.infos.presentsList + Text.errors.tooMuchPresents; //Minimize text
             }
         }
 
@@ -186,11 +170,18 @@ class Request {
         parsedRoles.forEach(role => role.color !== 0 ? color = role.color : color);
 
         //Send result to Discord
-        this.channel.send(this.setupDefaultEmbed().setTitle(title[selector] + channelsString) //send result
+        this.channel.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
             .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
-            console.log("Error while sending message");
-            this.author.send(":x: | Une erreur est survenue au moment d'envoyer le résultat du suivi.\nVeuillez vérifier les permissions du bot dans le salon où vous effectuez le suivi.")
+            console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red + ` (server: '${guild.name}', language: '${language}')` + separator)
+            this.author.send(Text.errors.unableToSendMessage);
         });
+
+        console.log(
+            "{username}#{discriminator}".formatUnicorn({username: this.author.user.username, discriminator: this.author.user.discriminator}).yellow +
+            " has finished an attendance request.".blue +
+            " (id: '{id}', server: '{server}')".formatUnicorn({id: this.id, server: this.guild.name}) +
+            separator
+        );
 
         await this.clearChannel(language); //Clear channel from unfinished suivix queries
     }
@@ -232,12 +223,13 @@ class Request {
         let messages = await this.channel.messages.fetch({
             limit: 100
         });
+        const guild = this.guild;
         messages.forEach(function (message) {
             if ((message.embeds.length > 0 && message.embeds[0].title != undefined)) {
                 if (message.embeds[0].title.startsWith("Attendance Request") && language === "en") {
-                    message.delete().catch(err => console.log("Error when deleting messages"));
+                    message.delete().catch(err => console.log("⚠   Error while deleting ".red + "ATTENDANCE_REQUEST" + " messages!".red + ` (server: '${guild.name}', language: 'en')` + separator));
                 } else if (message.embeds[0].title.startsWith("Demande de suivi") && language === "fr") {
-                    message.delete().catch(err => console.log("Error when deleting messages"));
+                    message.delete().catch(err => console.log("⚠   Error while deleting ".red + "ATTENDANCE_REQUEST" + " messages!".red + ` (server: '${guild.name}', language: 'fr')` + separator));
                 }
             }
         })
@@ -341,13 +333,6 @@ class Request {
             }
             return string;
         }
-    }
-
-    /**
-     * Returns the default embed style for the bot
-     */
-    setupDefaultEmbed() {
-        return new Discord.MessageEmbed().setColor("#36393F").setFooter("Suivix | All rights reserved | Made with ❤️ by MΛX#2231");
     }
 
     /**

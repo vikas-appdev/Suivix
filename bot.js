@@ -4,8 +4,7 @@
  * See the accompanying LICENSE file for terms.
  */
 const Discord = require("discord.js"),
-  DBL = require("dblapi.js"),
-  Config = require("./config/Config");
+  DBL = require("dblapi.js");
 
 class BotClient {
   constructor() {
@@ -13,7 +12,7 @@ class BotClient {
     this.login();
     if (Config.TOPGG_API_TOKEN) {
       this.dbl = new DBL(Config.TOPGG_API_TOKEN, this.client);
-      console.log("Discord Bot List API initialized !");
+      console.log("Discord Bot List API initialized!" + separator);
     }
   }
 
@@ -26,7 +25,7 @@ class BotClient {
       .get(Config.MAIN_SERVER_ID)
       .channels.cache.get(Config.CONSOLE_CHANNEL_ID)
       .send(message)
-      .catch((err) => console.log("Error while sending log message."));
+      .catch((err) => console.log("⚠   Error while sending ".red + "CONSOLE_MESSAGE" + " message!".red + ` (server: '${guild.name}')` + separator));
   }
 
   /**
@@ -47,10 +46,9 @@ class BotClient {
    */
   login() {
     var suivixArt =
-      "   _____         _         _       \n  / ____|       (_)       (_)      \n | (___   _   _  _ __   __ _ __  __\n  \\___ \\ | | | || |\\ \\ / /| |\\ \\/ /\n  ____) || |_| || | \\ V / | | >  < \n |_____/  \\__,_||_|  \\_/  |_|/_/\\_\\\n────────────────────────────────────\nSuivix Bot Client has been launched !";
-
+      "────────────────────────────────────\n   _____         _         _       \n  / ____|       (_)       (_)      \n | (___   _   _  _ __   __ _ __  __\n  \\___ \\ | | | || |\\ \\ / /| |\\ \\/ /\n  ____) || |_| || | \\ V / | | >  < \n |_____/  \\__,_||_|  \\_/  |_|/_/\\_\\\n────────────────────────────────────\nSuivix Bot Client has been launched !" + separator;
     this.client.login(Config.DISCORD_CLIENT_TOKEN);
-    console.log(suivixArt);
+    console.log(suivixArt.gray.bold);
   }
 
   /**
