@@ -9,6 +9,10 @@ const Auth = require('../../../classes/auth/DiscordOauth'),
 module.exports = async (req, res) => {
     const manager = new RequestManager();
     const user = await Auth.authUser(req, res, req.query.code);
+    if (!user) {
+        res.redirect(Routes.LOGIN_PAGE);
+        return;
+      };
     await manager.createRequestByOldOne(user.id);
     res.redirect(Routes.ATTENDANCE_PAGE);
 };
