@@ -1,6 +1,6 @@
 console.log('   _____         _         _       \n  / ____|       (_)       (_)      \n | (___   _   _  _ __   __ _ __  __\n  \\___ \\ | | | || |\\ \\ / /| |\\ \\/ /\n  ____) || |_| || | \\ V / | | >  < \n |_____/  \\__,_||_|  \\_/  |_|/_/\\_\\\n────────────────────────────────────\nConsole de déboguage. (Si vous n\'êtes pas développeur, il est déconseillé d\'aller plus loin.)')
 
-const getUrl = function (url, window) {
+const getUrl = function(url, window) {
     var location = window.location;
     return location.protocol + "//" + location.host + "/" + location.pathname.split('/')[0] + url;
 }
@@ -13,14 +13,14 @@ function httpGetRequest(url, token) {
     return request;
 }
 
-const displayUserProfile = function (lang) {
+const displayUserProfile = function(lang) {
     var request = new XMLHttpRequest()
     request.open('HEAD', document.location, true);
-    request.onload = function () {
+    request.onload = function() {
         let access_token = this.getResponseHeader("Access_token");
         request.open('GET', getUrl(`api/get/user`, window), true)
         request.setRequestHeader("Access_token", access_token)
-        request.onload = function () {
+        request.onload = function() {
             const response = JSON.parse(this.response);
             if (!response.username) {
                 redirect("DISCORD_OAUTH_CALLBACK_URL", window, undefined);
@@ -54,12 +54,12 @@ function checkForQuickAttendance(channel, role, requestID) {
     }
 }
 
-const quickAttendance = function (channel, role, requestID) {
+const quickAttendance = function(channel, role, requestID) {
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/roles`, window), true)
     request.setRequestHeader("RequestID", requestID);
     let roleID;
-    request.onload = function () {
+    request.onload = function() {
         const response = JSON.parse(this.response);
         if (this.status === 404) {
             redirect("ATTENDANCE_NOREQUEST");
@@ -73,7 +73,7 @@ const quickAttendance = function (channel, role, requestID) {
         let channelID;
         request.open('GET', getUrl(`api/get/channels`, window), true)
         request.setRequestHeader("RequestID", requestID);
-        request.onload = function () {
+        request.onload = function() {
             const response = JSON.parse(this.response);
             let channels = [];
             for (var i = 0; i < response.length; i++) {
@@ -89,11 +89,11 @@ const quickAttendance = function (channel, role, requestID) {
 }
 
 function goToRoles(channelsList, requestID) {
-    if(!channelsList) return;
+    if (!channelsList) return;
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/channels`, window), true)
     request.setRequestHeader("RequestID", requestID);
-    request.onload = function () {
+    request.onload = function() {
         const response = JSON.parse(this.response);
         let channels = [];
         for (var i = 0; i < response.length; i++) {
@@ -106,7 +106,7 @@ function goToRoles(channelsList, requestID) {
             redirect("ATTENDANCE_PAGE_OPTION_2", `requestID=${requestID}&channels=${channelID}`);
         } else {
             let choosenChannels = [];
-            for(let i = 0; i < channelsList.length; i++) {
+            for (let i = 0; i < channelsList.length; i++) {
                 let channelName = channelsList[i].substring(channelsList[i].indexOf(')') + 2)
                 choosenChannels.push(channels.find(c => c.name === channelName).id);
             }
@@ -119,35 +119,35 @@ function goToRoles(channelsList, requestID) {
 
 function goToDone(channelID, rolesList, requestID) {
     if (!rolesList) return;
-        var request = new XMLHttpRequest()
-        request.open('GET', getUrl(`api/get/roles`, window), true)
-        request.setRequestHeader("RequestID", requestID);
-        request.onload = function () {
-            const response = JSON.parse(this.response);
-            let roles = [];
-            for (var i = 0; i < response.length; i++) {
-                roles[i] = response[i];
-            }
-            if(rolesList.length === 1) {
-                let roleID = roles.find(r => r.name === rolesList[0]).id;
-                redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${roleID}`);
-            } else {
-                let choosenRoles = [];
-                for(let i = 0; i < rolesList.length; i++) {
-                    choosenRoles.push(roles.find(r => r.name === rolesList[i]).id);
-                }
-                redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${choosenRoles.join('-')}`);
-            }
-
+    var request = new XMLHttpRequest()
+    request.open('GET', getUrl(`api/get/roles`, window), true)
+    request.setRequestHeader("RequestID", requestID);
+    request.onload = function() {
+        const response = JSON.parse(this.response);
+        let roles = [];
+        for (var i = 0; i < response.length; i++) {
+            roles[i] = response[i];
         }
-        request.send();
+        if (rolesList.length === 1) {
+            let roleID = roles.find(r => r.name === rolesList[0]).id;
+            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${roleID}`);
+        } else {
+            let choosenRoles = [];
+            for (let i = 0; i < rolesList.length; i++) {
+                choosenRoles.push(roles.find(r => r.name === rolesList[i]).id);
+            }
+            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${choosenRoles.join('-')}`);
+        }
+
+    }
+    request.send();
 }
 
 function initSelect2RoleList(select, width, requestID, lang) {
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/roles`, window), true)
     request.setRequestHeader("RequestID", requestID);
-    request.onload = function () {
+    request.onload = function() {
         const response = JSON.parse(this.response);
         if (this.status === 404) {
             redirect("ATTENDANCE_NOREQUEST");
@@ -157,7 +157,7 @@ function initSelect2RoleList(select, width, requestID, lang) {
         for (var i = 0; i < response.length; i++) {
             roles[i] = response[i].name;
         }
-        const placeholder = lang === "fr" ? "Rôle" : "Role";
+        const placeholder = lang === "fr" ? "Rôles" : "Roles";
         initSelect2(select, placeholder, width, roles.sort(), 6)
         setTimeout(() => {
             hideLoader(document);
@@ -170,7 +170,7 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/channels`, window), true)
     request.setRequestHeader("RequestID", requestID);
-    request.onload = function () {
+    request.onload = function() {
         const response = JSON.parse(this.response);
         if (this.status === 404) {
             redirect("ATTENDANCE_NOREQUEST");
@@ -180,12 +180,12 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
         let channels = [];
         request.open('GET', getUrl(`api/get/categories`, window), true)
         request.setRequestHeader("RequestID", requestID);
-        request.onload = function () {
+        request.onload = function() {
             const response = JSON.parse(this.response);
             for (var i = 0; i < channelsJSON.length; i++) {
                 channels[i] = parents ? `(${parseCategory(response[channelsJSON[i].id])}) ` + channelsJSON[i].name : channelsJSON[i].name;
             }
-            const placeholder = lang === "fr" ? "Salon" : "Channel";
+            const placeholder = lang === "fr" ? "Salons" : "Channels";
             initSelect2(select, placeholder, width, channels.sort(), 4)
             setTimeout(() => {
                 hideLoader(document);
@@ -196,7 +196,7 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
     request.send();
 }
 
-const parseCategory = function (name) {
+const parseCategory = function(name) {
     return name.length > 15 ? name.substring(0, 15) + "..." : name;
 }
 
@@ -215,7 +215,7 @@ function redirect(route, params) {
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/url`, window), true)
     request.setRequestHeader("Route", route)
-    request.onload = function () {
+    request.onload = function() {
         const response = JSON.parse(this.response);
         window.location.href = window.location.protocol + "//" + window.location.host + response.route + (params !== undefined ? "?" + params : "");
     }
@@ -231,7 +231,7 @@ function initSelect2(select, placeholder, width, data, max) {
         maximumSelectionLength: max,
         language: "fr"
     });
-    select.on('select2:opening select2:closing', function (event) {
+    select.on('select2:opening select2:closing', function(event) {
         var $searchfield = $('#' + event.target.id).parent().find('.select2-search__field');
         $searchfield.prop('disabled', true);
     });
@@ -241,7 +241,7 @@ function $_GET(param, window) {
     var vars = {};
     window.location.href.replace(location.hash, '').replace(
         /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-        function (m, key, value) { // callback
+        function(m, key, value) { // callback
             vars[key] = value !== undefined ? value : '';
         }
     );
@@ -256,18 +256,18 @@ function saveTimezoneCookie() {
     document.cookie = `timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}` + `;domain=${window.location.host};path=/`;
 }
 
-const getRandomBackground = function () {
+const getRandomBackground = function() {
     return `<img src="/ressources/backgrounds/background-${Math.floor(Math.random() * (6 - 1 + 1) + 1)}.jpg" alt=""></div>`
 }
 
 function includeHTML() {
     var includes = $('[data-include]');
-    jQuery.each(includes, function () {
+    jQuery.each(includes, function() {
         var request = new XMLHttpRequest()
         request.open('GET', getUrl(`api/get/url`, window), true)
         request.setRequestHeader("Route", $(this).data('include'))
         const element = $(this);
-        request.onload = function () {
+        request.onload = function() {
             if (request.status == 404) {
                 element.remove();
                 return;
@@ -292,7 +292,7 @@ function askCookies(lang) {
                 'Suivix a besoin de cookies pour fonctionner correctement et faciliter votre utilisation. En continuant d\'utiliser ce site, vous acceptez leur utilisation.' + " ‎ ‎" +
                 '<a href="#" style="color:#CCCCCC;">‎‎‎' + 'J\'ai Compris' + '</a></div>';
         }
-        document.querySelector('.cookieconsent a').onclick = function (e) {
+        document.querySelector('.cookieconsent a').onclick = function(e) {
             e.preventDefault();
             document.querySelector('.cookieconsent').style.display = 'none';
             localStorage.setItem('cookieconsent', true);
@@ -304,7 +304,7 @@ function displayChangelog(lang, versiondiv, textdiv) {
     const lastDisplayedVersion = localStorage.getItem('lastDisplayedVersion');
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/changelog`, window), true);
-    request.onload = function () {
+    request.onload = function() {
         const json = JSON.parse(this.responseText)
         if (!json.version) return;
         const text = lang === "fr" ? json.fr : json.en;
@@ -313,7 +313,7 @@ function displayChangelog(lang, versiondiv, textdiv) {
             versiondiv.innerHTML = version;
             textdiv.innerHTML = text;
             $('#overlay').fadeIn(300);
-            $('#close').click(function () {
+            $('#close').click(function() {
                 localStorage.setItem('lastDisplayedVersion', version);
                 closeChangelog();
             });
@@ -329,7 +329,7 @@ function closeChangelog() {
 function getServers(language) {
     let headers = new XMLHttpRequest();
     headers.open('HEAD', document.location, true);
-    headers.onload = function () {
+    headers.onload = function() {
         let access_token = this.getResponseHeader("Access_token");
         if (access_token === "undefined") {
             redirect("DISCORD_OAUTH_CALLBACK_URL", "redirect=false");
@@ -338,7 +338,7 @@ function getServers(language) {
         let request = new XMLHttpRequest();
         request.open('GET', getUrl(`api/get/user/guilds`, window), true)
         request.setRequestHeader("Access_token", access_token)
-        request.onload = function () {
+        request.onload = function() {
             const response = JSON.parse(this.response);
             let i = 0;
             const lang = language === "en" ? 0 : 1;
@@ -349,15 +349,15 @@ function getServers(language) {
             const showMore = ["Show More", "Afficher Plus"];
             const showLess = ["Show Less", "Afficher Moins"];
 
-            for(var k in response) {
-                $(".servers").append("<div class='server-card" + ( i >= 6 ? " expand": "") + "'><div class='server-content'><div class='server-infos'><img class='server-icon'src='" +
-                 (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") + "'>" +
-                    "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === "A" ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" 
-                    + (response[k].suivix === "A" ? "redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=" + response[k].id + "');" : "redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');") + "\">" +
+            for (var k in response) {
+                $(".servers").append("<div class='server-card" + (i >= 6 ? " expand" : "") + "'><div class='server-content'><div class='server-infos'><img class='server-icon'src='" +
+                    (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") + "'>" +
+                    "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === "A" ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" +
+                    (response[k].suivix === "A" ? "redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=" + response[k].id + "');" : "redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');") + "\">" +
                     (response[k].suivix === "A" ? attendance[lang] : add[lang]) + "</button></div></div></div>");
-                if(i === 5) {
+                if (i === 5) {
                     $('.servers').append("<div class='expand-card''><div class='expand-content'><div class='expand-add'><p>" + showMore[lang] + "</p></div></div></div>");
-                    $('.expand-card').click(function (e) {
+                    $('.expand-card').click(function(e) {
                         $(this).hide();
                         $(".expand").show();
                     })
@@ -365,7 +365,7 @@ function getServers(language) {
                 i++;
             }
             $('.servers').append("<div class='expand-card expand contract'><div class='expand-content'><div class='expand-add'><p>" + showLess[lang] + "</p></div></div></div>")
-            $('.contract').click(function (e) {
+            $('.contract').click(function(e) {
                 $(".expand").hide();
                 $(".expand-card").show();
                 $(this).hide();
