@@ -36,7 +36,10 @@ const authUser = async function (request, response, code, log = false) {
         response.redirect(Routes.LOGIN_PAGE);
         return;
     }
-    if(log) console.log('{username}#{discriminator}'.formatUnicorn({username: user.username, discriminator: user.discriminator}).yellow + " logged in on ".blue + new Date().toString().yellow + ".".blue + separator);
+    if (log) console.log('{username}#{discriminator}'.formatUnicorn({
+        username: user.username,
+        discriminator: user.discriminator
+    }).yellow + " logged in on ".blue + new Date().toString().yellow + ".".blue + separator);
     return user;
 }
 
@@ -134,9 +137,40 @@ const getUserByAccessToken = async function (response, access_token) { //Post re
     return user; //The user informations we asked
 }
 
+/**
+ * Returns the user guilds
+ * @param {*} access_token - The access token from discord oauth 
+ */
+const getUserGuilds = async function (access_token) {
+    if (access_token === undefined) return undefined;
+
+    let res = await Request(`https://discord.com/api/users/@me/guilds`, {
+        headers: {
+            'Authorization': `Bearer ${access_token}`
+        },
+        method: 'GET'
+    });
+
+    let response = JSON.parse(res.body)
+    for (var k in response) {
+        const guild = client.guilds.cache.get(response[k].id);
+        response[k].suivix = guild ? "A" : "B";
+    }
+    let array = [];
+    for (var k in response) {
+        array[k] = response[k];
+    }
+    array.sort(function (a, b) {
+        return a.suivix.localeCompare(b.suivix);
+    });
+    return JSON.stringify(array);
+}
+
+
 module.exports = {
     authUser,
     logoutUser,
     getOauthLink,
-    getUserByAccessToken
+    getUserByAccessToken,
+    getUserGuilds
 }

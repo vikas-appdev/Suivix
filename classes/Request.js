@@ -120,7 +120,7 @@ class Request {
         let students = this.getUsersFromRoles(parsedRoles); //fetch users with roles
         let channelStudents = this.getChannelsPresents(parsedChannels, parsedRoles); //fetch users in voice channels
 
-        let rolesString = this.parseListIntoString(parsedRoles, Text.connector, true);
+        let rolesString = this.parseListIntoString(parsedRoles, Text.connector, true, this.channel === undefined ? true : false, "`@", "`");
         let channelsString = this.parseListIntoString(parsedChannels, Text.connector, false, true);
         let categoriesList = this.getCategoriesList(parsedChannels, Text.unknown);
         let categoriesString = this.parseListIntoString(categoriesList, Text.connector);
@@ -169,21 +169,35 @@ class Request {
         let color = "0";
         parsedRoles.forEach(role => role.color !== 0 ? color = role.color : color);
 
-        //Send result to Discord
-        this.channel.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
-            .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
-            console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red + ` (server: '${guild.name}', language: '${language}')` + separator)
-            this.author.send(Text.errors.unableToSendMessage);
-        });
+        console.log(this.channel)
+        if (this.channel === undefined) {
+            this.author.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
+                .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
+                console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red)
+            });
+        } else {
+            //Send result to Discord
+            this.channel.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
+                .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
+                console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red + ` (server: '${guild.name}', language: '${language}')` + separator)
+                this.author.send(Text.errors.unableToSendMessage);
+            });
+
+            await this.clearChannel(language); //Clear channel from unfinished suivix queries
+        }
 
         console.log(
-            "{username}#{discriminator}".formatUnicorn({username: this.author.user.username, discriminator: this.author.user.discriminator}).yellow +
+            "{username}#{discriminator}".formatUnicorn({
+                username: this.author.user.username,
+                discriminator: this.author.user.discriminator
+            }).yellow +
             " has finished an attendance request.".blue +
-            " (id: '{id}', server: '{server}')".formatUnicorn({id: this.id, server: this.guild.name}) +
+            " (id: '{id}', server: '{server}')".formatUnicorn({
+                id: this.id,
+                server: this.guild.name
+            }) +
             separator
         );
-
-        await this.clearChannel(language); //Clear channel from unfinished suivix queries
     }
 
     /**
@@ -311,18 +325,18 @@ class Request {
      * @param {*} list - The list
      * @param {*} sentence - The "and" traduction
      */
-    parseListIntoString(list, sentence, toString = false, toName = false) {
+    parseListIntoString(list, sentence, toString = false, toName = false, startsWith = "", endsWith = "") {
         if (list.length === 1) {
             let value = list[0];
             if (toString) value = list[0].toString();
-            if (toName) value = list[0].name;
+            if (toName) value = startsWith + list[0].name + endsWith;
             return value;
         } else {
             let string = "";
             for (let i = 0; i < list.length; i++) {
                 let value = list[i];
                 if (toString) value = list[i].toString();
-                if (toName) value = list[i].name;
+                if (toName) value = startsWith + list[i].name + endsWith;
                 if (i < list.length - 2) {
                     string += value + ", ";
                 } else if (i < list.length - 1) {

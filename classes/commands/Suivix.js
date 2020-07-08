@@ -3,7 +3,8 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Discord = require('discord.js');
+const Discord = require('discord.js'),
+        RequestManager = require('../managers/RequestManager');
 
 /**
  * Launch the command
@@ -23,9 +24,7 @@ const suivixCommand = async function (message, args, client, sequelize) {
 
     const language = dbUser[0].language === "fr" ? "fr" : "en";
     const Text = require('../../app/text/suivix.json').translations[language];
-    sequelize.query(`DELETE FROM requests WHERE author = "${author.id}"`);
-    sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${message.createdTimestamp}", "${author.id}", "${new Date()}", "${guild.id}", "${channel.id}")`);
-    sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${message.createdTimestamp}", "${author.id}", "${new Date()}", "${guild.id}", "${channel.id}")`);
+    (new RequestManager()).createNewRequest(author, message.createdTimestamp, guild.id, channel.id);
     console.log(
         '{username}#{discriminator}'.formatUnicorn({username: author.username, discriminator: author.discriminator}).yellow +
         " created a new attendance request.".blue +

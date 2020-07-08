@@ -217,7 +217,7 @@ function redirect(route, params) {
     request.setRequestHeader("Route", route)
     request.onload = function () {
         const response = JSON.parse(this.response);
-        window.location.href = window.location.protocol + "//" + window.location.host + response.route + (params != undefined ? "?" + params : "");
+        window.location.href = window.location.protocol + "//" + window.location.host + response.route + (params !== undefined ? "?" + params : "");
     }
     request.send();
 }
@@ -324,4 +324,56 @@ function displayChangelog(lang, versiondiv, textdiv) {
 
 function closeChangelog() {
     $('#overlay').fadeOut(300);
+}
+
+function getServers(language) {
+    let headers = new XMLHttpRequest();
+    headers.open('HEAD', document.location, true);
+    headers.onload = function () {
+        let access_token = this.getResponseHeader("Access_token");
+        if (access_token === "undefined") {
+            redirect("DISCORD_OAUTH_CALLBACK_URL", "redirect=false");
+            return;
+        }
+        let request = new XMLHttpRequest();
+        request.open('GET', getUrl(`api/get/user/guilds`, window), true)
+        request.setRequestHeader("Access_token", access_token)
+        request.onload = function () {
+            const response = JSON.parse(this.response);
+            let i = 0;
+            const lang = language === "en" ? 0 : 1;
+            const owner = ["Server owner", "Propriétaire du serveur"];
+            const errorLoading = ["Error while loading server list.", "Erreur durant le chargement des serveurs."];
+            const attendance = ["Take Attendance", "Faire un suivi"];
+            const add = ["Add Suivix", "Ajouter Suivix"];
+            const showMore = ["Show More", "Afficher Plus"];
+            const showLess = ["Show Less", "Afficher Moins"];
+
+            for(var k in response) {
+                $(".servers").append("<div class='server-card" + ( i >= 6 ? " expand": "") + "'><div class='server-content'><div class='server-infos'><img class='server-icon'src='" +
+                 (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") + "'>" +
+                    "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === "A" ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" 
+                    + (response[k].suivix === "A" ? "redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=" + response[k].id + "');" : "redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');") + "\">" +
+                    (response[k].suivix === "A" ? attendance[lang] : add[lang]) + "</button></div></div></div>");
+                if(i === 5) {
+                    $('.servers').append("<div class='expand-card''><div class='expand-content'><div class='expand-add'><p>" + showMore[lang] + "</p></div></div></div>");
+                    $('.expand-card').click(function (e) {
+                        $(this).hide();
+                        $(".expand").show();
+                    })
+                }
+                i++;
+            }
+            $('.servers').append("<div class='expand-card expand contract'><div class='expand-content'><div class='expand-add'><p>" + showLess[lang] + "</p></div></div></div>")
+            $('.contract').click(function (e) {
+                $(".expand").hide();
+                $(".expand-card").show();
+                $(this).hide();
+            })
+            $("[id=loader]").hide();
+        }
+        request.send();
+    }
+    headers.send();
+
 }

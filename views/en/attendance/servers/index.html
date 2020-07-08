@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Suivix - Attendance Request</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Vous êtes professeur ou peut-être même chef d'entreprise et vous voulez faire l'appel sur discord ? Pas de soucis ! Suivix s'en occupe pour vous.">
+  <link id="favicon" rel="icon" href="/ressources/icon.ico" type="image/x-icon">
+
+  <!-- import the webpage's stylesheet -->
+  <link rel="stylesheet" href="/css/attendance.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script
+    type="text/javascript"> (function () { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+  <script src="/utils/Utils.js"></script>
+  <script>
+    window.onerror = function () {
+      location.reload();
+    }
+  </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108500515-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-108500515-2');
+  </script>
+</head>
+
+<body>
+  <div data-include="API_NAVBAR_URL" class="navbar"></div>
+  <div class="container">
+    <div class="page-title">
+      <h3 class="title size20 colorHeaderPrimary">PLEASE SELECT A SERVER.</h3>
+      <p class="size14 colorHeaderPrimary">You must allow suivix to send you private messages before starting an attendance request.</p>
+    </div>
+    <div class="servers">
+
+      <div class="server-card">
+        <div class="server-content">
+          <div class="server-infos">
+            <img class="server-icon"
+              src="/ressources/support-icon.png">
+            <h2 class="colorStandard size16 server-name">Suivix © Support</h2>
+            <button class="btn-dark btn-small server-name server-button" onclick="redirect('API_SUPPORT_URL', undefined);">Join Support Server</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="server-card" id="loader">
+        <div class="server-content">
+          <div class="server-infos">
+            <div width="40" class="loading-image"></div>
+            <div style="width: 200px;" class="loading-text"></div>
+            <button class=" btn-dark btn-small server-name server-button">Loading</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="server-card" id="loader">
+        <div class="server-content">
+          <div class="server-infos">
+            <div width="40" class="loading-image"></div>
+            <div style="width: 150px;" class="loading-text"></div>
+            <button class=" btn-dark btn-small server-name server-button">Loading</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="server-card" id="loader">
+        <div class="server-content">
+          <div class="server-infos">
+            <div width="40" class="loading-image"></div>
+            <div style="width: 300px;" class="loading-text"></div>
+            <button class=" btn-dark btn-small server-name server-button">Loading</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="server-card" id="loader">
+        <div class="server-content">
+          <div class="server-infos">
+            <div width="40" class="loading-image"></div>
+            <div style="width: 250px;" class="loading-text"></div>
+            <button class=" btn-dark btn-small server-name server-button">Loading</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="cookies"></div>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        includeHTML();
+        saveTimezoneCookie(document, window);
+        askCookies("en");
+        getServers("en");
+      });
+    </script>
+</body>
+
+</html>

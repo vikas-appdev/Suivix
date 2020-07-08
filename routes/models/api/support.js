@@ -5,5 +5,5 @@
  */
 
 module.exports = (req, res) => {
-    res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${Config.DISCORD_CLIENT_ID}&scope=bot&permissions=1476783216` + (req.query.guild_id ? '&guild_id=' + req.query.guild_id : ""));
+    res.redirect(Config.SUPPORT_URL);
 };

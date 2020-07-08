@@ -24,9 +24,8 @@ class RequestManager {
         });
         if (!request) return undefined;
         let guild = await client.guilds.cache.get(request.guildID);
-        let channel = guild.channels.cache.get(request.channelID);
         let author = guild.member(request.author);
-        return new Request(request.id, author, new Date(request.date), guild, channel);
+        return new Request(request.id, author, new Date(request.date), guild, request.channelID === "unknown" ? undefined : guild.channels.cache.get(request.channelID));
     }
 
     /**
@@ -61,11 +60,28 @@ class RequestManager {
         let guild = await client.guilds.cache.get(oldRequest.guildID);
         let author = guild.member(oldRequest.author);
         console.log(
-            '{username}#{discriminator}'.formatUnicorn({username: author.user.username, discriminator: author.user.discriminator}).yellow +
+            '{username}#{discriminator}'.formatUnicorn({
+                username: author.user.username,
+                discriminator: author.user.discriminator
+            }).yellow +
             " created a new attendance request.".blue +
-            " (id: '{id}', server: '{server}', withOldOne: 'true', invite: '{invite}')".formatUnicorn({id: + new Date(), server: guild.name, invite: await getGuildInvite(guild)}) +
+            " (id: '{id}', server: '{server}', withOldOne: 'true', invite: '{invite}')".formatUnicorn({
+                id: +new Date(),
+                server: guild.name,
+                invite: await getGuildInvite(guild)
+            }) +
             separator
         );
+    }
+
+    /**
+     * Create a new attendance request
+     * @param {*} userID - The user id
+     */
+    async createNewRequest(author, timestamp, guild_id, channel_id = undefined) {
+        sequelize.query(`DELETE FROM requests WHERE author = "${author.id}"`);
+        sequelize.query(`INSERT INTO requests (id, author, date, guildID, channelID) VALUES ("${timestamp}", "${author.id}", "${new Date()}", "${guild_id}", "${channel_id === undefined ? "unknown" : channel_id}")`);
+        sequelize.query(`INSERT INTO history (id, author, date, guildID, channelID) VALUES ("${timestamp}", "${author.id}", "${new Date()}", "${guild_id}", "${channel_id === undefined ? "unknown" : channel_id}")`);
     }
 
     /**

@@ -14,14 +14,20 @@ module.exports = async (req, res) => {
     return;
   };
   const request = await manager.getRequestByAuthorID(user.id);
-  if (!request || request.isExpired()) {
+  if ((!request || request.isExpired()) && req.query.redirect !== "false") {
     res.redirect(Routes.ATTENDANCE_NOREQUEST);
     if(request && request.isExpired()) console.log("⚠   An user tried to use an old attendance request".red + ` (user: '${user.username}#${user.discriminator}')`.yellow + separator);
     if(!request) console.log("⚠   An user tried to use a request which does not exist".red + ` (user: '${user.username}#${user.discriminator}')`.yellow + separator);
     return;
-  }
-  res.cookie("access_token", user.access_token, {
-    maxAge: 60000, // Lifetime
+  } else if(req.query.redirect === "false") {
+    res.cookie("access_token", user.access_token, {
+      maxAge: 60000, // Lifetime
   });
-  res.redirect(Routes.ATTENDANCE_PAGE);
+    res.redirect(Routes.ATTENDANCE_SERVERS);
+  } else {
+    res.cookie("access_token", user.access_token, {
+      maxAge: 60000, // Lifetime
+    });
+    res.redirect(Routes.ATTENDANCE_PAGE);
+  }
 };

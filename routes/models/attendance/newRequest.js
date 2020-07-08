@@ -12,7 +12,12 @@ module.exports = async (req, res) => {
     if (!user) {
         res.redirect(Routes.LOGIN_PAGE);
         return;
-      };
-    await manager.createRequestByOldOne(user.id);
+    };
+    if(req.query.guild_id) {
+        (new RequestManager()).createNewRequest(user, + new Date(), req.query.guild_id);
+        console.log(req.query.guild_id)
+    } else {
+        await manager.createRequestByOldOne(user.id);
+    }
     res.redirect(Routes.ATTENDANCE_PAGE);
 };

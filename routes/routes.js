@@ -19,6 +19,7 @@ const authLogin = require("./models/auth/login"),
 
 //Attendance
 const welcome = require('./models/attendance/welcome'),
+    servers = require('./models/attendance/servers'),
     option1 = require('./models/attendance/options/1'),
     option2 = require('./models/attendance/options/2'),
     done = require('./models/attendance/done'),
@@ -27,6 +28,7 @@ const welcome = require('./models/attendance/welcome'),
 
 //Api imports
 const getUser = require('./models/api/user'),
+    getUserGuilds = require('./models/api/guilds'),
     getUrl = require('./models/api/url'),
     getNavbar = require('./models/api/navbar'),
     getChannels = require('./models/api/channels'),
@@ -34,7 +36,8 @@ const getUser = require('./models/api/user'),
     getRoles = require('./models/api/roles'),
     getStats = require('./models/api/stats'),
     getChangelog = require('./models/api/changelog'),
-    getInviteLink = require('./models/api/invite');
+    getInviteLink = require('./models/api/invite'),
+    getSupportLink = require('./models/api/support');
 
 class RoutesList {
 
@@ -64,6 +67,7 @@ class RoutesList {
 
         //Attendance
         routes.get(Routes.ATTENDANCE_PAGE, welcome);
+        routes.get(Routes.ATTENDANCE_SERVERS, servers);
         routes.get(Routes.ATTENDANCE_PAGE_OPTION_1, option1);
         routes.get(Routes.ATTENDANCE_PAGE_OPTION_2, option2);
         routes.get(Routes.ATTENDANCE_PAGE_DONE, done);
@@ -72,6 +76,7 @@ class RoutesList {
 
         //Api
         routes.get(Routes.API_USER_URL, getUser);
+        routes.get(Routes.API_GUILDS_URL, getUserGuilds);
         routes.get(Routes.API_URL_FETCHER_URL, getUrl);
         routes.get(Routes.API_NAVBAR_URL, getNavbar);
         routes.get(Routes.API_CHANNELS_URL, getChannels);
@@ -80,6 +85,7 @@ class RoutesList {
         routes.get(Routes.API_STATS_URL, getStats);
         routes.get(Routes.API_CHANGELOG_URL, getChangelog);
         routes.get(Routes.API_INVITE_URL, getInviteLink);
+        routes.get(Routes.API_SUPPORT_URL, getSupportLink);
 
         //Handle 404 error
         routes.get('*', (req, res) => {
