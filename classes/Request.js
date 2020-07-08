@@ -169,7 +169,6 @@ class Request {
         let color = "0";
         parsedRoles.forEach(role => role.color !== 0 ? color = role.color : color);
 
-        console.log(this.channel)
         if (this.channel === undefined) {
             this.author.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
                 .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
