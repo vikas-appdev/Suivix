@@ -72,7 +72,7 @@ class Request {
      */
     getCategories(channels) {
         let channelsCategories = new Map();
-        channels.forEach(function (c) {
+        channels.forEach(function(c) {
             if (c.parent) {
                 channelsCategories[c.id] = c.parent.name
             } else {
@@ -213,14 +213,15 @@ class Request {
         let users = Array.from(collection.values()); //Convert into an array
         let usersName = new Array();
         for (let i = 0; i < users.length; i++) { //Create a list with all users name
-            usersName[i] = guild.member(users[i]).displayName;
+            const user = guild.member(users[i]);
+            usersName[i] = user.displayName + "#" + user.user.discriminator;
         }
         usersName.sort(); //Sort it A -> Z
 
         if (users.length > 0) { //If there is more than 1 user
             text = sentence; //Display the sentence when there is users
             for (let i in usersName) { //Create the list
-                let user = users.find(u => u.displayName === usersName[i]);
+                let user = users.find(u => (u.displayName + "#" + u.user.discriminator) === usersName[i]);
                 let member = guild.member(user);
                 text += "• " + (member.displayName === user.user.username ? user.user.username : member.nickname + ` (@${user.user.username})`) + "\n";
             }
@@ -237,7 +238,7 @@ class Request {
             limit: 100
         });
         const guild = this.guild;
-        messages.forEach(function (message) {
+        messages.forEach(function(message) {
             if ((message.embeds.length > 0 && message.embeds[0].title != undefined)) {
                 if (message.embeds[0].title.startsWith("Attendance Request") && language === "en") {
                     message.delete().catch(err => console.log("⚠   Error while deleting ".red + "ATTENDANCE_REQUEST" + " messages!".red + ` (server: '${guild.name}', language: 'en')` + separator));

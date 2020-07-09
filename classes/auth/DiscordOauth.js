@@ -12,7 +12,7 @@ const Parser = require("../../utils/Parser"),
  * @param {*} response - The http response to send
  * @param {*} code - The callback code from the authentification
  */
-const authUser = async function (request, response, code, log = false) {
+const authUser = async function(request, response, code, log = false) {
     let access_token;
     if (!code) {
         const refresh_token = Parser.getCookie(request, "refresh_token"); //The stored refresh_token if it exists
@@ -55,7 +55,7 @@ function logoutUser(request, response) {
 /**
  * Returns a link sending on Discord authentification page to authentify the user
  */
-const getOauthLink = function (request) {
+const getOauthLink = function(request) {
     const link =
         'https://discord.com/oauth2/authorize?' +
         'client_id={clientID}' + //Your discord app client id
@@ -75,7 +75,7 @@ const getOauthLink = function (request) {
  * @param {*} response - The http response to send
  * @param {*} code - The callback code from the authentification
  */
-const getAccessToken = async function (request, response, code) {
+const getAccessToken = async function(request, response, code) {
     if (!code) return undefined; //check if there is a code
     let res = await Request(`https://discord.com/api/oauth2/token`, {
         data: {
@@ -99,7 +99,7 @@ const getAccessToken = async function (request, response, code) {
  * @param {*} response - The http response to send
  * @param {*} token - The refresh_token used to keep user logged in
  */
-const getNewAccessTokenWithRefreshToken = async function (request, response, token) {
+const getNewAccessTokenWithRefreshToken = async function(request, response, token) {
     if (!token) return undefined; //check if there is a refresh_token
     let res = await Request(`https://discord.com/api/oauth2/token`, {
         data: {
@@ -120,7 +120,7 @@ const getNewAccessTokenWithRefreshToken = async function (request, response, tok
  * Returns the user data
  * @param {*} access_token - The access token from discord oauth 
  */
-const getUserByAccessToken = async function (response, access_token) { //Post request to get the user informations defined by the scopes argument
+const getUserByAccessToken = async function(response, access_token) { //Post request to get the user informations defined by the scopes argument
     if (access_token === undefined) return undefined;
 
     let res = await Request(`https://discord.com/api/users/@me`, {
@@ -141,7 +141,7 @@ const getUserByAccessToken = async function (response, access_token) { //Post re
  * Returns the user guilds
  * @param {*} access_token - The access token from discord oauth 
  */
-const getUserGuilds = async function (access_token) {
+const getUserGuilds = async function(access_token) {
     if (access_token === undefined) return undefined;
 
     let res = await Request(`https://discord.com/api/users/@me/guilds`, {
@@ -151,16 +151,14 @@ const getUserGuilds = async function (access_token) {
         method: 'GET'
     });
 
-    let response = JSON.parse(res.body)
+    let response = JSON.parse(res.body);
+    let array = [];
     for (var k in response) {
         const guild = client.guilds.cache.get(response[k].id);
         response[k].suivix = guild ? "A" : "B";
-    }
-    let array = [];
-    for (var k in response) {
         array[k] = response[k];
     }
-    array.sort(function (a, b) {
+    array.sort(function(a, b) {
         return a.suivix.localeCompare(b.suivix);
     });
     return JSON.stringify(array);
