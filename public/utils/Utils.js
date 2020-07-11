@@ -35,7 +35,6 @@ const displayUserProfile = function(lang) {
             if (response.requestID) {
                 initSelect2ChannelList($("#select-options"), "100%", response.requestID, false, lang);
                 initSelect2RoleList($("#select-options-2"), "95%", response.requestID, lang);
-                includeHTML();
                 document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             } else {
                 redirect("ATTENDANCE_NOREQUEST");

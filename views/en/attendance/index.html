@@ -2,68 +2,75 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>Suivix - Attendance Request</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description"
-    content="Vous êtes professeur ou peut-être même chef d'entreprise et vous voulez faire l'appel sur discord ? Pas de soucis ! Suivix s'en occupe pour vous.">
-  <link id="favicon" rel="icon" href="/ressources/icon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <title>Suivix - Attendance Request</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Vous êtes professeur ou peut-être même chef d'entreprise et vous voulez faire l'appel sur discord ? Pas de soucis ! Suivix s'en occupe pour vous.">
+    <link id="favicon" rel="icon" href="/ressources/icon.ico" type="image/x-icon">
 
-  <!-- import the webpage's stylesheet -->
-  <link rel="stylesheet" href="css/attendance.css">
-  <link href="css/smallSelect2.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-<script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
-  <script src="/utils/Utils.js"></script>
-  <script>
-    window.onerror = function () {
-      location.reload();
-    }
-  </script>
-  	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108500515-2"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
-		gtag('config', 'UA-108500515-2');
-	</script>
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="css/attendance.css">
+    <link href="css/smallSelect2.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            var css = document.createElement('link');
+            css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css';
+            css.rel = 'stylesheet';
+            css.type = 'text/css';
+            document.getElementsByTagName('head')[0].appendChild(css);
+        })();
+    </script>
+    <script src="/utils/Utils.js"></script>
+    <script>
+        window.onerror = function() {
+            location.reload();
+        }
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108500515-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-108500515-2');
+    </script>
 </head>
 
 <body>
-  <div id="overlay">
-    <div id="popup">
-      <div class="news centered"><img src="img/news.svg" class="img" alt="newspaper" height="110px" width="110px"></div>
-      <div class="centered colorHeaderPrimary title">Version <var id="version">3.0</var></div>
-      <div class="centered colorHeaderSecondary changelog size16"><var id="changelogText">Unable to fetch update text.</var></div>
-      <div id="close"><i class="fas fa-times-circle"></i></div>
-    </div>
-  </div>
-  <div data-include="API_NAVBAR_URL" class="navbar"></div>
-  <div class="container">
-    <div class="card">
-      <div class="loader centered" id="loader">
-        <div id="loading"></div>
-      </div>
-      <div class="content hidden" id="content">
-        <div class="header bottom">
-          <div class="imgBox"><img src="ressources/icon.ico" class="img" alt="suivix logo"></div>
-          <div class="contentBox">
-            <div class="centered colorHeaderPrimary size28 title">Hello <var id="username"></var></div>
-            <div class="centered colorHeaderSecondary size18 description">Start your attendance request right now<br>
-              by clicking on "Take Attendance".</div>
-          </div>
-          <div class="centered colorMuted size16 user">Connected as
-            <div class="colorStandard size16 userTag"><var id="username-connected"></var></div>
-            <div class="colorMuted size16 userDiscriminator">#<var id="discriminator"></var></div>
-          </div>
+    <div id="overlay">
+        <div id="popup">
+            <div class="news centered"><img src="img/news.svg" class="img" alt="newspaper" height="110px" width="110px"></div>
+            <div class="centered colorHeaderPrimary title">Version <var id="version">3.0</var></div>
+            <div class="centered colorHeaderSecondary changelog size16"><var id="changelogText">Unable to fetch update text.</var></div>
+            <div id="close"><i class="fas fa-times-circle"></i></div>
         </div>
-        <div class="details">
-          <div class="detail">
-            <svg class="icon" aria-hidden="false" width="16" height="16" viewBox="0 0 24 24">
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="loader centered" id="loader">
+                <div id="loading"></div>
+            </div>
+            <div class="content hidden" id="content">
+                <div class="header bottom">
+                    <div class="imgBox"><img src="ressources/icon.ico" class="img" alt="suivix logo"></div>
+                    <div class="contentBox">
+                        <div class="centered colorHeaderPrimary size28 title">Hello <var id="username"></var></div>
+                        <div class="centered colorHeaderSecondary size18 description">Start your attendance request right now<br> by clicking on "Take Attendance".</div>
+                    </div>
+                    <div class="centered colorMuted size16 user">Connected as
+                        <div class="colorStandard size16 userTag"><var id="username-connected"></var></div>
+                        <div class="colorMuted size16 userDiscriminator">#<var id="discriminator"></var></div>
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="detail">
+                        <svg class="icon" aria-hidden="false" width="16" height="16" viewBox="0 0 24 24">
               <g fill="none" fill-rule="evenodd">
                 <path fill="currentColor"
                   d="M10.59 13.41c.41.39.41 1.03 0 1.42-.39.39-1.03.39-1.42 0a5.003 5.003 0 0 1 0-7.07l3.54-3.54a5.003 5.003 0 0 1 7.07 0 5.003 5.003 0 0 1 0 7.07l-1.49 1.49c.01-.82-.12-1.64-.4-2.42l.47-.48a2.982 2.982 0 0 0 0-4.24 2.982 2.982 0 0 0-4.24 0l-3.53 3.53a2.982 2.982 0 0 0 0 4.24zm2.82-4.24c.39-.39 1.03-.39 1.42 0a5.003 5.003 0 0 1 0 7.07l-3.54 3.54a5.003 5.003 0 0 1-7.07 0 5.003 5.003 0 0 1 0-7.07l1.49-1.49c-.01.82.12 1.64.4 2.43l-.47.47a2.982 2.982 0 0 0 0 4.24 2.982 2.982 0 0 0 4.24 0l3.53-3.53a2.982 2.982 0 0 0 0-4.24.973.973 0 0 1 0-1.42z">
@@ -71,74 +78,71 @@
                 <rect width="24" height="24"></rect>
               </g>
             </svg>
-            <div class="size14">Request ID is <strong><var id="requestID"></var></strong>.</div>
-          </div>
-          <div class="detail">
-            <svg class="icon" aria-hidden="false" width="16" height="16" viewBox="0 0 24 24">
+                        <div class="size14">Request ID is <strong><var id="requestID"></var></strong>.</div>
+                    </div>
+                    <div class="detail">
+                        <svg class="icon" aria-hidden="false" width="16" height="16" viewBox="0 0 24 24">
               <path
                 d="M12 2C6.4764 2 2 6.4764 2 12C2 17.5236 6.4764 22 12 22C17.5236 22 22 17.5236 22 12C22 6.4764 17.5236 2 12 2ZM12 5.6C12.4422 5.6 12.8 5.95781 12.8 6.4V11.5376L16.5625 13.7126C16.9453 13.9329 17.0703 14.4173 16.85 14.8001C16.6297 15.183 16.1453 15.3079 15.7625 15.0876L11.6873 12.7376C11.656 12.7251 11.6279 12.7048 11.5998 12.6876C11.3607 12.5486 11.1998 12.2954 11.1998 12.0001V6.4001C11.1998 5.9579 11.5578 5.6 12 5.6Z"
                 fill="currentColor"></path>
             </svg>
-            <div class="size14">Link will expires in <strong>1h</strong>.</div>
-          </div>
-          <div class="detail">
-            <svg class="icon" aria-hidden="false" width="18" height="18" viewBox="0 0 24 24">
+                        <div class="size14">Link will expires in <strong>1h</strong>.</div>
+                    </div>
+                    <div class="detail">
+                        <svg class="icon" aria-hidden="false" width="18" height="18" viewBox="0 0 24 24">
               <path fill="currentColor"
                 d="M19 6.00001C15.56 6.00001 12.826 2.43501 12.799 2.39801C12.421 1.89801 11.579 1.89801 11.201 2.39801C11.174 2.43501 8.44 6.00001 5 6.00001C4.447 6.00001 4 6.44801 4 7.00001V14C4 17.807 10.764 21.478 11.534 21.884C11.68 21.961 11.84 21.998 12 21.998C12.16 21.998 12.32 21.96 12.466 21.884C13.236 21.478 20 17.807 20 14V7.00001C20 6.44801 19.553 6.00001 19 6.00001ZM15 16L12 14L9 16L10 13L8 11H11L12 8.00001L13 11H16L14 13L15 16Z">
               </path>
             </svg>
-            <div class="size14">None <strong>personnal information</strong> is saved.</div>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <button class="button large" onClick='redirect("LOGOUT_REDIRECT", "redirectTo=/");'>
+                        <div class="size14">None <strong>personnal information</strong> is saved.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <button class="button large" onClick='redirect("LOGOUT_REDIRECT", "redirectTo=/");'>
           <div class="">Disconnect</div>
         </button>
-        <button class="button large blue-btn"
-          onClick='redirect("ATTENDANCE_PAGE_OPTION_1", `requestID=${document.getElementById("requestID").textContent}`);'>
+                <button class="button large blue-btn" onClick='redirect("ATTENDANCE_PAGE_OPTION_1", `requestID=${document.getElementById("requestID").textContent}`);'>
           <div class="">Take Attendance</div>
         </button>
-      </div>
-    </div>
-    <div class="card margin-top-4 hidden" id="quickAttendance">
-      <div class="low-padding">
-        <div class="quickAttendance inline">
-          <div class="select-options-box">
-            <select id="select-options">
+            </div>
+        </div>
+        <div class="card margin-top-4 hidden" id="quickAttendance">
+            <div class="low-padding">
+                <div class="quickAttendance inline">
+                    <div class="select-options-box">
+                        <select id="select-options">
               <option></option>
             </select>
-          </div>
-          <div class="select-options-box">
-            <select id="select-options-2">
+                    </div>
+                    <div class="select-options-box">
+                        <select id="select-options-2">
               <option></option>
             </select>
-          </div>
-          <button class="button smaller blue-btn right-align"
-            onClick='checkForQuickAttendance(selectedVoiceChannel, selectedRole, document.getElementById("requestID").textContent);'>
+                    </div>
+                    <button class="button smaller blue-btn right-align" onClick='checkForQuickAttendance(selectedVoiceChannel, selectedRole, document.getElementById("requestID").textContent);'>
             <i class="fas fa-check"></i>
           </button>
+                </div>
+            </div>
         </div>
-      </div>
+        <div id="cookies"></div>
     </div>
-    <div id="cookies"></div>
-  </div>
-  <script type="text/javascript">
-
-    let selectedVoiceChannel;
-    let selectedRole;
-    $(document).ready(function () {
-      $("#select-options").change(function () {
-        selectedVoiceChannel = $(this).val();
-      });
-      $("#select-options-2").change(function () {
-        selectedRole = $(this).val();
-      });
-    });
-    displayUserProfile("en");
-    saveTimezoneCookie(document, window);
-    askCookies("en");
-  </script>
+    <script type="text/javascript">
+        let selectedVoiceChannel;
+        let selectedRole;
+        $(document).ready(function() {
+            $("#select-options").change(function() {
+                selectedVoiceChannel = $(this).val();
+            });
+            $("#select-options-2").change(function() {
+                selectedRole = $(this).val();
+            });
+        });
+        displayUserProfile("en");
+        saveTimezoneCookie(document, window);
+        askCookies("en");
+    </script>
 </body>
 
 </html>
