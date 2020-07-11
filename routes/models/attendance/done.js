@@ -6,7 +6,7 @@
 const Auth = require('../../../classes/auth/DiscordOauth'),
     RequestManager = require('../../../classes/managers/RequestManager');
 
-module.exports = async (req, res) => {
+module.exports = async(req, res) => {
     const manager = new RequestManager();
     const user = await Auth.authUser(req, res, req.query.code);
     const request = await manager.getRequestByAuthorID(user.id);

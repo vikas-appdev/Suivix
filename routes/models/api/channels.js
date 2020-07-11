@@ -5,9 +5,8 @@
  */
 const RequestManager = require('../../../classes/managers/RequestManager');
 
-module.exports = async (req, res) => {
-    const manager = new RequestManager();
-    const request = await manager.getRequestByID(req.get("RequestID"));
+module.exports = async(req, res) => {
+    const request = await (new RequestManager()).getRequestByID(req.get("RequestID"));
     if (!request) {
         res.status(404).json("Request does not exists")
     } else {

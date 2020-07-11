@@ -158,7 +158,7 @@ class Request {
         });
 
         //Check if the message is too long to be send in discord
-        if (intro.length + absentsText.length + presentsText.length + presentSentence.length + absentSentence.length >= 2048) {
+        if ((intro + absentsText + presentsText + presentSentence + absentSentence).length >= 2048) {
             if (channelStudents.length !== students.length) {
                 absentsText = Text.infos.absentsList + Text.errors.tooMuchAbsents; //Minimize text
             } else if (presentUsers.length > 0) {
@@ -166,15 +166,16 @@ class Request {
             }
         }
 
-        let color = "0";
-        parsedRoles.forEach(role => role.color !== 0 ? color = role.color : color);
+        let colors = parsedRoles.filter(role => role.color !== 0); //Getting colored roles
+        const color = colors[Math.floor(Math.random() * colors.length)].color; //Picking a random one
 
-        if (this.channel === undefined) {
+        if (this.channel === undefined) { //The command was triggered on website 
+            //Send result to the user in dm
             this.author.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
                 .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
                 console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red)
             });
-        } else {
+        } else { //The command was triggered on Discord
             //Send result to Discord
             this.channel.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
                 .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
