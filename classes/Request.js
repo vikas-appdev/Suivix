@@ -157,7 +157,7 @@ class Request {
             total: students.length
         });
 
-        //Check if the message is too long to be send in discord
+        //Check if the message is too long to be send on Discord
         if ((intro + absentsText + presentsText + presentSentence + absentSentence).length >= 2048) {
             if (channelStudents.length !== students.length) {
                 absentsText = Text.infos.absentsList + Text.errors.tooMuchAbsents; //Minimize text
@@ -170,7 +170,7 @@ class Request {
         const selectedColor = colors[Math.floor(Math.random() * colors.length)];
         const color = selectedColor ? selectedColor.color : 0; //Picking a random one
 
-        if (this.channel === undefined) { //The command was triggered on website 
+        if (!this.channel) { //The command was triggered on website 
             //Send result to the user in dm
             this.author.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
                 .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {

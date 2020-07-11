@@ -154,12 +154,17 @@ const getUserGuilds = async function(access_token) {
     let response = JSON.parse(res.body);
     let array = [];
     for (var k in response) {
-        const guild = client.guilds.cache.get(response[k].id);
-        response[k].suivix = guild ? "A" : "B";
+        response[k].suivix = client.guilds.cache.get(response[k].id) ? true : false;
         array[k] = response[k];
     }
+
     array.sort(function(a, b) {
-        return a.suivix.localeCompare(b.suivix);
+        return a.name.localeCompare(b.name);
+    })
+    array.sort(function(a, b) {
+        if (a.suivix == b.suivix) return 0;
+        if (b.suivix) return 1
+        return -1;
     });
     return JSON.stringify(array);
 }

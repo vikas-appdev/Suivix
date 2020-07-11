@@ -350,11 +350,12 @@ function getServers(language) {
             const showLess = ["Show Less", "Afficher Moins"];
 
             for (var k in response) {
+                console.log(response[k])
                 $(".servers").append("<div class='server-card" + (i >= 6 ? " expand" : "") + "'><div class='server-content'><div class='server-infos'><img class='server-icon'src='" +
                     (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") + "'>" +
-                    "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === "A" ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" +
-                    (response[k].suivix === "A" ? "redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=" + response[k].id + "');" : "redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');") + "\">" +
-                    (response[k].suivix === "A" ? attendance[lang] : add[lang]) + "</button></div></div></div>");
+                    "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === true ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" +
+                    (response[k].suivix === true ? "redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=" + response[k].id + "');" : "redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');") + "\">" +
+                    (response[k].suivix === true ? attendance[lang] : add[lang]) + "</button></div></div></div>");
                 if (i === 5) {
                     $('.servers').append("<div class='expand-card''><div class='expand-content'><div class='expand-add'><p>" + showMore[lang] + "</p></div></div></div>");
                     $('.expand-card').click(function(e) {
