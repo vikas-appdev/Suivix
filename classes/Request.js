@@ -167,7 +167,8 @@ class Request {
         }
 
         let colors = parsedRoles.filter(role => role.color !== 0); //Getting colored roles
-        const color = colors[Math.floor(Math.random() * colors.length)].color; //Picking a random one
+        const selectedColor = colors[Math.floor(Math.random() * colors.length)];
+        const color = selectedColor ? selectedColor.color : 0; //Picking a random one
 
         if (this.channel === undefined) { //The command was triggered on website 
             //Send result to the user in dm
@@ -330,14 +331,16 @@ class Request {
         if (list.length === 1) {
             let value = list[0];
             if (toString) value = list[0].toString();
-            if (toName) value = startsWith + list[0].name + endsWith;
+            if (toName) value = (list[0].name.includes("@everyone") ?
+                "`" : startsWith) + list[0].name + endsWith;
             return value;
         } else {
             let string = "";
             for (let i = 0; i < list.length; i++) {
                 let value = list[i];
                 if (toString) value = list[i].toString();
-                if (toName) value = startsWith + list[i].name + endsWith;
+                if (toName) value = (list[i].name.includes("@everyone") ?
+                    "`" : startsWith) + list[i].name + endsWith;
                 if (i < list.length - 2) {
                     string += value + ", ";
                 } else if (i < list.length - 1) {
