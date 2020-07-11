@@ -42,7 +42,7 @@ const getUser = require('./models/api/user'),
 class RoutesList {
 
     static getRoutes() {
-        
+
         //Global
         routes.get(Routes.HOME_PAGE, (req, res) => {
             home(req, res, undefined)
@@ -53,7 +53,7 @@ class RoutesList {
         routes.get(Routes.HOME_PAGE + "en", (req, res) => {
             home(req, res, "en")
         });
-        
+
         //Login
         routes.get(Routes.LOGIN_PAGE, login);
 
@@ -89,7 +89,7 @@ class RoutesList {
 
         //Handle 404 error
         routes.get('*', (req, res) => {
-            console.log( req.url.includes('.map') ? "" : "⚠   Error 404 on ".brightRed.bold + "\"" + req.url + "\"" + " (IP: " + req.connection.remoteAddress.split(`:`).pop() + ")" + separator);
+            console.log(req.url.includes('.map') ? "" : "⚠   Error 404 on ".brightRed.bold + "\"" + req.url + "\"" + " (IP: " + req.connection.remoteAddress.split(`:`).pop() + ")" + separator);
             res.status(404).redirect(Routes.ERROR_404);
         });
 

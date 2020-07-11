@@ -7,15 +7,20 @@ const Auth = require('../../../classes/auth/DiscordOauth'),
     RequestManager = require('../../../classes/managers/RequestManager');
 
 module.exports = async(req, res) => {
-    const user = await Auth.authUser(req, res, req.query.code);
-    if (!user) {
-        res.redirect(Routes.LOGIN_PAGE);
-        return;
-    };
-    if (req.query.guild_id) {
-        (new RequestManager()).createNewRequest(user, +new Date(), req.query.guild_id);
-    } else {
-        await manager.createRequestByOldOne(user.id);
+    try {
+        const user = await Auth.authUser(req, res, req.query.code);
+        if (!user) {
+            res.redirect(Routes.LOGIN_PAGE);
+            return;
+        };
+        if (req.query.guild_id) {
+            (new RequestManager()).createNewRequest(user, +new Date(), req.query.guild_id);
+        } else {
+            await manager.createRequestByOldOne(user.id);
+        }
+        res.redirect(Routes.ATTENDANCE_PAGE);
+    } catch (err) {
+        console.log(err);
+        res.sendFile(Server.getApiViewsFile(req, res, Routes.ERROR_500, "/index.html"));
     }
-    res.redirect(Routes.ATTENDANCE_PAGE);
 };
