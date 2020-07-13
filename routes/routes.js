@@ -89,7 +89,7 @@ class RoutesList {
 
         //Handle 404 error
         routes.get('*', (req, res) => {
-            console.log(req.url.includes('.map') ? "" : "⚠   Error 404 on ".brightRed.bold + "\"" + req.url + "\"" + " (IP: " + req.connection.remoteAddress.split(`:`).pop() + ")" + separator);
+            console.log(req.url.includes('.map') || req.url.includes('socket.io') ? "" : "⚠   Error 404 on ".brightRed.bold + "\"" + req.url + "\"" + " (IP: " + req.connection.remoteAddress.split(`:`).pop() + ")" + separator);
             res.status(404).redirect(Routes.ERROR_404);
         });
 

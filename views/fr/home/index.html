@@ -2,154 +2,158 @@
 <html lang="en">
 
 <head>
-  <title>Suivix - Le bot Discord pour faire l'appel</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="google-site-verification" content="pD8Y8KjKegiGB6zmfBozXsxDdjvcVeC1ONd7pa9qag8" />
-  <meta name="description" content="Vous êtes professeur ou peut-être même chef d'entreprise et vous voulez faire l'appel sur Discord ? Pas de soucis !
+    <title>Suivix - Le bot Discord pour faire l'appel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="pD8Y8KjKegiGB6zmfBozXsxDdjvcVeC1ONd7pa9qag8" />
+    <meta name="description" content="Vous êtes professeur ou peut-être même chef d'entreprise et vous voulez faire l'appel sur Discord ? Pas de soucis !
     Suivix s'en occupe pour vous.">
-  <meta property='og:image' content='https://suivix.xyz/images/4894fc80-a7ee-11ea-8b0e-8c790ed1c329.png' />
-  <meta property="og:site_name" content="Suivix.xyz" />
+    <meta property='og:image' content='https://suivix.xyz/images/4894fc80-a7ee-11ea-8b0e-8c790ed1c329.png' />
+    <meta property="og:site_name" content="Suivix.xyz" />
 
-  <!-- Favicon -->
-  <link href="images/icon.ico" rel="shortcut icon" />
+    <!-- Favicon -->
+    <link href="images/icon.ico" rel="shortcut icon" />
 
-  <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
 
-  <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
 
-  <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
-  <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
 
-  <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 
-  <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/aos.css">
 
-  <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-  <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+    <script type="text/javascript">
+        (function() {
+            var css = document.createElement('link');
+            css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css';
+            css.rel = 'stylesheet';
+            css.type = 'text/css';
+            document.getElementsByTagName('head')[0].appendChild(css);
+        })();
+    </script>
 
-  <script src="/utils/Utils.js"></script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108500515-2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+    <script src="/utils/Utils.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108500515-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'UA-108500515-2');
-  </script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-108500515-2');
+    </script>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 
 
-  <div id="overlayer" class="bg-primary"></div>
-  <div class="loader">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Chargement...</span>
-    </div>
-  </div>
-
-
-  <div class="site-wrap">
-
-    <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
+    <div id="overlayer" class="bg-primary"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Chargement...</span>
         </div>
-      </div>
-      <div class="site-mobile-menu-body"></div>
     </div>
 
-    <header class="site-navbar py-4 js-sticky-header site-navbar-target bg-primary" role="banner">
 
-      <div class="container">
-        <div class="row">
+    <div class="site-wrap">
 
-          <div class="col-1 site-logo">
-            <img class="site-menu main-menu js-clone-nav " src="images/logo.png"></img>
-          </div>
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
 
-          <div class="col-11">
-            <nav class="site-navigation position-relative text-right" role="navigation">
-              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li><a href="#home-section" class="nav-link">Accueil</a></li>
-                <li><a href="#about-section" class="nav-link">Qu'est-ce que c'est?</a></li>
-                <li><a href="#thanks-section" class="nav-link">Remerciements</a></li>
-                <li><a href="#contact-section" class="nav-link">Me Contacter</a></li>
-                <li><a href="https://utip.io/mw3y" class="nav-link" target="_blank">Me Soutenir</a></li>
-                <li><a href="https://github.com/Mw3y/Suivix" class="nav-link" target="_blank">Github</a></li>
-                <li><a href="/en" class="btn-dark nav-link">EN</a></li>
-                <li><a href="/auth/callback?redirect=false" class="btn-dark nav-link">Connexion <i class="fas fa-user"></i></a></li>
-              </ul>
-            </nav>
+        <header class="site-navbar py-4 js-sticky-header site-navbar-target bg-primary" role="banner">
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-1 site-logo">
+                        <img class="site-menu main-menu js-clone-nav " src="images/logo.png"></img>
+                    </div>
+
+                    <div class="col-11">
+                        <nav class="site-navigation position-relative text-right" role="navigation">
+                            <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                                <li><a href="#home-section" class="nav-link">Accueil</a></li>
+                                <li><a href="#about-section" class="nav-link">Qu'est-ce que c'est?</a></li>
+                                <li><a href="#thanks-section" class="nav-link">Remerciements</a></li>
+                                <li><a href="#contact-section" class="nav-link">Me Contacter</a></li>
+                                <li><a href="https://utip.io/mw3y" class="nav-link" target="_blank">Me Soutenir</a></li>
+                                <li><a href="https://github.com/Mw3y/Suivix" class="nav-link" target="_blank">Github</a></li>
+                                <li><a href="/en" class="btn-dark nav-link">EN</a></li>
+                                <li><a href="/auth/callback?redirect=false" class="btn-dark nav-link">Connexion <i class="fas fa-user"></i></a></li>
+                            </ul>
+                        </nav>
 
 
-            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle float-right"><span
+                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle float-right"><span
                 class="icon-menu h3"></span></a>
 
-          </div>
-        </div>
-      </div>
-
-    </header>
-    <div class="bg-dark" style="background-image: url('images/hero_bg_1.jpg'); background-size: cover;"
-      id="home-section">
-      <div class="container vertical-center">
-        <div class="row">
-
-          <div class="col-lg-6 top-50">
-            <h1 class="text-white hs-title" data-aos="fade-up" data-aos-delay="100">L'APPEL<br>SUR DISCORD</h1>
-            <p class="hs-text" data-aos="fade-up" data-aos-delay="150">Vous êtes professeur ou peut-être même chef
-              d'entreprise et vous voulez faire l'appel sur Discord ? Pas de soucis ! Suivix s'en occupe pour vous.<br>
-              <br>Suivix est actuellement installé sur
-              <strong><var id="guilds">0</var></strong> serveurs<br>pour un total de <strong><var
-                  id="users">0</var></strong> utilisateurs et <strong><var id="students">0</var></strong> élèves !</p>
-            </p>
-            <p data-aos="fade-up" data-aos-delay="200"><a href="/invite" class="btn btn-primary hs-button">Ajouter
-                Suivix</a></p>
-          </div>
-
-          <div class="col-lg-6 top-50">
-            <div class="hs-image">
-              <img src="images/list.png" data-aos="fade-up" data-aos-delay="">
+                    </div>
+                </div>
             </div>
-          </div>
+
+        </header>
+        <div class="bg-dark" style="background-image: url('images/hero_bg_1.jpg'); background-size: cover;" id="home-section">
+            <div class="container vertical-center">
+                <div class="row">
+
+                    <div class="col-lg-6 top-50">
+                        <h1 class="text-white hs-title" data-aos="fade-up" data-aos-delay="100">L'APPEL<br>SUR DISCORD</h1>
+                        <p class="hs-text" data-aos="fade-up" data-aos-delay="150">Vous êtes professeur ou peut-être même chef d'entreprise et vous voulez faire l'appel sur Discord ? Pas de soucis ! Suivix s'en occupe pour vous.<br>
+                            <br>Suivix est actuellement installé sur
+                            <strong><var id="guilds">0</var></strong> serveurs<br>pour un total de <strong><var
+                  id="users">0</var></strong> utilisateurs et <strong><var id="students">0</var></strong> élèves !</p>
+                        </p>
+                        <p data-aos="fade-up" data-aos-delay="200"><a href="/invite" class="btn btn-primary hs-button">Ajouter
+                Suivix</a></p>
+                    </div>
+
+                    <div class="col-lg-6 top-50">
+                        <div class="hs-image">
+                            <img src="images/list.png" data-aos="fade-up" data-aos-delay="">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
-      </div>
-
-    </div>
 
 
 
-    <div class="site-section bg-primary about" id="about-section">
-      <div class="container">
-        <div class="row ">
-          <div class="col-12 mb-4 position-relative">
-            <h2 class="title">Qu'est-ce que c'est ?</h2>
-          </div>
-          <div class="col-md-4">
-            <p>Suivix est un bot Discord développé en Javascript depuis mars 2020. Ce bot vous permet de
-              garder une trace de la présence de certaines personnes sur Discord en vous envoyant un compte
-              rendu.<br><br>Le bot est disponible en anglais et en français ! Attention, Suivix a impérativement
-              besoin que votre serveur Discord soit muni d'au
-              moins un salon vocal et un rôle.
-            </p>
-          </div>
-          <div class="col-md-4 about-img">
-            <img src="images/illustration.png" alt="Image" class="img-fluid">
+        <div class="site-section bg-primary about" id="about-section">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-12 mb-4 position-relative">
+                        <h2 class="title">Qu'est-ce que c'est ?</h2>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Suivix est un bot Discord développé en Javascript depuis mars 2020. Ce bot vous permet de garder une trace de la présence de certaines personnes sur Discord en vous envoyant un compte rendu.
+                            <br><br>Le bot est disponible en anglais et en français ! Attention, Suivix a impérativement besoin que votre serveur Discord soit muni d'au moins un salon vocal et un rôle.
+                        </p>
+                    </div>
+                    <div class="col-md-4 about-img">
+                        <img src="images/illustration.png" alt="Image" class="img-fluid">
 
-          </div>
-          <div class="col-md-4">
-            <p>Ce bot utilise une interface en ligne pour que votre
-              expérience soit plus agréable, simple et efficace.<br><br>Grâce à l'utilisation des cookies vous restez
-              connecté entre chaque suivi.
-              <br>Exemple d'un résultat <a href="#screenshots-section">ici<a>.<br><br>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Ce bot utilise une interface en ligne pour que votre expérience soit plus agréable, simple et efficace.<br><br>Grâce à l'utilisation des cookies vous restez connecté entre chaque suivi.
+                            <br>Exemple d'un résultat <a href="#screenshots-section">ici<a>.<br><br>
                   Pour plus d'informations, utilisez la commande <code>!suivix help</code></p>
           </div>
 
@@ -246,199 +250,197 @@
               <span class="icon-search2"></span>
               <img class="img-fluid" src="images/1.jpg">
             </a>
-          </div>
-          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/2.PNG" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/2.PNG">
-            </a>
-          </div>
+                    </div>
+                    <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+                        <a href="images/2.PNG" class="item-wrap fancybox">
+                            <span class="icon-search2"></span>
+                            <img class="img-fluid" src="images/2.PNG">
+                        </a>
+                    </div>
 
-          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/3.PNG" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/3.PNG">
-            </a>
-          </div>
+                    <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+                        <a href="images/3.PNG" class="item-wrap fancybox">
+                            <span class="icon-search2"></span>
+                            <img class="img-fluid" src="images/3.PNG">
+                        </a>
+                    </div>
 
-          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+                    <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
 
-            <a href="images/4.PNG" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/4.PNG">
-            </a>
+                        <a href="images/4.PNG" class="item-wrap fancybox">
+                            <span class="icon-search2"></span>
+                            <img class="img-fluid" src="images/4.PNG">
+                        </a>
 
-          </div>
+                    </div>
 
-          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/example.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/example.png">
-            </a>
-          </div>
+                    <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+                        <a href="images/example.png" class="item-wrap fancybox">
+                            <span class="icon-search2"></span>
+                            <img class="img-fluid" src="images/example.png">
+                        </a>
+                    </div>
 
-          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/example2.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/example2.png">
-            </a>
-          </div>
+                    <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+                        <a href="images/example2.png" class="item-wrap fancybox">
+                            <span class="icon-search2"></span>
+                            <img class="img-fluid" src="images/example2.png">
+                        </a>
+                    </div>
 
-        </div>
-      </div>
-
-    </section>
-
-    <section class="site-section bg-primary" style="background-image: url('images/hero_bg_1.jpg');" id="thanks-section">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-12 mb-5 position-relative">
-            <h2 class="title text-center mb-5">Merci à</h2>
-          </div>
-
-          <div class="col-sm-3">
-            <div class="blog_entry">
-              <img src="images/thanks/1.png" alt="Image" class="img-fluid thanks-img">
-              <div class="p-4 bg-primary text-center">
-                <h3>Un_phoque</h3>
-                <span class="date">Développeur</span>
-              </div>
+                </div>
             </div>
-          </div>
 
-          <div class="col-sm-3">
-            <div class="blog_entry">
-              <img src="images/thanks/2.png" alt="Image" class="img-fluid thanks-img">
-              <div class="p-4 bg-primary text-center">
-                <h3>Michaël Morival</h3>
-                <span class="date">Professeur</span>
-              </div>
-            </div>
-          </div>
+            </section>
 
-          <div class="col-sm-3">
-            <div class="blog_entry">
-              <img src="images/thanks/3.png" alt="Image" class="img-fluid thanks-img">
-              <div class="p-4 bg-primary text-center">
-                <h3>Espagnf</h3>
-                <span class="date">Mon Père</span>
-              </div>
-            </div>
-          </div>
+            <section class="site-section bg-primary" style="background-image: url('images/hero_bg_1.jpg');" id="thanks-section">
+                <div class="container">
+                    <div class="row">
 
-          <div class="col-sm-3">
-            <div class="blog_entry">
-              <img src="images/thanks/4.png" alt="Image" class="img-fluid thanks-img">
-              <div class="p-4 bg-primary text-center">
-                <h3>Vous</h3>
-                <span class="date">Un Utilisateur de Suivix</span>
-              </div>
-            </div>
-          </div>
+                        <div class="col-12 mb-5 position-relative">
+                            <h2 class="title text-center mb-5">Merci à</h2>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="blog_entry">
+                                <img src="images/thanks/1.png" alt="Image" class="img-fluid thanks-img">
+                                <div class="p-4 bg-primary text-center">
+                                    <h3>Un_phoque</h3>
+                                    <span class="date">Développeur</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="blog_entry">
+                                <img src="images/thanks/2.png" alt="Image" class="img-fluid thanks-img">
+                                <div class="p-4 bg-primary text-center">
+                                    <h3>Michaël Morival</h3>
+                                    <span class="date">Professeur</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="blog_entry">
+                                <img src="images/thanks/3.png" alt="Image" class="img-fluid thanks-img">
+                                <div class="p-4 bg-primary text-center">
+                                    <h3>Espagnf</h3>
+                                    <span class="date">Mon Père</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="blog_entry">
+                                <img src="images/thanks/4.png" alt="Image" class="img-fluid thanks-img">
+                                <div class="p-4 bg-primary text-center">
+                                    <h3>Vous</h3>
+                                    <span class="date">Un Utilisateur de Suivix</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="site-section bg-primary" id="contact-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 mb-5 position-relative">
+                            <h2 class="title text-center mb-5">Formulaire de Contact</h2>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="col-lg-12">
+                            <form action="https://formspree.io/xwkrejdo" method="post" class="form">
+                                <div class="row mb-4">
+                                    <div class="form-group col-6">
+                                        <input type="text" class="form-control" name="fname" placeholder="Prénom">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <input type="text" class="form-control" name="lname" placeholder="Nom">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="form-group col-12">
+                                        <input type="email" class="form-control" name="email" placeholder="Adresse Mail">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="form-group col-12">
+                                        <input type="text" class="form-control" name="subject" placeholder="Sujet du message">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="form-group col-12">
+                                        <textarea name="message" cols="30" rows="10" class="form-control" placeholder="Écrivez votre message ici.."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="submit" class="btn btn-primary" value="Envoyer le message">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="site-section bg-dark footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <var id="year">
+              </var> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> | Icones de <a href="https://icons8.com"
+                                    target "_blank">icons8.com</a> | Crée avec <i class="icon-heart" aria-hidden="true"></i> par <a href="https://behance.net/mw3y" target="_blank">MΛX</a>.
+                                <br>Suivix est lent ? Vérifiez son statut sur <a href="http://status.suivix.xyz" target="_blank">http://status.suivix.xyz</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
 
         </div>
-      </div>
-    </section>
+        <!-- .site-wrap -->
 
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.easing.1.3.js"></script>
+        <script src="js/aos.js"></script>
+        <script src="js/jquery.fancybox.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/isotope.pkgd.min.js"></script>
 
-    <section class="site-section bg-primary" id="contact-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 mb-5 position-relative">
-            <h2 class="title text-center mb-5">Formulaire de Contact</h2>
-          </div>
-        </div>
-        <div class="row justify-content-between">
-          <div class="col-lg-12">
-            <form action="https://formspree.io/xwkrejdo" method="post" class="form">
-              <div class="row mb-4">
-                <div class="form-group col-6">
-                  <input type="text" class="form-control" name="fname" placeholder="Prénom">
-                </div>
-                <div class="form-group col-6">
-                  <input type="text" class="form-control" name="lname" placeholder="Nom">
-                </div>
-              </div>
-
-              <div class="row mb-4">
-                <div class="form-group col-12">
-                  <input type="email" class="form-control" name="email" placeholder="Adresse Mail">
-                </div>
-              </div>
-
-              <div class="row mb-4">
-                <div class="form-group col-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Sujet du message">
-                </div>
-              </div>
-
-              <div class="row mb-4">
-                <div class="form-group col-12">
-                  <textarea name="message" cols="30" rows="10" class="form-control"
-                    placeholder="Écrivez votre message ici.."></textarea>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <input type="submit" class="btn btn-primary" value="Envoyer le message">
-                </div>
-              </div>
-
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="site-section bg-dark footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 text-center">
-            <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <var id="year">
-              </var> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i>
-              by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-              | Icones de <a href="https://icons8.com" target"_blank">icons8.com</a> | Crée avec <i class="icon-heart"
-                aria-hidden="true"></i> par <a href="https://behance.net/mw3y" target="_blank">MΛX</a>.
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-  </div> <!-- .site-wrap -->
-
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.fancybox.min.js"></script>
-  <script src="js/jquery.sticky.js"></script>
-  <script src="js/isotope.pkgd.min.js"></script>
-
-  <script src="js/main.js"></script>
-  <script>
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", getUrl("api/get/stats", window), true);
-    xmlHttp.onreadystatechange = function () {
-      if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-        const response = JSON.parse(this.responseText);
-        document.getElementById("guilds").innerHTML = response.guilds;
-        document.getElementById("users").innerHTML = response.users;
-        document.getElementById("students").innerHTML = response.students;
-      }
-    }
-    xmlHttp.send();
-    document.getElementById("year").innerHTML = new Date().getFullYear();
-
-  </script>
+        <script src="js/main.js"></script>
+        <script>
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", getUrl("api/get/stats", window), true);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                    const response = JSON.parse(this.responseText);
+                    document.getElementById("guilds").innerHTML = response.guilds;
+                    document.getElementById("users").innerHTML = response.users;
+                    document.getElementById("students").innerHTML = response.students;
+                }
+            }
+            xmlHttp.send();
+            document.getElementById("year").innerHTML = new Date().getFullYear();
+        </script>
 </body>
 
 </html>
