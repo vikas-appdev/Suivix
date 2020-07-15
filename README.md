@@ -35,5 +35,5 @@ If you like this work, you can support the suivix hosting and development at htt
 ## License
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
 
-
+## Credits
 Made by **MΛX#2231** on Discord.
