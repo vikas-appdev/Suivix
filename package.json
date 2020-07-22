@@ -1,36 +1,36 @@
 {
-  "name": "suivix",
-  "version": "3.7.1",
-  "description": "A Discord bot to take attendance",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "keywords": [
-    "discord",
-    "bot",
-    "attendance",
-    "suivix"
-  ],
-  "author": "MΛX",
-  "license": "GPL-3.0",
-  "dependencies": {
-    "async-request": "^1.2.0",
-    "colors": "^1.4.0",
-    "compression": "^1.7.4",
-    "cookie-parser": "^1.4.5",
-    "dblapi.js": "^2.4.0",
-    "discord.js": "^12.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "format-unicorn": "^1.1.1",
-    "fs": "0.0.1-security",
-    "http": "0.0.1-security",
-    "https": "^1.0.0",
-    "locale": "^0.1.0",
-    "moment": "^2.26.0",
-    "moment-timezone": "^0.5.31",
-    "sequelize": "^5.21.10",
-    "sqlite3": "^4.2.0"
-  }
+    "name": "suivix",
+    "version": "3.8",
+    "description": "A Discord bot to take attendance",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "keywords": [
+        "discord",
+        "bot",
+        "attendance",
+        "suivix"
+    ],
+    "author": "MΛX",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "async-request": "^1.2.0",
+        "colors": "^1.4.0",
+        "compression": "^1.7.4",
+        "cookie-parser": "^1.4.5",
+        "dblapi.js": "^2.4.0",
+        "discord.js": "^12.2.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "format-unicorn": "^1.1.1",
+        "fs": "0.0.1-security",
+        "http": "0.0.1-security",
+        "https": "^1.0.0",
+        "locale": "^0.1.0",
+        "moment": "^2.26.0",
+        "moment-timezone": "^0.5.31",
+        "sequelize": "^5.21.10",
+        "sqlite3": "^4.2.0"
+    }
 }

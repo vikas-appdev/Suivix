@@ -45,7 +45,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url("/ressources/backgrounds/background-4.jpg");
+    background-image: url("../ressources/backgrounds/background-4.jpg");
     background-size: cover;
     background-attachment: fixed;
 }
@@ -96,33 +96,6 @@ var {
 
 .select-options-box {
     width: 40%;
-}
-
-.navbar {
-    top: 0;
-    position: fixed;
-    display: block;
-    width: 101%;
-    /* Full width (cover the whole page) */
-    background-color: #18191c;
-    /* Black background with opacity */
-    z-index: 100000;
-    /* Specify a stack order in case you're using a different order for other elements */
-    overflow: hidden;
-    height: 2em;
-    /* hauteur du parent */
-    line-height: 2em;
-    /* hauteur de ligne (identique) */
-    white-space: nowrap;
-    /* interdiction de passer à la ligne */
-}
-
-.navbar a {
-    color: #fff;
-    text-align: center;
-    text-decoration: none;
-    font-family: Whitney;
-    font-weight: 500;
 }
 
 .right {
@@ -610,4 +583,65 @@ var {
     color: #DAA520;
     font-size: 12px;
     margin-left: 5px;
+}
+
+.navbar {
+    height: 25px;
+    padding: 10px 75px;
+    white-space: nowrap;
+    background: #131615;
+    z-index: 100000;
+    top: 0;
+    position: fixed;
+    display: block;
+    width: 100%;
+}
+
+.navbar .title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 25px;
+    text-decoration: none;
+    margin-left: 75px;
+    float: left;
+}
+
+.navbar .language {
+    color: #fff;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    text-decoration: none;
+    float: right;
+}
+
+.navbar .language:hover {
+    opacity: 0.9;
+}
+
+.navbar .margin {
+    margin-right: 75px;
+}
+
+.navbar .margin-15 {
+    margin-right: 5px;
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .container .card {
+        min-width: 300px;
+        max-width: 350px;
+        max-height: 500px;
+    }
+    .server-name {
+        font-size: 12px;
+    }
+    .server-icon {
+        max-height: 30px;
+        max-width: 30px;
+    }
+    .yellow {
+        display: none;
+    }
 }

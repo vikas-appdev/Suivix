@@ -30,7 +30,6 @@ const welcome = require('./models/attendance/welcome'),
 const getUser = require('./models/api/user'),
     getUserGuilds = require('./models/api/guilds'),
     getUrl = require('./models/api/url'),
-    getNavbar = require('./models/api/navbar'),
     getChannels = require('./models/api/channels'),
     getCategories = require('./models/api/categories'),
     getRoles = require('./models/api/roles'),
@@ -78,7 +77,6 @@ class RoutesList {
         routes.get(Routes.API_USER_URL, getUser);
         routes.get(Routes.API_GUILDS_URL, getUserGuilds);
         routes.get(Routes.API_URL_FETCHER_URL, getUrl);
-        routes.get(Routes.API_NAVBAR_URL, getNavbar);
         routes.get(Routes.API_CHANNELS_URL, getChannels);
         routes.get(Routes.API_CATEGORIES_URL, getCategories);
         routes.get(Routes.API_ROLES_URL, getRoles);

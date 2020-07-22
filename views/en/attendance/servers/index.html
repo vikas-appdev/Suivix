@@ -41,7 +41,11 @@
 </head>
 
 <body>
-    <div data-include="API_NAVBAR_URL" class="navbar"></div>
+    <div class="navbar">
+        <a href="/" class="title">SUIVIX</a>
+        <a href="?language=fr" class="language margin">FR.</a>
+        <a href="?language=en" class="language margin-15">EN.</a>
+    </div>
     <div class="container">
         <div class="page-title">
             <h3 class="title size20 colorHeaderPrimary">PLEASE SELECT A SERVER.</h3>
@@ -103,7 +107,6 @@
         <div id="cookies"></div>
         <script type="text/javascript">
             $(document).ready(function() {
-                includeHTML();
                 saveTimezoneCookie(document, window);
                 askCookies("en");
                 getServers("en");

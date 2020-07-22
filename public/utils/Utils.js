@@ -5,7 +5,6 @@ const getUrl = function(url, window) {
     return location.protocol + "//" + location.host + "/" + location.pathname.split('/')[0] + url;
 }
 
-
 function httpGetRequest(url, token) {
     var request = new XMLHttpRequest()
     request.open('GET', url, true)
@@ -13,7 +12,7 @@ function httpGetRequest(url, token) {
     return request;
 }
 
-const displayUserProfile = function(lang) {
+const initAttendance = function(lang) {
     var request = new XMLHttpRequest()
     request.open('HEAD', document.location, true);
     request.onload = function() {
@@ -27,14 +26,18 @@ const displayUserProfile = function(lang) {
                 return;
             }
             document.getElementById("username").innerHTML = response.username;
-            document.getElementById("username-connected").innerHTML = response.username;
-            document.getElementById("discriminator").innerHTML = response.discriminator;
             document.getElementById("requestID").innerHTML = response.requestID;
+            document.getElementById("discriminator").innerHTML = "#" + response.discriminator;
+            document.getElementById("avatar").src = response.avatar ? "https://cdn.discordapp.com/avatars/" + response.id + "/" + response.avatar : "https://cdn.discordapp.com/embed/avatars/2.png";
+            $("#user-loader").hide();
+            $("#user-loader-image").hide();
+            $("#user-infos").show();
+
             displayChangelog(lang, document.getElementById("version"), document.getElementById("changelogText"));
 
             if (response.requestID) {
-                initSelect2ChannelList($("#select-options"), "100%", response.requestID, false, lang);
-                initSelect2RoleList($("#select-options-2"), "95%", response.requestID, lang);
+                initSelect2ChannelList(response.requestID, true, lang);
+                initSelect2RoleList(response.requestID, lang);
                 document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             } else {
                 redirect("ATTENDANCE_NOREQUEST");
@@ -47,77 +50,58 @@ const displayUserProfile = function(lang) {
 
 }
 
-function checkForQuickAttendance(channel, role, requestID) {
-    if (channel && role) {
-        quickAttendance(channel, role, requestID)
-    }
+function doAttendance(requestID) {
+    getSelectedChannels(requestID)
 }
 
-const quickAttendance = function(channel, role, requestID) {
-    var request = new XMLHttpRequest()
-    request.open('GET', getUrl(`api/get/roles`, window), true)
-    request.setRequestHeader("RequestID", requestID);
-    let roleID;
-    request.onload = function() {
-        const response = JSON.parse(this.response);
-        if (this.status === 404) {
-            redirect("ATTENDANCE_NOREQUEST");
-            return;
-        }
-        let roles = [];
-        for (var i = 0; i < response.length; i++) {
-            roles[i] = response[i];
-        }
-        roleID = roles.find(r => r.name === role).id;
-        let channelID;
-        request.open('GET', getUrl(`api/get/channels`, window), true)
-        request.setRequestHeader("RequestID", requestID);
-        request.onload = function() {
-            const response = JSON.parse(this.response);
-            let channels = [];
-            for (var i = 0; i < response.length; i++) {
-                channels[i] = response[i];
-            }
-            channelID = channels.find(c => c.name === channel).id;
-            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${roleID}`);
-        }
-        request.send();
-    }
-    request.send();
-
-}
-
-function goToRoles(channelsList, requestID) {
-    if (!channelsList) return;
+function getSelectedChannels(requestID) {
+    const channelsList = $("#select-1").val();
+    if (channelsList.length === 0) {
+        shake();
+        return;
+    };
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/channels`, window), true)
     request.setRequestHeader("RequestID", requestID);
     request.onload = function() {
         const response = JSON.parse(this.response);
+        if (this.status === 404) {
+            redirect("ATTENDANCE_NOREQUEST", undefined);
+            return;
+        }
         let channels = [];
         for (var i = 0; i < response.length; i++) {
             channels[i] = response[i];
         }
         if (channelsList.length === 1) {
             const channel = channelsList[0];
-            let channelName = channel.substring(channel.indexOf(')') + 2)
+            let channelName = channel.substring(channel.indexOf(')') + 2);
             let channelID = channels.find(c => c.name === channelName).id;
-            redirect("ATTENDANCE_PAGE_OPTION_2", `requestID=${requestID}&channels=${channelID}`);
+            getSelectedRoles(requestID, channelID);
         } else {
             let choosenChannels = [];
             for (let i = 0; i < channelsList.length; i++) {
                 let channelName = channelsList[i].substring(channelsList[i].indexOf(')') + 2)
                 choosenChannels.push(channels.find(c => c.name === channelName).id);
             }
-            redirect("ATTENDANCE_PAGE_OPTION_2", `requestID=${requestID}&channels=${choosenChannels.join('-')}`);
+            getSelectedRoles(requestID, choosenChannels.join('-'));
         }
 
     }
     request.send();
 }
 
-function goToDone(channelID, rolesList, requestID) {
-    if (!rolesList) return;
+function getSelectedRoles(requestID, selectedChannels) {
+    const rolesList = $("#select-2").val();
+    if (rolesList.length === 0) {
+        shake();
+        return;
+    }
+    $(".btn").hide();
+    $("#loading").show();
+    setInterval(() => {
+        $("#loading").hide();
+    }, 1000);
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/roles`, window), true)
     request.setRequestHeader("RequestID", requestID);
@@ -128,28 +112,26 @@ function goToDone(channelID, rolesList, requestID) {
             roles[i] = response[i];
         }
         if (rolesList.length === 1) {
-            let roleID = roles.find(r => r.name === rolesList[0]).id;
-            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${roleID}`);
+            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${selectedChannels}&roles=${roles.find(r => r.name === rolesList[0]).id}`);
         } else {
             let choosenRoles = [];
             for (let i = 0; i < rolesList.length; i++) {
                 choosenRoles.push(roles.find(r => r.name === rolesList[i]).id);
             }
-            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${channelID}&roles=${choosenRoles.join('-')}`);
+            redirect("ATTENDANCE_PAGE_DONE", `requestID=${requestID}&channels=${selectedChannels}&roles=${choosenRoles.join('-')}`);
         }
 
     }
     request.send();
 }
 
-function initSelect2RoleList(select, width, requestID, lang) {
+function initSelect2RoleList(requestID, lang) {
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/roles`, window), true)
     request.setRequestHeader("RequestID", requestID);
     request.onload = function() {
         const response = JSON.parse(this.response);
         if (this.status === 404) {
-            redirect("ATTENDANCE_NOREQUEST");
             return;
         }
         let roles = [];
@@ -157,22 +139,20 @@ function initSelect2RoleList(select, width, requestID, lang) {
             roles[i] = response[i].name;
         }
         const placeholder = lang === "fr" ? "Rôles" : "Roles";
-        initSelect2(select, placeholder, width, roles.sort(), 6)
-        setTimeout(() => {
-            hideLoader(document);
-        }, 350)
+        document.getElementById("select-roles").innerHTML = "<select id='select-2'multiple><option > <select></option></select > ";
+        initSelect2($("#select-2"), placeholder, roles.sort(), 6)
     }
     request.send();
 }
 
-function initSelect2ChannelList(select, width, requestID, parents, lang) {
+function initSelect2ChannelList(requestID, parents, lang) {
     var request = new XMLHttpRequest()
     request.open('GET', getUrl(`api/get/channels`, window), true)
     request.setRequestHeader("RequestID", requestID);
     request.onload = function() {
         const response = JSON.parse(this.response);
+        console.log(this.status)
         if (this.status === 404) {
-            redirect("ATTENDANCE_NOREQUEST");
             return;
         }
         const channelsJSON = response;
@@ -182,33 +162,30 @@ function initSelect2ChannelList(select, width, requestID, parents, lang) {
         request.onload = function() {
             const response = JSON.parse(this.response);
             for (var i = 0; i < channelsJSON.length; i++) {
-                channels[i] = parents ? `(${parseCategory(response[channelsJSON[i].id])}) ` + channelsJSON[i].name : channelsJSON[i].name;
+                channels[i] = parents ? ` (${parseCategory(response[channelsJSON[i].id])}) ` + channelsJSON[i].name : channelsJSON[i].name;
             }
             const placeholder = lang === "fr" ? "Salons" : "Channels";
-            initSelect2(select, placeholder, width, channels.sort(), 4)
-            setTimeout(() => {
-                hideLoader(document);
-            }, 350)
+            document.getElementById("select-channels").innerHTML = "<select id='select-1'multiple><option > <select> </option></select > ";
+            initSelect2($("#select-1"), placeholder, channels.sort(), 4)
         }
         request.send()
     }
     request.send();
 }
 
+function clearSelection() {
+    $('#select-1').val('').trigger('change');
+    $('#select-2').val('').trigger('change');
+}
+
+function deleteRequest() {
+    redirect("ATTENDANCE_SERVERS", undefined)
+}
+
 const parseCategory = function(name) {
-    return name.length > 15 ? name.substring(0, 15) + "..." : name;
+    return name.length > 30 ? name.substring(0, 30) + "..." : name;
 }
 
-function hideLoader(document) {
-    const loader = document.getElementById('loader');
-    if (loader) loader.style.display = 'none';
-
-    const content = document.getElementById('content');
-    if (content) content.style.display = 'block';
-
-    const quickAttendance = document.getElementById('quickAttendance');
-    if (quickAttendance) quickAttendance.style.display = 'block';
-}
 
 function redirect(route, params) {
     var request = new XMLHttpRequest()
@@ -221,11 +198,11 @@ function redirect(route, params) {
     request.send();
 }
 
-function initSelect2(select, placeholder, width, data, max) {
+function initSelect2(select, placeholder, data, max) {
     select.select2({
         minimumResultsForSearch: -1,
         placeholder: placeholder,
-        width: width,
+        width: "100%",
         data: data,
         maximumSelectionLength: max,
         language: "fr"
@@ -252,42 +229,25 @@ function $_GET(param, window) {
 }
 
 function saveTimezoneCookie() {
-    document.cookie = `timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}` + `;domain=${window.location.host};path=/`;
+    document.cookie = `
+        timezone = ${ Intl.DateTimeFormat().resolvedOptions().timeZone }
+        ` + `;
+        domain = ${ window.location.host };
+        path = /`;
 }
 
 const getRandomBackground = function() {
     return `<img src="/ressources/backgrounds/background-${Math.floor(Math.random() * (6 - 1 + 1) + 1)}.jpg" alt=""></div>`
 }
 
-function includeHTML() {
-    var includes = $('[data-include]');
-    jQuery.each(includes, function() {
-        var request = new XMLHttpRequest()
-        request.open('GET', getUrl(`api/get/url`, window), true)
-        request.setRequestHeader("Route", $(this).data('include'))
-        const element = $(this);
-        request.onload = function() {
-            if (request.status == 404) {
-                element.remove();
-                return;
-            }
-            const url = JSON.parse(this.responseText).route.substring(1);
-            element.load(getUrl(url, window));
-        }
-        request.send();
-    });
-}
-
 function askCookies(lang) {
     if (!localStorage.getItem('cookieconsent')) {
         if (lang === "en") {
-            document.getElementById("cookies").innerHTML += '\
-            <div class="cookieconsent" style="position:fixed;padding:20px;left:0;bottom:0;background-color:#18191c;color:#FFF;text-align:center;width:100%;z-index:99999;">' +
+            document.getElementById("cookies").innerHTML += '<div class="cookieconsent" style="position:fixed;padding:20px;left:0;bottom:0;background-color:#18191c;color:#FFF;text-align:center;width:100%;z-index:99999;">' +
                 'Suivix uses cookies to work. By continuing to use this website, you agree to their use.' + " ‎ ‎" +
                 '<a href="#" style="color:#CCCCCC;">‎‎‎' + 'I Understand' + '</a></div>';
         } else {
-            document.getElementById("cookies").innerHTML += '\
-            <div class="cookieconsent" style="position:fixed;padding:20px;left:0;bottom:0;background-color:#18191c;color:#FFF;text-align:center;width:100%;z-index:99999;">' +
+            document.getElementById("cookies").innerHTML += '<div class="cookieconsent" style="position:fixed;padding:20px;left:0;bottom:0;background-color:#18191c;color:#FFF;text-align:center;width:100%;z-index:99999;">' +
                 'Suivix a besoin de cookies pour fonctionner correctement et faciliter votre utilisation. En continuant d\'utiliser ce site, vous acceptez leur utilisation.' + " ‎ ‎" +
                 '<a href="#" style="color:#CCCCCC;">‎‎‎' + 'J\'ai Compris' + '</a></div>';
         }
@@ -375,4 +335,34 @@ function getServers(language) {
     }
     headers.send();
 
+}
+
+function initParallax() {
+
+    if (!$('.parallax div')) return;
+    var currentX = '';
+    var currentY = '';
+    var movementConstant = .004;
+    $(document).mousemove(function(e) {
+        if (currentX == '') currentX = e.pageX;
+        var xdiff = e.pageX - currentX;
+        currentX = e.pageX;
+        if (currentY == '') currentY = e.pageY;
+        var ydiff = e.pageY - currentY;
+        currentY = e.pageY;
+        $('.parallax div').each(function(i, el) {
+            var movement = (i + 1) * (xdiff * movementConstant);
+            var movementy = (i + 1) * (ydiff * movementConstant);
+            var newX = $(el).position().left + movement;
+            var newY = $(el).position().top + movementy;
+            $(el).css('left', newX + 'px');
+            $(el).css('top', newY + 'px');
+        });
+    });
+}
+//initParallax();
+
+
+function shake() {
+    $("#card").effect("shake");
 }

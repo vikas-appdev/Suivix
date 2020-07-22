@@ -1,0 +1,426 @@
+/*! CSS Used fontfaces */
+
+@font-face {
+    font-family: Whitney;
+    font-weight: 300;
+    src: url(../fonts/300.woff) format("woff");
+}
+
+@font-face {
+    font-family: Whitney;
+    font-weight: 400;
+    src: url(../fonts/400.woff) format("woff");
+}
+
+@font-face {
+    font-family: Whitney;
+    font-weight: 500;
+    src: url(../fonts/500.woff) format("woff");
+}
+
+@font-face {
+    font-family: Whitney;
+    font-weight: 600;
+    src: url(../fonts/600.woff) format("woff");
+}
+
+@font-face {
+    font-family: Whitney;
+    font-weight: 700;
+    src: url(../fonts/700.woff) format("woff");
+}
+
+@font-face {
+    font-family: "color-emoji";
+    src: local("Apple Color Emoji"), local("Segoe UI Emoji"), local("Segoe UI Symbol"), local("Noto Color Emoji");
+}
+
+.systemui-emoji {
+    font-family: system-ui, color-emoji;
+    color: #ed5e68;
+}
+
+* {
+    font-family: Whitney;
+    margin: 0px;
+}
+
+var {
+    font-style: normal;
+}
+
+body {
+    height: 100vh;
+    background-image: url("../ressources/backgrounds/background-4.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    overflow: hidden
+}
+
+.loading-text {
+    height: 25px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, rgb(60, 66, 69) 0%, rgb(60, 66, 69) 40%, rgb(66, 73, 76) 50%, rgb(60, 66, 69) 60%, rgb(60, 66, 69) 100%) 0% 0% / 400%;
+    animation: 0.7s linear 0s infinite normal none running loading;
+    vertical-align: middle;
+    opacity: 0.5;
+    float: right;
+}
+
+.loading-select {
+    height: 30px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, rgb(7, 8, 7) 0%, rgb(7, 8, 7) 40%, rgb(16, 17, 17) 50%, rgb(19, 22, 21) 60%, rgb(19, 22, 21) 100%) 0% 0% / 400%;
+    animation: 0.7s linear 0s infinite normal none running loading;
+    opacity: 0.5;
+}
+
+.loading-image {
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background: linear-gradient(90deg, rgb(60, 66, 69) 0%, rgb(60, 66, 69) 40%, rgb(66, 73, 76) 50%, rgb(60, 66, 69) 60%, rgb(60, 66, 69) 100%) 0% 0% / 400%;
+    animation: 0.7s linear 0s infinite normal none running loading;
+    opacity: 0.5;
+    float: right;
+    margin-left: 5px;
+}
+
+#user-infos {
+    display: none;
+}
+
+#select-loading {
+    display: none;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.navbar {
+    height: 25px;
+    padding: 10px 75px;
+    white-space: nowrap;
+    background: #131615;
+    z-index: 100000;
+}
+
+.navbar .title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 25px;
+    text-decoration: none;
+}
+
+.user img {
+    display: inline;
+    max-height: 25px;
+    border-radius: 100%;
+    float: right;
+}
+
+.user {
+    display: inline;
+    color: #fff;
+    font-size: 15px;
+    line-height: 25px;
+    margin-left: 10px;
+    float: right;
+    border-radius: 8px;
+}
+
+#discriminator {
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+.container .attendance-card {
+    position: relative;
+    min-width: 400px;
+    max-width: 400px;
+    max-height: 900px;
+    background-color: #23272A;
+    border-radius: 15px;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container .attendance-card .content {
+    padding: 12px 16px;
+}
+
+.container .attendance-card .content .header {
+    margin-bottom: 25px;
+}
+
+.container .attendance-card .content .header .logo {
+    max-width: 225px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    animation: float 6s ease-in-out infinite;
+}
+
+.container .attendance-card .content .header .title {
+    color: #fff;
+    font-size: 35px;
+    text-align: center;
+}
+
+.container .attendance-card .content .header .description {
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+}
+
+.container .attendance-card .content .infos .expiresIn {
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+}
+
+.container .attendance-card .content .infos .select {
+    color: #fff;
+    font-size: 17px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.container .attendance-card .content .select-custom {
+    margin-top: 8px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+button {
+    font-family: Whitney, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+}
+
+.btn {
+    border-radius: 100%;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    text-decoration: none;
+    outline: 0 !important;
+    outline-offset: 0 !important;
+    transition: 0.6s;
+    font-size: 14px;
+    height: 45px;
+    width: 45px;
+}
+
+.blue-btn {
+    background: rgb(63, 94, 251);
+    background: linear-gradient(45deg, rgba(63, 94, 251, 1) 0%, rgba(114, 137, 218, 1) 100%);
+    background-size: 200%;
+}
+
+.white-btn {
+    background: #fff;
+    color: #131615;
+}
+
+.black-btn {
+    background: #131615;
+}
+
+.m-left {
+    margin-left: 5px;
+}
+
+.m-right {
+    margin-right: 5px;
+}
+
+@keyframes float {
+    0% {
+        transform: translatey(0px);
+    }
+    50% {
+        transform: translatey(-5px);
+    }
+    100% {
+        transform: translatey(0px);
+    }
+}
+
+.shake {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-8px, 0, 0);
+    }
+    40%,
+    60% {
+        transform: translate3d(8px, 0, 0);
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.parallax {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    left: 0;
+}
+
+.layer {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.layer1 {
+    background-image: url("../ressources/backgrounds/layers/1.png");
+    background-size: 105%;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+}
+
+.layer2 {
+    background-image: url("../ressources/backgrounds/layers/2.png");
+    filter: blur(1.5px);
+    -webkit-filter: blur(1.5px);
+    background-size: 110%;
+}
+
+.layer3 {
+    background-image: url("../ressources/backgrounds/background-4.jpg");
+    background-size: cover;
+}
+
+#loading {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+    display: none;
+}
+
+@keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .layer1 {
+        display: none;
+    }
+    .layer2 {
+        display: none;
+    }
+    .layer3 {
+        background-image: url("../ressources/backgrounds/layers/base.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+    .container .attendance-card {
+        min-width: 300px;
+        max-width: 350px;
+        max-height: 500px;
+    }
+    .container .attendance-card .content .header {
+        margin-bottom: 25px;
+    }
+    .container .attendance-card .content .header .logo {
+        max-width: 150px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        animation: float 6s ease-in-out infinite;
+    }
+    .container .attendance-card .content .header .title {
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+    }
+    .container .attendance-card .content .header .description {
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+    }
+    .container .attendance-card .content .infos .expiresIn {
+        color: #fff;
+        font-size: 11px;
+        text-align: left;
+    }
+    .container .attendance-card .content .infos .select {
+        color: #fff;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 500;
+    }
+    #username,
+    #discriminator,
+    #user-loader,
+    #user-loader-image {
+        display: none;
+    }
+}
