@@ -20,8 +20,6 @@ const authLogin = require("./models/auth/login"),
 //Attendance
 const welcome = require('./models/attendance/welcome'),
     servers = require('./models/attendance/servers'),
-    option1 = require('./models/attendance/options/1'),
-    option2 = require('./models/attendance/options/2'),
     done = require('./models/attendance/done'),
     noRequest = require('./models/attendance/noRequest'),
     newRequest = require('./models/attendance/newRequest');
@@ -67,8 +65,6 @@ class RoutesList {
         //Attendance
         routes.get(Routes.ATTENDANCE_PAGE, welcome);
         routes.get(Routes.ATTENDANCE_SERVERS, servers);
-        routes.get(Routes.ATTENDANCE_PAGE_OPTION_1, option1);
-        routes.get(Routes.ATTENDANCE_PAGE_OPTION_2, option2);
         routes.get(Routes.ATTENDANCE_PAGE_DONE, done);
         routes.get(Routes.ATTENDANCE_NOREQUEST, noRequest);
         routes.get(Routes.ATTENDANCE_NEWREQUEST, newRequest);

@@ -2,8 +2,6 @@
     "HOME_PAGE": "/",
     "ATTENDANCE_PAGE": "/attendance",
     "ATTENDANCE_SERVERS": "/attendance/servers",
-    "ATTENDANCE_PAGE_OPTION_1": "/attendance/options/channels",
-    "ATTENDANCE_PAGE_OPTION_2": "/attendance/options/roles",
     "ATTENDANCE_PAGE_DONE": "/attendance/done",
     "ATTENDANCE_NOREQUEST": "/attendance/norequest",
     "ATTENDANCE_NEWREQUEST": "/attendance/new",
