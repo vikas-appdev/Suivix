@@ -309,6 +309,7 @@ function getServers(language) {
             const showLess = ["Show Less", "Afficher Moins"];
 
             for (var k in response) {
+                if (!response[k].suivix && (response[k].permissions & 0x20) !== 32) continue;
                 $(".servers").append("<div class='server-card" + (i >= 6 ? " expand" : "") + "'><div class='server-content'><div class='server-infos'><img class='server-icon'src='" +
                     (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") + "'>" +
                     "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === true ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" +
