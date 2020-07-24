@@ -40,6 +40,11 @@
     color: #ed5e68;
 }
 
+.emoji {
+    height: 20px;
+    vertical-align: middle;
+}
+
 * {
     font-family: Whitney;
     margin: 0px;
@@ -195,6 +200,8 @@ body {
     color: #fff;
     font-size: 14px;
     text-align: left;
+    display: inline;
+    vertical-align: middle;
 }
 
 .container .attendance-card .content .infos .select {

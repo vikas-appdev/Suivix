@@ -138,7 +138,7 @@ function initSelect2RoleList(requestID, lang) {
         for (var i = 0; i < response.length; i++) {
             roles[i] = response[i].name;
         }
-        const placeholder = lang === "fr" ? "Rôles" : "Roles";
+        const placeholder = (lang === "fr" ? "Rôles" : "Roles") + " 📚";
         document.getElementById("select-roles").innerHTML = "<select id='select-2'multiple><option > <select></option></select > ";
         initSelect2($("#select-2"), placeholder, roles.sort(), 6)
     }
@@ -164,7 +164,7 @@ function initSelect2ChannelList(requestID, parents, lang) {
             for (var i = 0; i < channelsJSON.length; i++) {
                 channels[i] = parents ? ` (${parseCategory(response[channelsJSON[i].id])}) ` + channelsJSON[i].name : channelsJSON[i].name;
             }
-            const placeholder = lang === "fr" ? "Salons" : "Channels";
+            const placeholder = (lang === "fr" ? "Salons" : "Channels") + " 🎧";
             document.getElementById("select-channels").innerHTML = "<select id='select-1'multiple><option > <select> </option></select > ";
             initSelect2($("#select-1"), placeholder, channels.sort(), 4)
         }
