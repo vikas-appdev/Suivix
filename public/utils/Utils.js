@@ -321,7 +321,7 @@ function initServerSelection(language) {
                     if ($(this).attr('suivix') === "true")
                         redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=' + $(this).attr('id'));
                     else {
-                        redirect(`API_INVITE_URL`, 'guild_id="' + $(this).attr('id') + '"');
+                        redirect(`API_INVITE_URL`, 'guild_id=' + $(this).attr('id'));
                     }
                 })
                 i++;
