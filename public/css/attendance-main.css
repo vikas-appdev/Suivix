@@ -124,6 +124,27 @@ body {
     text-decoration: none;
 }
 
+.navbar .language {
+    color: #fff;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    text-decoration: none;
+    float: right;
+}
+
+.navbar .language:hover {
+    opacity: 0.9;
+}
+
+.navbar .margin {
+    margin-right: 75px;
+}
+
+.navbar .margin-15 {
+    margin-right: 5px;
+}
+
 .user img {
     display: inline;
     max-height: 25px;
@@ -370,6 +391,112 @@ button {
     }
 }
 
+.servers-container {
+    height: 145px;
+    position: relative;
+}
+
+.servers-container .servers {
+    max-height: 100%;
+    overflow: auto;
+}
+
+.servers-container .servers .server-card {
+    background-color: #131615;
+    padding: 8px 16px;
+    border-radius: 8px;
+    height: 30px;
+    margin-bottom: 3px;
+    cursor: pointer;
+}
+
+.server-card .loading-text {
+    height: 30px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, rgb(60, 66, 69) 0%, rgb(60, 66, 69) 40%, rgb(66, 73, 76) 50%, rgb(60, 66, 69) 60%, rgb(60, 66, 69) 100%) 0% 0% / 400%;
+    animation: 0.7s linear 0s infinite normal none running loading;
+    float: left;
+    vertical-align: middle;
+    opacity: 0.5;
+}
+
+.server-card .loading-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background: linear-gradient(90deg, rgb(60, 66, 69) 0%, rgb(60, 66, 69) 40%, rgb(66, 73, 76) 50%, rgb(60, 66, 69) 60%, rgb(60, 66, 69) 100%) 0% 0% / 400%;
+    animation: 0.7s linear 0s infinite normal none running loading;
+    opacity: 0.5;
+    float: right;
+    margin-left: 5px;
+}
+
+.servers-container .servers .server-card:hover {
+    background-color: #171a19;
+}
+
+.servers-container .servers .server-card img {
+    display: inline-block;
+    height: 100%;
+    max-height: 30px;
+    float: right;
+    vertical-align: middle;
+    border-radius: 100px;
+}
+
+.servers-container .servers .server-card p {
+    font-size: 15px;
+    line-height: 30px;
+    color: #fff;
+    vertical-align: middle;
+    display: inline;
+}
+
+.down {
+    font-size: 25px;
+    color: #fff;
+    text-align: center;
+    margin-top: 10px;
+    animation: float 3s ease-out infinite;
+}
+
+.servers-container .servers .server-card .add {
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+    text-decoration: none;
+    border-radius: 100px;
+    background-color: #343a40;
+    border-color: #343a40;
+    padding: 5px 5px;
+    font-size: 12px;
+    margin-left: 5px;
+    max-height: 30px;
+    max-width: 30px;
+    float: right;
+}
+
+.servers-container .servers .server-card .add:hover {
+    background-color: #23272b;
+    border-color: #1d2124;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #23272a
+}
+
+::-webkit-scrollbar {
+    width: 15px
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #131615;
+    border: 5px solid transparent;
+    border-radius: 9px;
+    background-clip: content-box;
+    max-height: 15px
+}
+
 @-webkit-keyframes spin {
     to {
         -webkit-transform: rotate(360deg);
@@ -429,5 +556,11 @@ button {
     #user-loader,
     #user-loader-image {
         display: none;
+    }
+    #cookies {
+        display: none;
+    }
+    .navbar .margin {
+        margin-right: 5px;
     }
 }

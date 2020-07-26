@@ -151,7 +151,6 @@ function initSelect2ChannelList(requestID, parents, lang) {
     request.setRequestHeader("RequestID", requestID);
     request.onload = function() {
         const response = JSON.parse(this.response);
-        console.log(this.status)
         if (this.status === 404) {
             return;
         }
@@ -285,7 +284,7 @@ function closeChangelog() {
     $('#overlay').fadeOut(300);
 }
 
-function getServers(language) {
+function initServerSelection(language) {
     let headers = new XMLHttpRequest();
     headers.open('HEAD', document.location, true);
     headers.onload = function() {
@@ -299,38 +298,43 @@ function getServers(language) {
         request.setRequestHeader("Access_token", access_token)
         request.onload = function() {
             const response = JSON.parse(this.response);
-            let i = 0;
             const lang = language === "en" ? 0 : 1;
-            const owner = ["Server owner", "Propriétaire du serveur"];
-            const errorLoading = ["Error while loading server list.", "Erreur durant le chargement des serveurs."];
-            const attendance = ["Take Attendance", "Faire un suivi"];
             const add = ["Add Suivix", "Ajouter Suivix"];
-            const showMore = ["Show More", "Afficher Plus"];
-            const showLess = ["Show Less", "Afficher Moins"];
-
+            let i = 0;
+            let isOnSupport = false;
             for (var k in response) {
+                if (response[k].id === "705806416795009225") {
+                    $("#support").click(function() {
+                        redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=705806416795009225');
+                    });
+                    isOnSupport = true;
+                    continue;
+                };
                 if (!response[k].suivix && (response[k].permissions & 0x20) !== 32) continue;
-                $(".servers").append("<div class='server-card" + (i >= 6 ? " expand" : "") + "'><div class='server-content'><div class='server-infos'><img class='server-icon'src='" +
-                    (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") + "'>" +
-                    "<h2 class='colorStandard size16 server-name'>" + (response[k].name ? response[k].name + (response[k].owner ? " <i class='fas fa-crown yellow' title='" + owner[lang] + "'></i>" : "") : errorLoading[lang]) + "</h2><button class='" + (response[k].suivix === true ? "blue-btn" : "btn-dark") + " btn-small server-name server-button' onclick=\"" +
-                    (response[k].suivix === true ? "redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=" + response[k].id + "');" : "redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');") + "\">" +
-                    (response[k].suivix === true ? attendance[lang] : add[lang]) + "</button></div></div></div>");
-                if (i === 5) {
-                    $('.servers').append("<div class='expand-card''><div class='expand-content'><div class='expand-add'><p>" + showMore[lang] + "</p></div></div></div>");
-                    $('.expand-card').click(function(e) {
-                        $(this).hide();
-                        $(".expand").show();
-                    })
-                }
+                $(".servers").append('<div class="server-card" id="' + response[k].id + '" suivix="' + response[k].suivix + '">' +
+                    (response[k].suivix ? "" : '<button' +
+                        ' class="add" title="' + add[lang] + '"><i class="fas fa-plus"></i></button>') +
+                    '<p>' + response[k].name + '<img src="' +
+                    (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") +
+                    '"></p>' + '</div>');
+                $("#" + response[k].id).click(function() {
+                    if ($(this).attr('suivix') === "true")
+                        redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=' + $(this).attr('id'));
+                    else {
+                        redirect(`API_INVITE_URL`, 'guild_id=" + response[k].id + "');
+                    }
+                })
                 i++;
             }
-            $('.servers').append("<div class='expand-card expand contract'><div class='expand-content'><div class='expand-add'><p>" + showLess[lang] + "</p></div></div></div>")
-            $('.contract').click(function(e) {
-                $(".expand").hide();
-                $(".expand-card").show();
-                $(this).hide();
-            })
-            $("[id=loader]").hide();
+            if (!isOnSupport) {
+                $("#support").html('<button class="add" title="Join Suivix Support Server"><i class="fas fa-arrow-right"></i></i></button><p>Suivix © Support<img src="/ressources/support-icon.png"></p>')
+                $("#support").click(function() {
+                    redirect(`API_SUPPORT_URL`, undefined);
+                });
+            }
+            $(".load").css("display", "none");
+            const height = i === 1 ? i * 48 + 48 : i * 48;
+            $(".servers-container").css("height", height > 145 ? 145 : height + "px")
         }
         request.send();
     }
