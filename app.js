@@ -4,6 +4,7 @@
  * See the accompanying LICENSE file for terms.
  */
 const express = require("express"),
+    session = require('express-session'),
     compression = require("compression"),
     cookieParser = require("cookie-parser"),
     locale = require("locale"),
@@ -40,6 +41,7 @@ global.sequelize = new Sequelize({ //Initialize Database
     storage: __dirname + Config.DATABASE_FILE,
     logging: false,
 });
+global.oauth = new(require("discord-oauth2"));
 
 //App configuration
 app.use(compression());
@@ -63,11 +65,29 @@ app.use(function(req, res, next) {
 app.use(cookieParser()); //Used for a better support of cookies
 app.use(locale(Language.supportedLanguages, Language.defaultLanguage)); //Used to find user language
 
+var SQLiteStore = require('connect-sqlite3')(session); //Storing session data
+const sessionStorage = new SQLiteStore({ dir: './database/' })
+
+app.use(session({
+    store: sessionStorage,
+    secret: Config.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    expires: new Date(Date.now() + (365 * 60 * 60 * 24)),
+    cookie: { secure: Config.HTTPS_ENABLED, maxAge: 365 * 60 * 60 * 24 }
+}))
+
+const DiscordOauth = require('./classes/auth/DiscordOauth');
+const passport = DiscordOauth.init();
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Bot Client events
 //Trigger when the discord client has loaded
 client.on("ready", async() => {
     //Connect all routes to the website
-    app.use("/", RoutesList.getRoutes());
+    app.use("/", RoutesList.getRoutes(passport));
 
     //Post some bot stats on the Discord Bot List
     setInterval(() => {

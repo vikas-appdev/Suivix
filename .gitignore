@@ -1,7 +1,7 @@
 .idea/
 .vscode/
 node_modules/
-/database/*.sqlite
+/database/*
 package-lock.json
 domain.txt
 app/config/config.json

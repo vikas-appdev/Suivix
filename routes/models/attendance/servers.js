@@ -4,6 +4,9 @@
  * See the accompanying LICENSE file for terms.
  */
 module.exports = (req, res) => {
-    res.set("Access_token", req.cookies["access_token"]);
-    res.sendFile(Server.getViewsFile(req, res, Routes.ATTENDANCE_SERVERS, "/", req.query.language ? req.query.language : undefined));
+    if (!req.session.passport.user.identity) {
+        res.redirect(Routes.LOGIN_PAGE);
+    } else {
+        res.sendFile(Server.getViewsFile(req, res, Routes.ATTENDANCE_SERVERS, "/", req.query.language ? req.query.language : undefined));
+    }
 };

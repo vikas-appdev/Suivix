@@ -1,5 +1,6 @@
 {
   "APP_VIEWS_DIRECTORY": "views/",
+  "SESSION_SECRET":"keyboard cat",
   "WEBSITE_HOST": "localhost",
   "ATTENDANCE_VALIDITY_TIME": "1",
   "DISCORD_CLIENT_TOKEN": "BOT_TOKEN",

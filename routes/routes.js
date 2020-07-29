@@ -38,7 +38,7 @@ const getUser = require('./models/api/user'),
 
 class RoutesList {
 
-    static getRoutes() {
+    static getRoutes(passport) {
 
         //Global
         routes.get(Routes.HOME_PAGE, (req, res) => {
@@ -58,20 +58,24 @@ class RoutesList {
         routes.get(Routes.ERROR_404, error404);
 
         //Authentification
-        routes.get(Routes.LOGIN_REDIRECT, authLogin);
+        routes.get(Routes.LOGIN_REDIRECT, passport.authenticate('oauth'));
         routes.get(Routes.LOGOUT_REDIRECT, authLogout);
-        routes.get(Routes.DISCORD_OAUTH_CALLBACK_URL, callback);
+        routes.get(Routes.DISCORD_OAUTH_CALLBACK_URL, passport.authenticate('oauth'), callback);
 
         //Attendance
-        routes.get(Routes.ATTENDANCE_PAGE, welcome);
-        routes.get(Routes.ATTENDANCE_SERVERS, servers);
-        routes.get(Routes.ATTENDANCE_PAGE_DONE, done);
+        routes.get(Routes.ATTENDANCE_PAGE, passport.authenticate('main', ), welcome);
+        routes.get(Routes.ATTENDANCE_SERVERS, passport.authenticate('main'), servers);
+        routes.get(Routes.ATTENDANCE_PAGE_DONE, passport.authenticate('main'), done);
         routes.get(Routes.ATTENDANCE_NOREQUEST, noRequest);
         routes.get(Routes.ATTENDANCE_NEWREQUEST, newRequest);
 
         //Api
-        routes.get(Routes.API_USER_URL, getUser);
-        routes.get(Routes.API_GUILDS_URL, getUserGuilds);
+        routes.get(Routes.API_USER_URL, passport.authenticate('main', {
+            noredirect: true
+        }), getUser);
+        routes.get(Routes.API_GUILDS_URL, passport.authenticate('main', {
+            noredirect: true
+        }), getUserGuilds);
         routes.get(Routes.API_URL_FETCHER_URL, getUrl);
         routes.get(Routes.API_CHANNELS_URL, getChannels);
         routes.get(Routes.API_CATEGORIES_URL, getCategories);

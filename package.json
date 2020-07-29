@@ -1,6 +1,6 @@
 {
     "name": "suivix",
-    "version": "3.8.1",
+    "version": "3.8.5",
     "description": "A Discord bot to take attendance",
     "main": "app.js",
     "scripts": {
@@ -15,11 +15,12 @@
     "author": "MΛX",
     "license": "GPL-3.0",
     "dependencies": {
-        "async-request": "^1.2.0",
         "colors": "^1.4.0",
         "compression": "^1.7.4",
+        "connect-sqlite3": "^0.9.11",
         "cookie-parser": "^1.4.5",
         "dblapi.js": "^2.4.0",
+        "discord-oauth2": "^2.3.0",
         "discord.js": "^12.2.0",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
@@ -30,6 +31,9 @@
         "locale": "^0.1.0",
         "moment": "^2.26.0",
         "moment-timezone": "^0.5.31",
+        "passport": "^0.4.1",
+        "passport-oauth2": "^1.5.0",
+        "passport-oauth2-middleware": "^1.0.3",
         "sequelize": "^5.21.10",
         "sqlite3": "^4.2.0"
     }

@@ -14,40 +14,30 @@ function httpGetRequest(url, token) {
 
 const initAttendance = function(lang) {
     var request = new XMLHttpRequest()
-    request.open('HEAD', document.location, true);
+    request.open('GET', getUrl(`api/get/user`, window), true)
+    request.withCredentials = true;
+
     request.onload = function() {
-        let access_token = this.getResponseHeader("Access_token");
-        request.open('GET', getUrl(`api/get/user`, window), true)
-        request.setRequestHeader("Access_token", access_token)
-        request.onload = function() {
-            const response = JSON.parse(this.response);
-            if (!response.username) {
-                redirect("DISCORD_OAUTH_CALLBACK_URL", window, undefined);
-                return;
-            }
-            document.getElementById("username").innerHTML = response.username;
-            document.getElementById("requestID").innerHTML = response.requestID;
-            document.getElementById("discriminator").innerHTML = "#" + response.discriminator;
-            document.getElementById("avatar").src = response.avatar ? "https://cdn.discordapp.com/avatars/" + response.id + "/" + response.avatar : "https://cdn.discordapp.com/embed/avatars/2.png";
-            $("#user-loader").hide();
-            $("#user-loader-image").hide();
-            $("#user-infos").show();
+        const response = JSON.parse(this.response);
+        document.getElementById("username").innerHTML = response.username;
+        document.getElementById("requestID").innerHTML = response.requestID;
+        document.getElementById("discriminator").innerHTML = "#" + response.discriminator;
+        document.getElementById("avatar").src = response.avatar ? "https://cdn.discordapp.com/avatars/" + response.id + "/" + response.avatar : "https://cdn.discordapp.com/embed/avatars/2.png";
+        $("#user-loader").hide();
+        $("#user-loader-image").hide();
+        $("#user-infos").show();
 
-            displayChangelog(lang, document.getElementById("version"), document.getElementById("changelogText"));
+        displayChangelog(lang, document.getElementById("version"), document.getElementById("changelogText"));
 
-            if (response.requestID) {
-                initSelect2ChannelList(response.requestID, true, lang);
-                initSelect2RoleList(response.requestID, lang);
-                document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            } else {
-                redirect("ATTENDANCE_NOREQUEST");
-            }
-
+        if (response.requestID) {
+            initSelect2ChannelList(response.requestID, true, lang);
+            initSelect2RoleList(response.requestID, lang);
+        } else {
+            redirect("ATTENDANCE_NOREQUEST");
         }
-        request.send();
+
     }
     request.send();
-
 }
 
 function doAttendance(requestID) {
@@ -235,10 +225,6 @@ function saveTimezoneCookie() {
         path = /`;
 }
 
-const getRandomBackground = function() {
-    return `<img src="/ressources/backgrounds/background-${Math.floor(Math.random() * (6 - 1 + 1) + 1)}.jpg" alt=""></div>`
-}
-
 function askCookies(lang) {
     if (!localStorage.getItem('cookieconsent')) {
         if (lang === "en") {
@@ -285,60 +271,50 @@ function closeChangelog() {
 }
 
 function initServerSelection(language) {
-    let headers = new XMLHttpRequest();
-    headers.open('HEAD', document.location, true);
-    headers.onload = function() {
-        let access_token = this.getResponseHeader("Access_token");
-        if (access_token === "undefined") {
-            redirect("DISCORD_OAUTH_CALLBACK_URL", "redirect=false");
-            return;
-        }
-        let request = new XMLHttpRequest();
-        request.open('GET', getUrl(`api/get/user/guilds`, window), true)
-        request.setRequestHeader("Access_token", access_token)
-        request.onload = function() {
-            const response = JSON.parse(this.response);
-            const lang = language === "en" ? 0 : 1;
-            const add = ["Add Suivix", "Ajouter Suivix"];
-            let i = 0;
-            let isOnSupport = false;
-            for (var k in response) {
-                if (response[k].id === "705806416795009225") {
-                    $("#support").click(function() {
-                        redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=705806416795009225');
-                    });
-                    isOnSupport = true;
-                    continue;
-                };
-                if (!response[k].suivix && (response[k].permissions & 0x20) !== 32) continue;
-                $(".servers").append('<div class="server-card" id="' + response[k].id + '" suivix="' + response[k].suivix + '">' +
-                    (response[k].suivix ? "" : '<button' +
-                        ' class="add" title="' + add[lang] + '"><i class="fas fa-plus"></i></button>') +
-                    '<p>' + response[k].name + '<img src="' +
-                    (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") +
-                    '"></p>' + '</div>');
-                $("#" + response[k].id).click(function() {
-                    if ($(this).attr('suivix') === "true")
-                        redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=' + $(this).attr('id'));
-                    else {
-                        redirect(`API_INVITE_URL`, 'guild_id=' + $(this).attr('id'));
-                    }
-                })
-                i++;
-            }
-            if (!isOnSupport) {
-                $("#support").html('<button class="add" title="Join Suivix Support Server"><i class="fas fa-arrow-right"></i></i></button><p>Suivix © Support<img src="/ressources/support-icon.png"></p>')
+    let request = new XMLHttpRequest();
+    request.open('GET', getUrl(`api/get/user/guilds`, window), true)
+    request.withCredentials = true;
+    request.onload = function() {
+        const response = JSON.parse(this.response);
+        const lang = language === "en" ? 0 : 1;
+        const add = ["Add Suivix", "Ajouter Suivix"];
+        let i = 0;
+        let isOnSupport = false;
+        for (var k in response) {
+            if (response[k].id === "705806416795009225") {
                 $("#support").click(function() {
-                    redirect(`API_SUPPORT_URL`, undefined);
+                    redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=705806416795009225');
                 });
-            }
-            $(".load").css("display", "none");
-            const height = i === 1 ? i * 48 + 48 : i * 48;
-            $(".servers-container").css("height", height > 145 ? 145 : height + "px")
+                isOnSupport = true;
+                continue;
+            };
+            if (!response[k].suivix && (response[k].permissions & 0x20) !== 32) continue;
+            $(".servers").append('<div class="server-card" id="' + response[k].id + '" suivix="' + response[k].suivix + '">' +
+                (response[k].suivix ? "" : '<button' +
+                    ' class="add" title="' + add[lang] + '"><i class="fas fa-plus"></i></button>') +
+                '<p>' + response[k].name + '<img src="' +
+                (response[k].icon ? `https://cdn.discordapp.com/icons/${response[k].id}/${response[k].icon}.jpg` : "/ressources/unknown-server.png") +
+                '"></p>' + '</div>');
+            $("#" + response[k].id).click(function() {
+                if ($(this).attr('suivix') === "true")
+                    redirect(`ATTENDANCE_NEWREQUEST`, 'guild_id=' + $(this).attr('id'));
+                else {
+                    redirect(`API_INVITE_URL`, 'guild_id=' + $(this).attr('id'));
+                }
+            })
+            i++;
         }
-        request.send();
+        if (!isOnSupport) {
+            $("#support").html('<button class="add" title="Join Suivix Support Server"><i class="fas fa-arrow-right"></i></i></button><p>Suivix © Support<img src="/ressources/support-icon.png"></p>')
+            $("#support").click(function() {
+                redirect(`API_SUPPORT_URL`, undefined);
+            });
+        }
+        $(".load").css("display", "none");
+        const height = i === 1 ? i * 48 + 48 : i * 48;
+        $(".servers-container").css("height", height > 145 ? 145 : height + "px")
     }
-    headers.send();
+    request.send();
 
 }
 

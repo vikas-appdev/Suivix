@@ -3,22 +3,20 @@
  * Copyrights licensed under the GNU General Public License v3.0.
  * See the accompanying LICENSE file for terms.
  */
-const Auth = require('../../../classes/auth/DiscordOauth'),
-    RequestManager = require('../../../classes/managers/RequestManager');
+const RequestManager = require('../../../classes/managers/RequestManager');
 
 module.exports = async(req, res) => {
     try {
-        const user = await Auth.authUser(req, res, req.query.code);
-        if (!user) {
+        if (!req.session.passport.user.identity) {
             res.redirect(Routes.LOGIN_PAGE);
-            return;
-        };
-        if (req.query.guild_id) {
-            (new RequestManager()).createNewRequest(user, +new Date(), req.query.guild_id);
         } else {
-            await manager.createRequestByOldOne(user.id);
+            if (req.query.guild_id) {
+                (new RequestManager()).createNewRequest(req.session.passport.user.identity, +new Date(), req.query.guild_id);
+            } else {
+                await manager.createRequestByOldOne(req.session.passport.user.identity.id);
+            }
+            res.redirect(Routes.ATTENDANCE_PAGE);
         }
-        res.redirect(Routes.ATTENDANCE_PAGE);
     } catch (err) {
         console.log(err);
         res.sendFile(Server.getApiViewsFile(req, res, Routes.ERROR_500, "/index.html"));
