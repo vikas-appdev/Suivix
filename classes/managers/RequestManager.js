@@ -39,8 +39,10 @@ class RequestManager {
         });
         if (!request) return undefined;
         let guild = await client.guilds.cache.get(request.guildID);
-        let channel = guild.channels.cache.get(request.channelID);
+        if (!guild) return undefined;
         let author = guild.member(request.author);
+        if (!author) return undefined;
+        let channel = guild.channels.cache.get(request.channelID);
         return new Request(request.id, author, new Date(request.date), guild, channel);
     }
 
