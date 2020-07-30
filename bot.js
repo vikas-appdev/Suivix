@@ -73,13 +73,13 @@ class BotClient {
         if (language === "fr") {
             return new Discord.MessageEmbed().setTitle("Message Important")
                 .setDescription(`Suivix vient de quitter le serveur Discord \`${guild.name}\` dont vous êtes propriétaire.`)
-                .addField("\u200b", `Cette action est peut-être involontaire, si vous ne souhaitiez pas le départ de Suivix, vous pouvez le faire revenir en [cliquant ici](https://${Config.WEBSITE_HOST}/invite). Dans le cas contraire, si vous le souhaitez bien évidemment, pourriez-vous m'envoyer le motif qui vous a poussé à désinstaller Suivix en utilisant le formulaire de contact [disponible ici](https://${Config.WEBSITE_HOST}/fr/#contact-section) ?`, false)
+                .addField("\u200b", `Cette action est peut-être involontaire, si vous ne souhaitiez pas le départ de Suivix, vous pouvez le faire revenir en [cliquant ici](https://${Config.WEBSITE_HOST}/invite). Dans le cas contraire, si vous le souhaitez bien évidemment, pourriez-vous m'envoyer le motif qui vous a poussé à désinstaller Suivix en utilisant le formulaire de contact [disponible ici](https://${Config.WEBSITE_HOST}/fr#contact-section) ?`, false)
                 .addField("\u200b", "Cordialement,\n\`Le Créateur De Suivix, MΛX\`", false)
                 .setThumbnail("https://i.imgur.com/Q1rdarX.png");
         } else {
             return new Discord.MessageEmbed().setTitle("Important Message")
                 .setDescription(`Suivix has left the Discord server \`${guild.name}\` which you own.`)
-                .addField("\u200b", `This action may be involuntary, if you didn't want Suivix to leave, you can make him come back by [clicking here](https://${Config.WEBSITE_HOST}/invite). Otherwise, if you'd like to, could you send me the reason why you wanted to uninstall Suivix by using the contact form [available here](https://${Config.WEBSITE_HOST}/en/#contact-section) ?`, false)
+                .addField("\u200b", `This action may be involuntary, if you didn't want Suivix to leave, you can make him come back by [clicking here](https://${Config.WEBSITE_HOST}/invite). Otherwise, if you'd like to, could you send me the reason why you wanted to uninstall Suivix by using the contact form [available here](https://${Config.WEBSITE_HOST}/en#contact-section) ?`, false)
                 .addField("\u200b", "Sincerely,\n\`The Suivix Creator, MΛX\`", false)
                 .setThumbnail("https://i.imgur.com/Q1rdarX.png");
         }
