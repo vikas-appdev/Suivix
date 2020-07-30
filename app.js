@@ -157,11 +157,12 @@ client.on("guildCreate", (guild) => {
 });
 
 //Trigger when the bot leaves a guild
-client.on("guildDelete", (guild) => {
+client.on("guildDelete", async(guild) => {
     SuivixClient.displayConsoleChannel(separator + `\n❌ The bot has left a server! \`(server: '${guild.name}', members: '${guild.memberCount}')\``);
     console.log(
         `❌ The bot has left a server!`.green + ` (server: '${guild.name}', members: '${guild.memberCount}')` + separator
     );
+    guild.owner.send(await SuivixClient.getLeaveMessage(guild)).catch("Cannot send leave message!".red + separator);
 });
 
 //Launching web servers

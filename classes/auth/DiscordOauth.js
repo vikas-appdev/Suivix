@@ -8,6 +8,9 @@ var OAuth2Strategy = require('passport-oauth2'),
     passport = require('passport');
 
 
+/**
+ * Initialize the authentification system for Suivix
+ */
 function init() {
     var refreshStrategy = new OAuth2RefreshTokenStrategy({
         refreshWindow: 20, // Time in seconds to perform a token refresh before it expires
@@ -42,7 +45,6 @@ function init() {
     refreshStrategy.useOAuth2Strategy(oauthStartegy); //Register the OAuth strategy
 
     return passport;
-
 }
 
 module.exports = {

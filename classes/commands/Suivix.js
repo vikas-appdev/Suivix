@@ -4,7 +4,7 @@
  * See the accompanying LICENSE file for terms.
  */
 const Discord = require('discord.js'),
-        RequestManager = require('../managers/RequestManager');
+    RequestManager = require('../managers/RequestManager');
 
 /**
  * Launch the command
@@ -12,7 +12,7 @@ const Discord = require('discord.js'),
  * @param args - Arguments typed by the user in addition to the command
  * @param client - The bot client 
  */
-const suivixCommand = async function (message, args, client, sequelize) {
+const suivixCommand = async function(message, args, client, sequelize) {
     const guild = message.guild;
     const channel = message.channel;
     const author = message.author;
@@ -25,15 +25,15 @@ const suivixCommand = async function (message, args, client, sequelize) {
     const language = dbUser[0].language === "fr" ? "fr" : "en";
     const Text = require('../../app/text/suivix.json').translations[language];
     (new RequestManager()).createNewRequest(author, message.createdTimestamp, guild.id, channel.id);
-    console.log(
-        '{username}#{discriminator}'.formatUnicorn({username: author.username, discriminator: author.discriminator}).yellow +
+    if (!args.includes("help") && !args.includes("aide")) console.log(
+        '{username}#{discriminator}'.formatUnicorn({ username: author.username, discriminator: author.discriminator }).yellow +
         " created a new attendance request.".blue +
-        " (id: '{id}', server: '{server}', language: '{language}', withOldOne: 'false', invite: '{invite}')".formatUnicorn({id: message.createdTimestamp, server: guild.name, language: language, invite: await getGuildInvite(guild)}) +
+        " (id: '{id}', server: '{server}', language: '{language}', withOldOne: 'false', invite: '{invite}')".formatUnicorn({ id: message.createdTimestamp, server: guild.name, language: language, invite: await getGuildInvite(guild) }) +
         separator
     );
 
     let msg = (args.includes("help") || args.includes("aide")) ? await generateAttendanceHelpMessage(channel, author, Text) :
-    await generateAttendanceRequestMessage(channel, author, Text);
+        await generateAttendanceRequestMessage(channel, author, Text);
 
     if (msg) {
         msg.react("🇫🇷");
@@ -46,7 +46,7 @@ const suivixCommand = async function (message, args, client, sequelize) {
  * @param {*} author - The command author
  */
 async function createUser(author, server, sequelize) {
-    console.log("A new user has been created in database : ".blue + '{username}#{discriminator}'.formatUnicorn({username: author.username, discriminator: author.discriminator}).yellow + ".".blue + " (on server '{server}')".formatUnicorn({server: server.name}) + separator);
+    console.log("A new user has been created in database : ".blue + '{username}#{discriminator}'.formatUnicorn({ username: author.username, discriminator: author.discriminator }).yellow + ".".blue + " (on server '{server}')".formatUnicorn({ server: server.name }) + separator);
     await sequelize.query(`INSERT INTO users (id, language) VALUES (${author.id}, "fr")`);
     return await sequelize.query(`SELECT * FROM users WHERE id = "${author.id}"`, {
         raw: true
@@ -57,8 +57,8 @@ async function createUser(author, server, sequelize) {
  * Returns the message for the suivix command
  * @param {*} channel - The channel where the command was trigerred
  */
-const generateAttendanceRequestMessage = async function (channel, author, Text) {
-    return await channel.send(new Discord.MessageEmbed().setDescription(Text.request.description.formatUnicorn({protocol: getProtocol(), host: Config.WEBSITE_HOST}))
+const generateAttendanceRequestMessage = async function(channel, author, Text) {
+    return await channel.send(new Discord.MessageEmbed().setDescription(Text.request.description.formatUnicorn({ protocol: getProtocol(), host: Config.WEBSITE_HOST }))
         .setImage("https://i.imgur.com/QbiPChv.png")
         .setTitle(Text.request.title)).catch((err) => {
         console.log("⚠   Error while sending message!".brightRed + separator);
@@ -70,9 +70,9 @@ const generateAttendanceRequestMessage = async function (channel, author, Text) 
  * Returns the help message for the suivix command
  * @param {*} channel - The channel where the command was trigerred
  */
-const generateAttendanceHelpMessage = async function (channel, author, Text) {
+const generateAttendanceHelpMessage = async function(channel, author, Text) {
     return await channel.send(Text.request.help.content, {
-        embed: new Discord.MessageEmbed().setDescription(Text.request.help.description.formatUnicorn({host: Config.WEBSITE_HOST}))
+        embed: new Discord.MessageEmbed().setDescription(Text.request.help.description.formatUnicorn({ host: Config.WEBSITE_HOST }))
             .setThumbnail("https://i.imgur.com/8qCFYLj.png")
             .setTitle(Text.request.help.title)
     }).catch((err) => {
@@ -81,7 +81,7 @@ const generateAttendanceHelpMessage = async function (channel, author, Text) {
     });
 }
 
-const getProtocol = function () {
+const getProtocol = function() {
     return Config.HTTPS_ENABLED ? "https" : "http";
 }
 
