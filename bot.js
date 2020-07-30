@@ -69,7 +69,7 @@ class BotClient {
         let [dbUser] = await sequelize.query(`SELECT * FROM users WHERE id = "${guild.owner.id}"`, {
             raw: true
         });
-        const language = !dbUser[0] ? "fr" : dbUser.language;
+        const language = !dbUser[0] ? "fr" : dbUser[0].language;
         if (language === "fr") {
             return new Discord.MessageEmbed().setTitle("Message Important")
                 .setDescription(`Suivix vient de quitter le serveur Discord \`${guild.name}\` dont vous êtes propriétaire.`)

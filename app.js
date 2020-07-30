@@ -30,17 +30,17 @@ global.Config = require('./app/config/config.json'); //The bot config
 global.Routes = require('./app/routes/routes.json'); //The website routes
 global.Server = require("./utils/Server");
 global.separator = '\n-';
+global.sequelize = new Sequelize({ //Initialize Database
+    dialect: "sqlite",
+    storage: __dirname + Config.DATABASE_FILE,
+    logging: false,
+});
 global.SuivixClient = new BotClient(); //Launch the Discord bot instance
 global.client = SuivixClient.client; //The bot client
 global.getGuildInvite = async(guild) => {
     const invite = [...await guild.fetchInvites()][0]
     return invite ? invite.toString().split(',')[1] : "No";
 }
-global.sequelize = new Sequelize({ //Initialize Database
-    dialect: "sqlite",
-    storage: __dirname + Config.DATABASE_FILE,
-    logging: false,
-});
 global.oauth = new(require("discord-oauth2"));
 
 //App configuration
