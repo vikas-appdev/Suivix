@@ -149,11 +149,13 @@ client.on("messageReactionAdd", async(reaction, user) => {
 });
 
 //Trigger when the bot joins a guild
-client.on("guildCreate", (guild) => {
+client.on("guildCreate", async(guild) => {
     SuivixClient.displayConsoleChannel(separator + `\n✅ The bot has joined a new server! \`(server: '${guild.name}', members: '${guild.memberCount}')\``);
     console.log(
         `✅ The bot has joined a new server!`.green + ` (server: '${guild.name}', members: '${guild.memberCount}')` + separator
     );
+    guild.owner.send(await SuivixClient.getJoinMessage(guild, "fr")).catch("Cannot send join message!".red + separator);
+    guild.owner.send(await SuivixClient.getJoinMessage(guild, "en")).catch("Cannot send join message!".red + separator);
 });
 
 //Trigger when the bot leaves a guild

@@ -69,7 +69,7 @@ class BotClient {
         let [dbUser] = await sequelize.query(`SELECT * FROM users WHERE id = "${guild.owner.id}"`, {
             raw: true
         });
-        const language = !dbUser[0] ? "fr" : dbUser[0].language;
+        const language = !dbUser[0] ? "en" : dbUser[0].language;
         if (language === "fr") {
             return new Discord.MessageEmbed().setTitle("Message Important")
                 .setDescription(`Suivix vient de quitter le serveur Discord \`${guild.name}\` dont vous êtes propriétaire.`)
@@ -85,6 +85,24 @@ class BotClient {
         }
 
     }
+
+    /**
+     * Send the join message for Suivix
+     * @param {*} guild - The guild wich the bot has joined
+     */
+    async getJoinMessage(guild, language) {
+        if (language === "fr") {
+            return new Discord.MessageEmbed().setTitle("Message Important")
+                .setDescription(`Suivix vient de rejoindre le serveur Discord \`${guild.name}\` dont vous êtes propriétaire. En cas de problème, vous trouverez toute l'aide dont vous avez besoin avec la commande \`${Config.PREFIX}suivix aide\`.`)
+                .setThumbnail("https://i.imgur.com/QOh0nwk.png");
+        } else {
+            return new Discord.MessageEmbed().setTitle("Important Message")
+                .setDescription(`Suivix has just joined the Discord server \`${guild.name}\` which you own. In case of problem, you will find all the help you need with the \`${Config.PREFIX}suivix help\` command.`)
+                .setThumbnail("https://i.imgur.com/QOh0nwk.png");
+        }
+
+    }
+
 }
 
 module.exports = BotClient;
