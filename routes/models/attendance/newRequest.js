@@ -12,10 +12,10 @@ module.exports = async(req, res) => {
         } else {
             if (req.query.guild_id) {
                 (new RequestManager()).createNewRequest(req.session.passport.user.identity, +new Date(), req.query.guild_id);
+                res.redirect(Routes.ATTENDANCE_PAGE);
             } else {
-                await (new RequestManager()).createRequestByOldOne(req.session.passport.user.identity.id);
+                res.redirect(Routes.ATTENDANCE_SERVERS);
             }
-            res.redirect(Routes.ATTENDANCE_PAGE);
         }
     } catch (err) {
         console.log(err);
