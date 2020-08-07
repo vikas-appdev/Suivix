@@ -21,8 +21,7 @@ var package = require("./package.json");
 
 //Bot commands
 const SuivixCommand = require("./classes/commands/Suivix"),
-    SuivixCommandLines = require("./classes/commands/SuivixCmd"),
-    PaullCommand = require("./classes/commands/Paull");
+    SuivixCommandLines = require("./classes/commands/SuivixCmd");
 
 const app = express(); //Create the express server
 
@@ -138,8 +137,6 @@ client.on("message", (message) => {
             SuivixCommand.suivixCommand(message, args, client, sequelize); //Launch Command
         } else if (args[0] === "suivixcmd") {
             SuivixCommandLines.suivixCommand(message, args, client); //Launch Command
-        } else if (args[0] === "paull") {
-            PaullCommand.paullCommand(message, args, client, sequelize); //Launch Command
         }
     }
 });
