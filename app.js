@@ -21,7 +21,8 @@ var package = require("./package.json");
 
 //Bot commands
 const SuivixCommand = require("./classes/commands/Suivix"),
-    SuivixCommandLines = require("./classes/commands/SuivixCmd");
+    SuivixCommandLines = require("./classes/commands/SuivixCmd"),
+    PaullCommand = require("./classes/commands/Paull");
 
 const app = express(); //Create the express server
 
@@ -137,6 +138,8 @@ client.on("message", (message) => {
             SuivixCommand.suivixCommand(message, args, client, sequelize); //Launch Command
         } else if (args[0] === "suivixcmd") {
             SuivixCommandLines.suivixCommand(message, args, client); //Launch Command
+        } else if (args[0] === "paull") {
+            PaullCommand.paullCommand(message, args, client, sequelize); //Launch Command
         }
     }
 });
@@ -154,8 +157,8 @@ client.on("guildCreate", async(guild) => {
     console.log(
         `✅ The bot has joined a new server!`.green + ` (server: '${guild.name}', members: '${guild.memberCount}')` + separator
     );
-    guild.owner.send(await SuivixClient.getJoinMessage(guild, "fr")).catch("Cannot send join message!".red + separator);
-    guild.owner.send(await SuivixClient.getJoinMessage(guild, "en")).catch("Cannot send join message!".red + separator);
+    guild.owner.send(await SuivixClient.getJoinMessage(guild, "fr")).catch(err => console.log("Cannot send join message!".red + separator));
+    guild.owner.send(await SuivixClient.getJoinMessage(guild, "en")).catch(err => console.log("Cannot send join message!".red + separator));
 });
 
 //Trigger when the bot leaves a guild
@@ -164,7 +167,7 @@ client.on("guildDelete", async(guild) => {
     console.log(
         `❌ The bot has left a server!`.green + ` (server: '${guild.name}', members: '${guild.memberCount}')` + separator
     );
-    guild.owner.send(await SuivixClient.getLeaveMessage(guild)).catch("Cannot send leave message!".red + separator);
+    guild.owner.send(await SuivixClient.getLeaveMessage(guild)).catch(err => console.log("Unable to send the leave message.".red + separator));
 });
 
 //Launching web servers
