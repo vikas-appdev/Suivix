@@ -13,7 +13,7 @@ module.exports = async(req, res) => {
             if (req.query.guild_id) {
                 (new RequestManager()).createNewRequest(req.session.passport.user.identity, +new Date(), req.query.guild_id);
             } else {
-                await manager.createRequestByOldOne(req.session.passport.user.identity.id);
+                await (new RequestManager()).createRequestByOldOne(req.session.passport.user.identity.id);
             }
             res.redirect(Routes.ATTENDANCE_PAGE);
         }
