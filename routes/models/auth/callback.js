@@ -14,7 +14,7 @@ module.exports = async(req, res) => {
             discriminator: user.discriminator
         }).yellow + " logged in on ".blue + new Date().toString().yellow + ".".blue + separator);
 
-        const request = await (new RequestManager()).getRequestByAuthorID(user.id);
+        const request = await new RequestManager().getRequest(req.session.passport.user.attendance_request);
         if ((!request || request.isExpired()) && req.query.redirect !== "false") {
             res.redirect(Routes.ATTENDANCE_NOREQUEST);
             if (request && request.isExpired()) console.log("⚠   An user tried to use an old attendance request".red + ` (user: '${user.username}#${user.discriminator}')`.yellow + separator);

@@ -21,7 +21,7 @@ module.exports = async(req, res) => {
                 discriminator: req.session.passport.user.identity.discriminator
             }).yellow + separator);
         }
-        const request = await (new RequestManager()).getRequestByAuthorID(req.session.passport.user.identity.id); //Fetch the attendance request with the user id
+        const request = await new RequestManager().getRequest(req.session.passport.user.attendance_request); //Fetch the attendance request
         if (!request) { //Check if there is an user and an attendance request
             res.send(req.session.passport.user.identity);
         } else {

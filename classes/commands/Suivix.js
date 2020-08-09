@@ -24,13 +24,6 @@ const suivixCommand = async function(message, args, client, sequelize) {
 
     const language = dbUser[0].language === "fr" ? "fr" : "en";
     const Text = require('../../app/text/suivix.json').translations[language];
-    (new RequestManager()).createNewRequest(author, message.createdTimestamp, guild.id, channel.id);
-    if (!args.includes("help") && !args.includes("aide")) console.log(
-        '{username}#{discriminator}'.formatUnicorn({ username: author.username, discriminator: author.discriminator }).yellow +
-        " created a new attendance request.".blue +
-        " (id: '{id}', server: '{server}', language: '{language}', withOldOne: 'false', invite: '{invite}')".formatUnicorn({ id: message.createdTimestamp, server: guild.name, language: language, invite: await getGuildInvite(guild) }) +
-        separator
-    );
 
     let msg = (args.includes("help") || args.includes("aide")) ? await generateAttendanceHelpMessage(channel, author, Text) :
         await generateAttendanceRequestMessage(channel, author, Text);
@@ -58,7 +51,7 @@ async function createUser(author, server, sequelize) {
  * @param {*} channel - The channel where the command was trigerred
  */
 const generateAttendanceRequestMessage = async function(channel, author, Text) {
-    return await channel.send(new Discord.MessageEmbed().setDescription(Text.request.description.formatUnicorn({ protocol: getProtocol(), host: Config.WEBSITE_HOST }))
+    return await channel.send(new Discord.MessageEmbed().setDescription(Text.request.description.formatUnicorn({ protocol: getProtocol(), host: Config.WEBSITE_HOST, guild_id: channel.guild.id }))
         .setImage("https://i.imgur.com/QbiPChv.png")
         .setTitle(Text.request.title)).catch((err) => {
         console.log("⚠   Error while sending message!".brightRed + separator);

@@ -10,19 +10,16 @@ class Request {
 
     /**
      * Represents an attendance request
-     * @param {*} client - The bot client
      * @param {*} id - The attendance request id
      * @param {Member} author - The attendance request author
      * @param {Date} date - The creation date of the attendance request
      * @param {Guild} guild - The attendance request guild
-     * @param {TextChannel} channel - The attendance request channel
      */
-    constructor(id, author, date, guild, channel) {
+    constructor(id, author, date, guild) {
         this.id = id;
         this.author = author;
         this.date = date;
         this.guild = guild;
-        this.channel = channel;
     }
 
     /**
@@ -54,13 +51,6 @@ class Request {
     }
 
     /**
-     * Returns the attendance request channel
-     */
-    getChannel() {
-        return this.channel;
-    }
-
-    /**
      * Returns the entire list of voice channels in the guild that the user can see
      */
     getVoiceChannels() {
@@ -72,7 +62,7 @@ class Request {
      */
     getCategories(channels) {
         let channelsCategories = new Map();
-        channels.forEach(function(c) {
+        channels.forEach(function (c) {
             if (c.parent) {
                 channelsCategories[c.id] = c.parent.name
             } else {
@@ -91,7 +81,7 @@ class Request {
 
     /**
      * Return the channel category
-     * @param {*} channel - The voice channel
+     * @param {Discord.VoiceChannel} channel - The voice channel
      */
     getCategory(channel, sentence) {
         return channel.parent === null ? sentence : channel.parent.name;
@@ -102,21 +92,21 @@ class Request {
      * @returns {Boolean} - If the request is expired or not
      */
     isExpired() {
-        return (Math.abs(this.date - new Date()) / 36e5) > parseInt(Config.ATTENDANCE_VALIDITY_TIME);
+        return (Math.abs(new Date(this.date) - new Date()) / 36e5) > parseInt(Config.ATTENDANCE_VALIDITY_TIME);
     }
 
     /**
      * Does the suivi
-     * @param {*} channels - The voice channels
-     * @param {*} roles - The roles
-     * @param {*} timezone - The user timezone
-     * @param {+*} language - The user language
+     * @param {String} channels - The voice channels
+     * @param {String} roles - The roles
+     * @param {String} timezone - The user timezone
+     * @param {String} language - The user language
      */
     async doAttendance(channels, roles, timezone, language) {
         const Text = require('../app/text/suivix.json').translations[language];
 
-        let parsedRoles = this.parseRolesListIntoRoles(roles);
-        let parsedChannels = this.parseChannelsListIntoChannels(channels);
+        let parsedRoles = this.transformStringListIntoArray(roles, "roles");
+        let parsedChannels = this.transformStringListIntoArray(channels, "channels");
         let students = this.getUsersFromRoles(parsedRoles); //fetch users with roles
         let channelStudents = this.getChannelsPresents(parsedChannels, parsedRoles); //fetch users in voice channels
 
@@ -170,22 +160,11 @@ class Request {
         const selectedColor = colors[Math.floor(Math.random() * colors.length)];
         const color = selectedColor ? selectedColor.color : 0; //Picking a random one
 
-        if (!this.channel) { //The command was triggered on website 
-            //Send result to the user in dm
-            this.author.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
-                .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
-                console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red)
-            });
-        } else { //The command was triggered on Discord
-            //Send result to Discord
-            this.channel.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
-                .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
-                console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red + ` (server: '${guild.name}', language: '${language}')` + separator)
-                this.author.send(Text.errors.unableToSendMessage);
-            });
-
-            await this.clearChannel(language); //Clear channel from unfinished suivix queries
-        }
+        //Send result to the user in dm
+        this.author.send(new Discord.MessageEmbed().setTitle(Text.title + channelsString).setFooter(Text.credits) //send result
+            .setDescription(intro + presentSentence + absentSentence + absentsText + presentsText).setColor(color)).catch((err) => {
+            console.log("⚠   Error while sending ".red + "ATTENDANCE_RESULT" + " message!".red)
+        });
 
         console.log(
             "{username}#{discriminator}".formatUnicorn({
@@ -203,10 +182,10 @@ class Request {
 
     /**
      * Convert data to a string
-     * @param {*} basicSentence - The base sentence 
-     * @param {*} sentence - The sentence if data is not null
-     * @param {*} usersList - All the users
-     * @param {*} channelUsers - The users in the voice channel
+     * @param {String} basicSentence - The base sentence 
+     * @param {String} sentence - The sentence if data is not null
+     * @param {Discord.Collection} usersList - All the users
+     * @param {Array} channelUsers - The users in the voice channel
      */
     dataToString(basicSentence, sentence, usersList, channelUsers) {
         const guild = this.guild;
@@ -233,28 +212,9 @@ class Request {
     }
 
     /**
-     * Clear all suivix attendance request messages in the channel
-     */
-    async clearChannel(language) {
-        let messages = await this.channel.messages.fetch({
-            limit: 100
-        });
-        const guild = this.guild;
-        messages.forEach(function(message) {
-            if ((message.embeds.length > 0 && message.embeds[0].title != undefined)) {
-                if (message.embeds[0].title.startsWith("Attendance Request") && language === "en") {
-                    message.delete().catch(err => console.log("⚠   Error while deleting ".red + "ATTENDANCE_REQUEST" + " messages!".red + ` (server: '${guild.name}', language: 'en')` + separator));
-                } else if (message.embeds[0].title.startsWith("Demande de suivi") && language === "fr") {
-                    message.delete().catch(err => console.log("⚠   Error while deleting ".red + "ATTENDANCE_REQUEST" + " messages!".red + ` (server: '${guild.name}', language: 'fr')` + separator));
-                }
-            }
-        })
-    }
-
-    /**
      * Returns the list of channels category
-     * @param {*} channels - The list
-     * @param {*} unknown - "Unknown" translation
+     * @param {Array} channels - The list
+     * @param {String} unknown - "Unknown" translation
      */
     getCategoriesList(channels, unknown) {
         let categories = new Array();
@@ -265,31 +225,18 @@ class Request {
     }
 
     /**
-     * Transform channels id list into an array of discord channels
-     * @param {*} channels - The list
+     * Transform id list into an array of discord roles/channels
+     * @param {String} channels - The list
+     * @param {String} type - Roles or Channels
      */
-    parseChannelsListIntoChannels(channels) {
-        const list = channels.split("-");
+    transformStringListIntoArray(stringList, type) {
+        const list = stringList.split("-");
         const guild = this.guild;
-        let parsedChannels = new Array();
+        let arrayList = new Array();
         for (let i = 0; i < list.length; i++) {
-            parsedChannels.push(guild.channels.cache.get(list[i])); //Add it in in the array
+            arrayList.push(guild[type].cache.get(list[i])); //Add it in in the array
         }
-        return parsedChannels;
-    }
-
-    /**
-     * Transform roles id list into an array of discord roles
-     * @param {*} channels - The list
-     */
-    parseRolesListIntoRoles(roles) {
-        const list = roles.split("-");
-        const guild = this.guild;
-        let parsedRoles = new Array();
-        for (let i = 0; i < list.length; i++) {
-            parsedRoles.push(guild.roles.cache.get(list[i])); //Add it in in the array
-        }
-        return parsedRoles;
+        return arrayList;
     }
 
     /**
